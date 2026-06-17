@@ -1,0 +1,116 @@
+@use 'tokens' as *;
+@use 'mixins' as *;
+
+@mixin text-display {
+  font-family: $font-family-heading;
+  font-size: 2.625rem;
+  line-height: 1.1;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  color: $color-text-primary;
+
+  @include tablet-up {
+    font-size: 3.5rem;
+  }
+
+  @include desktop-up {
+    font-size: 4.125rem;
+  }
+}
+
+@mixin text-h1 {
+  font-family: $font-family-heading;
+  font-size: 1.75rem;
+  line-height: 1.15;
+  font-weight: 700;
+  color: $color-text-primary;
+
+  @include tablet-up {
+    font-size: 2.25rem;
+  }
+
+  @include desktop-up {
+    font-size: 2.625rem;
+  }
+}
+
+@mixin text-h2 {
+  font-family: $font-family-heading;
+  font-size: 1.5rem;
+  line-height: 1.2;
+  font-weight: 700;
+  color: $color-text-primary;
+
+  @include tablet-up {
+    font-size: 1.875rem;
+  }
+
+  @include desktop-up {
+    font-size: 2rem;
+  }
+}
+
+@mixin text-h3 {
+  font-family: $font-family-heading;
+  font-size: 1.125rem;
+  line-height: 1.25;
+  font-weight: 700;
+  color: $color-text-primary;
+
+  @include tablet-up {
+    font-size: 1.25rem;
+  }
+
+  @include desktop-up {
+    font-size: 1.375rem;
+  }
+}
+
+@mixin text-subtitle {
+  font-family: $font-family-body;
+  font-size: 0.8125rem;
+  line-height: 1.5;
+  color: $color-text-secondary;
+
+  @include desktop-up {
+    font-size: 0.9375rem;
+  }
+}
+
+@mixin text-body {
+  font-family: $font-family-body;
+  font-size: 0.8125rem;
+  line-height: 1.55;
+  color: $color-text-primary;
+
+  @include desktop-up {
+    font-size: 0.875rem;
+    line-height: 1.6;
+  }
+}
+
+@mixin text-section-label {
+  font-family: $font-family-body;
+  font-size: 0.6875rem;
+  font-weight: 700;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  color: $color-text-section-label;
+
+  @include desktop-up {
+    font-size: 0.75rem;
+  }
+}
+
+@mixin text-tagline {
+  font-family: $font-family-body;
+  font-size: 0.5rem;
+  font-weight: 500;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  color: $color-text-secondary;
+
+  @include tablet-up {
+    font-size: 0.5625rem;
+  }
+}

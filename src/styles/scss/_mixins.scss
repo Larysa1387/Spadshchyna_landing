@@ -1,0 +1,112 @@
+@use 'tokens' as *;
+
+@mixin tablet-up {
+  @media (min-width: $breakpoint-tablet) {
+    @content;
+  }
+}
+
+@mixin desktop-up {
+  @media (min-width: $breakpoint-desktop) {
+    @content;
+  }
+}
+
+@mixin wide-up {
+  @media (min-width: $breakpoint-wide) {
+    @content;
+  }
+}
+
+@mixin container {
+  width: min(100% - ($content-padding-mobile * 2), $content-max-width);
+  margin-inline: auto;
+
+  @include tablet-up {
+    width: min(100% - ($content-padding-tablet * 2), $content-max-width);
+  }
+
+  @include desktop-up {
+    width: min(100% - ($content-padding-desktop * 2), $content-max-width);
+  }
+}
+
+@mixin section-spacing {
+  padding-block: $section-gap-mobile;
+
+  @include desktop-up {
+    padding-block: $section-gap-desktop;
+  }
+}
+
+@mixin nav-link {
+  font-family: $font-family-body;
+  font-size: 0.6875rem;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: $color-text-label;
+  text-decoration: none;
+  transition: color $transition-base;
+
+  @include tablet-up {
+    font-size: 0.75rem;
+  }
+
+  @include desktop-up {
+    font-size: 0.8125rem;
+  }
+
+  &:hover,
+  &.active {
+    color: $color-brand-accent;
+  }
+}
+
+@mixin button-outline {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: $space-2;
+  padding: $space-3 $space-5;
+  border: 1px solid $color-brand-gold;
+  border-radius: $radius-full;
+  background: transparent;
+  color: $color-text-primary;
+  font-family: $font-family-body;
+  font-size: 0.8125rem;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  text-decoration: none;
+  cursor: pointer;
+  transition:
+    background-color $transition-base,
+    color $transition-base,
+    border-color $transition-base;
+
+  &:hover {
+    background-color: $color-brand-accent;
+    border-color: $color-brand-accent;
+    color: $color-text-inverse;
+  }
+}
+
+@mixin button-solid {
+  @include button-outline;
+  background-color: $color-brand-accent;
+  border-color: $color-brand-accent;
+  color: $color-text-inverse;
+
+  &:hover {
+    background-color: $color-brand-accent-hover;
+    border-color: $color-brand-accent-hover;
+  }
+}
+
+@mixin card-surface {
+  background: $color-surface-card;
+  border: 1px solid $color-surface-border;
+  border-radius: $radius-lg;
+  box-shadow: $shadow-sm;
+}

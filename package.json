@@ -15,7 +15,8 @@
   },
   "dependencies": {
     "react": "^19.1.0",
-    "react-dom": "^19.1.0"
+    "react-dom": "^19.1.0",
+    "sass": "^1.99.0"
   },
   "devDependencies": {
     "@eslint/js": "^9.29.0",
@@ -40,7 +41,7 @@
       "eslint --fix",
       "prettier --write"
     ],
-    "*.{json,css,md,html}": [
+    "*.{json,css,scss,md,html}": [
       "prettier --write"
     ]
   }
