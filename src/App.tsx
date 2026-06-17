@@ -1,9 +1,7 @@
-import './App.css';
-
 function App() {
   return (
-    <main className="app">
-      <h1>Hello World</h1>
+    <main>
+      <h1>Spadshchyna</h1>
       <p>React + TypeScript + Vite</p>
     </main>
   );
