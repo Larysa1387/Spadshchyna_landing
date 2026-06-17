@@ -1,12 +1,8 @@
-import { RootLayout } from '@/components/layout/RootLayout/RootLayout';
-import { HomePage } from '@/pages/HomePage/HomePage';
+import { RouterProvider } from 'react-router-dom';
+import { router } from '@/app/routes';
 
 function App() {
-  return (
-    <RootLayout>
-      <HomePage />
-    </RootLayout>
-  );
+  return <RouterProvider router={router} />;
 }
 
 export default App;
