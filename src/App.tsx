@@ -1,9 +1,10 @@
 import { RootLayout } from '@/components/layout/RootLayout/RootLayout';
+import { HomePage } from '@/pages/HomePage/HomePage';
 
 function App() {
   return (
     <RootLayout>
-      <p>Welcome to Spadshchyna</p>
+      <HomePage />
     </RootLayout>
   );
 }

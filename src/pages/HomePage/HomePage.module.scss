@@ -1,0 +1,61 @@
+@use '@/styles/scss/tokens' as *;
+@use '@/styles/scss/mixins' as *;
+@use '@/styles/scss/typography' as *;
+
+.hero {
+  position: relative;
+  min-height: clamp(28rem, 70vh, 40rem);
+  display: flex;
+  align-items: flex-end;
+  padding-block: $space-12;
+  background:
+    linear-gradient(
+      180deg,
+      rgba($color-brand-primary, 0.15) 0%,
+      rgba($color-brand-primary, 0.55) 100%
+    ),
+    linear-gradient(135deg, #6b8f5e 0%, #3a291b 55%, #2a1e14 100%);
+}
+
+.heroContent {
+  @include container;
+  max-width: 36rem;
+  display: flex;
+  flex-direction: column;
+  gap: $space-4;
+}
+
+.heroTitle {
+  @include text-display;
+  color: $color-text-inverse;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+
+  li {
+    margin: 0;
+  }
+}
+
+.heroSubtitle {
+  @include text-subtitle;
+  color: rgba($color-text-inverse, 0.92);
+  font-size: 0.9375rem;
+}
+
+.heroCta {
+  @include button-outline;
+  align-self: flex-start;
+  margin-top: $space-2;
+  border-color: rgba($color-text-inverse, 0.6);
+  color: $color-text-inverse;
+
+  &:hover {
+    background: $color-text-inverse;
+    color: $color-brand-primary;
+    border-color: $color-text-inverse;
+  }
+}

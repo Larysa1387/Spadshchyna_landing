@@ -15,3 +15,12 @@ export const navigation = {
   login: 'LOG IN',
   logout: 'LOG OUT',
 } as const;
+
+export const homePage = {
+  hero: {
+    title: ['Discover', 'the Living Heritage', 'of Ukraine'],
+    subtitle:
+      'An ethno-homestead archive preserving the soul of Ukrainian traditions.',
+    cta: 'Discover Homesteads Archive',
+  },
+} as const;
