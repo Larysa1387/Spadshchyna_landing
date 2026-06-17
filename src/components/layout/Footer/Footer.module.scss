@@ -1,0 +1,51 @@
+@use '@/styles/scss/tokens' as *;
+@use '@/styles/scss/mixins' as *;
+@use '@/styles/scss/typography' as *;
+
+.footer {
+  border-top: 1px solid $color-surface-border;
+  background: $color-neutral-cream;
+  padding-block: $space-8;
+}
+
+.inner {
+  @include container;
+  display: flex;
+  flex-direction: column;
+  gap: $space-4;
+  align-items: center;
+  text-align: center;
+
+  @include tablet-up {
+    flex-direction: row;
+    justify-content: space-between;
+    text-align: left;
+  }
+}
+
+.brand {
+  font-family: $font-family-heading;
+  font-size: 1.125rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  color: $color-text-primary;
+}
+
+.meta {
+  display: flex;
+  flex-direction: column;
+  gap: $space-1;
+  @include text-body;
+  color: $color-text-secondary;
+  font-size: 0.75rem;
+}
+
+.madeWith {
+  display: inline-flex;
+  align-items: center;
+  gap: $space-2;
+}
+
+.heart {
+  color: $color-brand-gold;
+}

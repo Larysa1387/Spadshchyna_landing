@@ -1,0 +1,98 @@
+@use '@/styles/scss/tokens' as *;
+@use '@/styles/scss/mixins' as *;
+@use '@/styles/scss/typography' as *;
+
+.header {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: rgba($color-neutral-cream, 0.95);
+  backdrop-filter: blur(8px);
+  border-bottom: 1px solid $color-surface-border;
+}
+
+.inner {
+  @include container;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: $space-4;
+  padding-block: $space-4;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  gap: $space-3;
+  text-decoration: none;
+  color: inherit;
+  min-width: 0;
+}
+
+.logoMark {
+  flex-shrink: 0;
+  width: 2rem;
+  height: 2rem;
+  border-radius: $radius-sm;
+  background: linear-gradient(135deg, $color-brand-gold, $color-brand-accent);
+  clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%);
+}
+
+.logoText {
+  display: flex;
+  flex-direction: column;
+  gap: 0.125rem;
+  min-width: 0;
+}
+
+.logoName {
+  font-family: $font-family-heading;
+  font-size: 1.125rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  color: $color-text-primary;
+  line-height: 1;
+
+  @include desktop-up {
+    font-size: 1.25rem;
+  }
+}
+
+.logoTagline {
+  @include text-tagline;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.nav {
+  display: flex;
+  align-items: center;
+  gap: $space-4;
+
+  @include tablet-up {
+    gap: $space-6;
+  }
+}
+
+.navLink {
+  @include nav-link;
+}
+
+.active {
+  color: $color-brand-accent;
+}
+
+.loginLink {
+  @include button-outline;
+  padding: $space-2 $space-4;
+  font-size: 0.6875rem;
+
+  @include desktop-up {
+    font-size: 0.75rem;
+  }
+}
+
+.logoutLink {
+  @extend .loginLink;
+}

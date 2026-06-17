@@ -1,9 +1,10 @@
+import { RootLayout } from '@/components/layout/RootLayout/RootLayout';
+
 function App() {
   return (
-    <main>
-      <h1>Spadshchyna</h1>
-      <p>React + TypeScript + Vite</p>
-    </main>
+    <RootLayout>
+      <p>Welcome to Spadshchyna</p>
+    </RootLayout>
   );
 }
 
