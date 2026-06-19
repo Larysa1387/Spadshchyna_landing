@@ -1,0 +1,48 @@
+@use '@/styles/scss/tokens' as *;
+@use '@/styles/scss/mixins' as *;
+@use '@/styles/scss/typography' as *;
+
+.page {
+  @include section-spacing;
+  @include container;
+  max-width: 40rem;
+  text-align: center;
+}
+
+.icon {
+  width: 4rem;
+  height: 4rem;
+  margin: 0 auto $space-6;
+  border-radius: $radius-full;
+  display: grid;
+  place-items: center;
+  background: rgba($color-brand-gold, 0.25);
+  color: $color-brand-accent;
+  font-size: 1.5rem;
+}
+
+.title {
+  @include text-h1;
+  margin-bottom: $space-4;
+}
+
+.message {
+  @include text-body;
+  color: $color-text-secondary;
+  margin-bottom: $space-8;
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: $space-3;
+  justify-content: center;
+}
+
+.primaryBtn {
+  @include button-solid;
+}
+
+.secondaryBtn {
+  @include button-outline;
+}

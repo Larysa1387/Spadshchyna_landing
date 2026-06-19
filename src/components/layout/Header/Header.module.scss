@@ -9,6 +9,18 @@
   background: rgba($color-neutral-cream, 0.95);
   backdrop-filter: blur(8px);
   border-bottom: 1px solid $color-surface-border;
+  transition:
+    background-color $transition-base,
+    border-color $transition-base;
+}
+
+.headerOnHome {
+  position: absolute;
+  inset-inline: 0;
+  top: 0;
+  background: transparent;
+  backdrop-filter: none;
+  border-bottom-color: transparent;
 }
 
 .inner {
@@ -17,52 +29,48 @@
   align-items: center;
   justify-content: space-between;
   gap: $space-4;
-  padding-block: $space-4;
+  padding-block: 2rem;
 }
 
 .logo {
   display: flex;
   align-items: center;
-  gap: $space-3;
   text-decoration: none;
   color: inherit;
   min-width: 0;
 }
 
-.logoMark {
+.logoDivider {
   flex-shrink: 0;
-  width: 2rem;
-  height: 2rem;
-  border-radius: $radius-sm;
-  background: linear-gradient(135deg, $color-brand-gold, $color-brand-accent);
-  clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%);
-}
-
-.logoText {
-  display: flex;
-  flex-direction: column;
-  gap: 0.125rem;
-  min-width: 0;
-}
-
-.logoName {
-  font-family: $font-family-heading;
-  font-size: 1.125rem;
-  font-weight: 700;
-  letter-spacing: 0.08em;
-  color: $color-text-primary;
-  line-height: 1;
+  align-self: center;
+  width: 1px;
+  height: 2.75rem;
+  margin-inline: $space-3 $space-4;
+  background-color: #8f8044;
 
   @include desktop-up {
-    font-size: 1.25rem;
+    height: 3rem;
   }
 }
 
-.logoTagline {
-  @include text-tagline;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
+.logoIcon {
+  flex-shrink: 0;
+  width: 2.5rem;
+  height: 2.5rem;
+  object-fit: contain;
+}
+
+.logoTextImage {
+  width: auto;
+  height: 2.75rem;
+  max-width: min(14rem, 42vw);
+  object-fit: contain;
+  object-position: left center;
+
+  @include desktop-up {
+    height: 3rem;
+    max-width: 16rem;
+  }
 }
 
 .nav {
@@ -77,14 +85,21 @@
 
 .navLink {
   @include nav-link;
-}
+  color: $color-neutral-brown-600;
 
-.active {
-  color: $color-brand-accent;
+  &:hover {
+    color: #8f8044;
+  }
+
+  &.active {
+    color: $color-neutral-brown-600;
+  }
 }
 
 .loginLink {
   @include button-outline;
+  border-color: $color-neutral-brown-500;
+  color: $color-neutral-brown-600;
   padding: $space-2 $space-4;
   font-size: 0.6875rem;
 

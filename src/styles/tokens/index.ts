@@ -5,7 +5,12 @@ export {
   breakpointQueries,
   type Breakpoint,
 } from './breakpoints';
-export { colorCssVariables, colors, type ColorTokenPath } from './colors';
+export {
+  colorCssVariables,
+  colors,
+  palette,
+  type ColorTokenPath,
+} from './colors';
 export {
   fontFamily,
   fontWeight,

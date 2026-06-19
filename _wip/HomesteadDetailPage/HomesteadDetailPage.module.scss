@@ -1,0 +1,239 @@
+@use '@/styles/scss/tokens' as *;
+@use '@/styles/scss/mixins' as *;
+@use '@/styles/scss/typography' as *;
+
+.page {
+  @include section-spacing;
+}
+
+.breadcrumbs {
+  @include container;
+  margin-bottom: $space-6;
+  font-size: 0.75rem;
+  color: $color-text-muted;
+
+  a {
+    color: $color-text-secondary;
+  }
+}
+
+.breadcrumbList {
+  display: flex;
+  flex-wrap: wrap;
+  gap: $space-2;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.breadcrumbItem {
+  display: flex;
+  align-items: center;
+  gap: $space-2;
+
+  &:not(:last-child)::after {
+    content: '/';
+    color: $color-text-muted;
+  }
+}
+
+.layout {
+  @include container;
+  display: grid;
+  gap: $space-8;
+
+  @include desktop-up {
+    grid-template-columns: 1.4fr 1fr;
+    align-items: start;
+  }
+}
+
+.primary {
+  display: flex;
+  flex-direction: column;
+  gap: $space-6;
+}
+
+.gallery {
+  margin: 0;
+}
+
+.galleryImage {
+  @include card-surface;
+  aspect-ratio: 16 / 10;
+  background: linear-gradient(145deg, $color-neutral-sand, $color-brand-tan);
+}
+
+.content {
+  display: flex;
+  flex-direction: column;
+  gap: $space-6;
+}
+
+.location {
+  font-size: 0.6875rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: $color-text-label;
+}
+
+.title {
+  @include text-h1;
+}
+
+.rating {
+  @include text-body;
+  color: $color-text-secondary;
+}
+
+.description {
+  @include text-body;
+  color: $color-text-secondary;
+}
+
+.badges {
+  display: flex;
+  flex-wrap: wrap;
+  gap: $space-2;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.badge {
+  padding: $space-2 $space-3;
+  border: 1px solid $color-surface-border;
+  border-radius: $radius-full;
+  font-size: 0.6875rem;
+  color: $color-text-secondary;
+}
+
+.sidebar {
+  @include card-surface;
+  padding: $space-6;
+  display: flex;
+  flex-direction: column;
+  gap: $space-4;
+  position: sticky;
+  top: 6rem;
+}
+
+.sidebarHeader {
+  display: flex;
+  flex-direction: column;
+  gap: $space-3;
+}
+
+.bookingForm {
+  display: flex;
+  flex-direction: column;
+  gap: $space-3;
+}
+
+.price {
+  font-family: $font-family-heading;
+  font-size: 2rem;
+  font-weight: 700;
+}
+
+.priceNote {
+  font-size: 0.75rem;
+  color: $color-text-muted;
+}
+
+.bookingBtn {
+  @include button-solid;
+  width: 100%;
+}
+
+.favoriteBtn {
+  @include button-outline;
+  width: 100%;
+}
+
+.section {
+  margin-top: $space-8;
+}
+
+.sectionTitle {
+  @include text-h2;
+  margin-bottom: $space-4;
+}
+
+.aboutText {
+  @include text-body;
+  color: $color-text-secondary;
+
+  p + p {
+    margin-top: $space-3;
+  }
+}
+
+.amenities {
+  display: grid;
+  gap: $space-2;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+
+  @include tablet-up {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+.amenity {
+  @include text-body;
+  color: $color-text-secondary;
+
+  &::before {
+    content: '◆ ';
+    color: $color-brand-gold;
+  }
+}
+
+.reviews {
+  display: grid;
+  gap: $space-4;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+
+  @include tablet-up {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+.review {
+  @include card-surface;
+  padding: $space-4;
+  margin: 0;
+}
+
+.reviewTheme {
+  font-weight: 600;
+  margin-bottom: $space-2;
+}
+
+.reviewQuote {
+  @include text-body;
+  color: $color-text-secondary;
+  font-style: italic;
+  margin: 0 0 $space-2;
+}
+
+.reviewAuthor {
+  font-size: 0.75rem;
+  color: $color-text-muted;
+}
+
+.notFound {
+  @include container;
+  @include section-spacing;
+  text-align: center;
+}
+
+.checkoutLink {
+  @include button-solid;
+  margin-top: $space-4;
+}

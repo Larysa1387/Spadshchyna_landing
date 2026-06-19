@@ -1,30 +1,68 @@
-// Design tokens — Spadshchyna Canva UI (DAHLhDEgh9I)
+@use 'sass:map';
 
-$color-brand-primary: #3a291b;
-$color-brand-primary-hover: #2a1e14;
-$color-brand-accent: #a1600a;
-$color-brand-accent-hover: #874f08;
-$color-brand-gold: #b79c72;
-$color-brand-tan: #a28059;
+// Palette — each hex value defined once (Spadshchyna Canva / Design PDF)
+$palette: (
+  'brown-900': #3a291b,
+  'brown-950': #2a1e14,
+  'brown-800': #635136,
+  'brown-700': #7b6443,
+  'brown-500': #8d7d71,
+  'accent-600': #a1600a,
+  'accent-700': #874f08,
+  'gold-500': #b79c72,
+  'tan-500': #a28059,
+  'cream-100': #f5f1e9,
+  'sand-200': #cec5bc,
+  'white': #ffffff,
+  'black': #000000,
+  'success': #3d7a4a,
+  'warning': #c9922a,
+  'error': #c0392b,
+  'info': #3a6ea5,
+);
 
-$color-neutral-white: #ffffff;
-$color-neutral-cream: #f5f1e9;
-$color-neutral-sand: #cec5bc;
-$color-neutral-brown-400: #8d7d71;
-$color-neutral-brown-500: #7b6443;
-$color-neutral-brown-600: #635136;
+@function palette($name) {
+  @return map.get($palette, $name);
+}
 
-$color-surface-page: #f5f1e9;
-$color-surface-card: #ffffff;
-$color-surface-border: #cec5bc;
+// Brand
+$color-brand-primary: palette('brown-900');
+$color-brand-primary-hover: palette('brown-950');
+$color-brand-accent: palette('accent-600');
+$color-brand-accent-hover: palette('accent-700');
+$color-brand-gold: palette('gold-500');
+$color-brand-gold-hover: palette('tan-500');
 
-$color-text-primary: #3a291b;
-$color-text-secondary: #7b6443;
-$color-text-muted: #8d7d71;
-$color-text-inverse: #ffffff;
-$color-text-link: #a1600a;
-$color-text-label: #635136;
-$color-text-section-label: #b79c72;
+// Neutral
+$color-neutral-white: palette('white');
+$color-neutral-cream: palette('cream-100');
+$color-neutral-sand: palette('sand-200');
+$color-neutral-brown-400: palette('brown-500');
+$color-neutral-brown-500: palette('brown-700');
+$color-neutral-brown-600: palette('brown-800');
+$color-neutral-black: palette('black');
+
+// Semantic status
+$color-semantic-success: palette('success');
+$color-semantic-warning: palette('warning');
+$color-semantic-error: palette('error');
+$color-semantic-info: palette('info');
+
+// Surfaces
+$color-surface-page: palette('cream-100');
+$color-surface-card: palette('white');
+$color-surface-border: palette('sand-200');
+$color-surface-border-strong: palette('gold-500');
+$color-surface-overlay: rgba(58, 41, 27, 0.55);
+
+// Text
+$color-text-primary: palette('brown-900');
+$color-text-secondary: palette('brown-700');
+$color-text-muted: palette('brown-500');
+$color-text-inverse: palette('white');
+$color-text-link: palette('accent-600');
+$color-text-label: palette('brown-800');
+$color-text-section-label: palette('gold-500');
 
 $font-family-heading: 'Cormorant Garamond', Georgia, 'Times New Roman', serif;
 $font-family-body:
@@ -32,6 +70,7 @@ $font-family-body:
   system-ui,
   -apple-system,
   sans-serif;
+$font-family-cta: $font-family-heading;
 
 $breakpoint-tablet: 768px;
 $breakpoint-desktop: 1024px;

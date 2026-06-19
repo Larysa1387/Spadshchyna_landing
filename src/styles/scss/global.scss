@@ -4,14 +4,38 @@
 
 :root {
   --color-brand-primary: #{$color-brand-primary};
+  --color-brand-primary-hover: #{$color-brand-primary-hover};
   --color-brand-accent: #{$color-brand-accent};
+  --color-brand-accent-hover: #{$color-brand-accent-hover};
   --color-brand-gold: #{$color-brand-gold};
+  --color-brand-gold-hover: #{$color-brand-gold-hover};
+  --color-neutral-white: #{$color-neutral-white};
+  --color-neutral-cream: #{$color-neutral-cream};
+  --color-neutral-sand: #{$color-neutral-sand};
+  --color-neutral-brown-400: #{$color-neutral-brown-400};
+  --color-neutral-brown-500: #{$color-neutral-brown-500};
+  --color-neutral-brown-600: #{$color-neutral-brown-600};
+  --color-neutral-black: #{$color-neutral-black};
+  --color-semantic-success: #{$color-semantic-success};
+  --color-semantic-warning: #{$color-semantic-warning};
+  --color-semantic-error: #{$color-semantic-error};
+  --color-semantic-info: #{$color-semantic-info};
   --color-surface-page: #{$color-surface-page};
   --color-surface-card: #{$color-surface-card};
+  --color-surface-overlay: #{$color-surface-overlay};
+  --color-surface-border: #{$color-surface-border};
+  --color-surface-border-strong: #{$color-surface-border-strong};
   --color-text-primary: #{$color-text-primary};
   --color-text-secondary: #{$color-text-secondary};
+  --color-text-muted: #{$color-text-muted};
+  --color-text-inverse: #{$color-text-inverse};
+  --color-text-link: #{$color-text-link};
+  --color-text-link-hover: #{$color-brand-accent-hover};
+  --color-text-label: #{$color-text-label};
+  --color-text-section-label: #{$color-text-section-label};
   --font-family-heading: #{$font-family-heading};
   --font-family-body: #{$font-family-body};
+  --header-height: 7.5rem;
 }
 
 *,

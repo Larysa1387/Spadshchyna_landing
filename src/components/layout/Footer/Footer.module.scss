@@ -3,7 +3,7 @@
 @use '@/styles/scss/typography' as *;
 
 .footer {
-  border-top: 1px solid $color-surface-border;
+  border-top: 1px solid #b79c73;
   background: $color-neutral-cream;
   padding-block: $space-8;
 }
@@ -23,29 +23,58 @@
   }
 }
 
-.brand {
-  font-family: $font-family-heading;
-  font-size: 1.125rem;
-  font-weight: 700;
-  letter-spacing: 0.08em;
-  color: $color-text-primary;
+.logo {
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+  color: inherit;
+  min-width: 0;
+}
+
+.logoDivider {
+  flex-shrink: 0;
+  align-self: center;
+  width: 1px;
+  height: 1.875rem;
+  margin-inline: $space-2 $space-3;
+  background-color: #8f8044;
+}
+
+.logoIcon {
+  flex-shrink: 0;
+  width: 2rem;
+  height: 2rem;
+  object-fit: contain;
+}
+
+.logoTextImage {
+  width: auto;
+  height: 2rem;
+  max-width: 11rem;
+  object-fit: contain;
+  object-position: left center;
 }
 
 .meta {
   display: flex;
-  flex-direction: column;
-  gap: $space-1;
-  @include text-body;
-  color: $color-text-secondary;
-  font-size: 0.75rem;
-}
-
-.madeWith {
-  display: inline-flex;
+  flex-direction: row;
+  flex-wrap: wrap;
   align-items: center;
-  gap: $space-2;
+  justify-content: center;
+  gap: $space-2 $space-3;
+  @include text-body;
+  color: #3a291b;
+  font-size: 0.75rem;
+
+  @include tablet-up {
+    justify-content: flex-end;
+    flex-wrap: nowrap;
+  }
 }
 
-.heart {
-  color: $color-brand-gold;
+.metaOrnament {
+  flex-shrink: 0;
+  width: 1rem;
+  height: 1rem;
+  object-fit: contain;
 }

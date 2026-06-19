@@ -2,6 +2,7 @@
 @use '@/styles/scss/mixins' as *;
 
 .root {
+  position: relative;
   min-height: 100vh;
   display: flex;
   flex-direction: column;

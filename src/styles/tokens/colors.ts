@@ -1,56 +1,97 @@
-/** Extracted from Spadshchyna_Design_0806.pdf */
+/** Spadshchyna palette — each hex defined once (Canva / Design PDF) */
+export const palette = {
+  brown900: '#3a291b',
+  brown950: '#2a1e14',
+  brown800: '#635136',
+  brown700: '#7b6443',
+  brown500: '#8d7d71',
+  accent600: '#a1600a',
+  accent700: '#874f08',
+  gold500: '#b79c72',
+  tan500: '#a28059',
+  cream100: '#f5f1e9',
+  sand200: '#cec5bc',
+  white: '#ffffff',
+  black: '#000000',
+  success: '#3d7a4a',
+  warning: '#c9922a',
+  error: '#c0392b',
+  info: '#3a6ea5',
+} as const;
+
+const {
+  brown900,
+  brown950,
+  brown800,
+  brown700,
+  brown500,
+  accent600,
+  accent700,
+  gold500,
+  tan500,
+  cream100,
+  sand200,
+  white,
+  black,
+  success,
+  warning,
+  error,
+  info,
+} = palette;
+
+/** Semantic color roles — alias palette tokens, no duplicate hex values */
 export const colors = {
   brand: {
-    primary: '#3a291b',
-    primaryHover: '#2a1e14',
-    accent: '#a1600a',
-    accentHover: '#874f08',
-    gold: '#b79c72',
-    goldHover: '#a28059',
-    tan: '#a28059',
+    primary: brown900,
+    primaryHover: brown950,
+    accent: accent600,
+    accentHover: accent700,
+    gold: gold500,
+    goldHover: tan500,
   },
   neutral: {
-    white: '#ffffff',
-    cream: '#f5f1e9',
-    sand: '#cec5bc',
-    brown400: '#8d7d71',
-    brown500: '#7b6443',
-    brown600: '#635136',
-    brown700: '#7c6544',
-    black: '#000000',
+    white,
+    cream: cream100,
+    sand: sand200,
+    brown400: brown500,
+    brown500: brown700,
+    brown600: brown800,
+    black,
   },
   semantic: {
-    success: '#3d7a4a',
-    warning: '#c9922a',
-    error: '#c0392b',
-    info: '#3a6ea5',
+    success,
+    warning,
+    error,
+    info,
   },
   surface: {
-    page: '#f5f1e9',
-    card: '#ffffff',
+    page: cream100,
+    card: white,
     overlay: 'rgba(58, 41, 27, 0.55)',
-    border: '#cec5bc',
-    borderStrong: '#b79c72',
+    border: sand200,
+    borderStrong: gold500,
   },
   text: {
-    primary: '#3a291b',
-    secondary: '#7b6443',
-    muted: '#8d7d71',
-    inverse: '#ffffff',
-    link: '#a1600a',
-    linkHover: '#874f08',
-    label: '#635136',
-    sectionLabel: '#b79c72',
+    primary: brown900,
+    secondary: brown700,
+    muted: brown500,
+    inverse: white,
+    link: accent600,
+    linkHover: accent700,
+    label: brown800,
+    sectionLabel: gold500,
   },
 } as const;
 
 export type ColorTokenPath =
+  | `palette.${keyof typeof palette}`
   | `brand.${keyof typeof colors.brand}`
   | `neutral.${keyof typeof colors.neutral}`
   | `semantic.${keyof typeof colors.semantic}`
   | `surface.${keyof typeof colors.surface}`
   | `text.${keyof typeof colors.text}`;
 
+/** CSS custom properties for applyDesignTokens() */
 export const colorCssVariables = {
   '--color-brand-primary': colors.brand.primary,
   '--color-brand-primary-hover': colors.brand.primaryHover,
@@ -58,14 +99,12 @@ export const colorCssVariables = {
   '--color-brand-accent-hover': colors.brand.accentHover,
   '--color-brand-gold': colors.brand.gold,
   '--color-brand-gold-hover': colors.brand.goldHover,
-  '--color-brand-tan': colors.brand.tan,
   '--color-neutral-white': colors.neutral.white,
   '--color-neutral-cream': colors.neutral.cream,
   '--color-neutral-sand': colors.neutral.sand,
   '--color-neutral-brown-400': colors.neutral.brown400,
   '--color-neutral-brown-500': colors.neutral.brown500,
   '--color-neutral-brown-600': colors.neutral.brown600,
-  '--color-neutral-brown-700': colors.neutral.brown700,
   '--color-neutral-black': colors.neutral.black,
   '--color-semantic-success': colors.semantic.success,
   '--color-semantic-warning': colors.semantic.warning,

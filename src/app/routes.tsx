@@ -10,8 +10,8 @@ export const router = createBrowserRouter([
     children: [
       { path: paths.home, element: <HomePage /> },
       {
-        path: paths.dashboard,
-        element: <RoutePlaceholder title="Dashboard" />,
+        path: paths.favourites,
+        element: <RoutePlaceholder title="Favourites" />,
       },
       { path: '*', element: <Navigate to={paths.home} replace /> },
     ],

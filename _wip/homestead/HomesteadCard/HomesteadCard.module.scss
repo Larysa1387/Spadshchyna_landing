@@ -1,0 +1,150 @@
+@use '@/styles/scss/tokens' as *;
+@use '@/styles/scss/mixins' as *;
+@use '@/styles/scss/typography' as *;
+
+.card {
+  @include card-surface;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  transition:
+    box-shadow $transition-base,
+    transform $transition-base;
+
+  &:hover {
+    box-shadow: $shadow-md;
+    transform: translateY(-2px);
+  }
+}
+
+.imageWrap {
+  position: relative;
+  aspect-ratio: 4 / 3;
+  background: linear-gradient(145deg, $color-neutral-sand, $color-brand-tan);
+  margin: 0;
+}
+
+.image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.region {
+  position: absolute;
+  top: $space-3;
+  left: $space-3;
+  padding: $space-1 $space-2;
+  background: rgba($color-neutral-white, 0.92);
+  border-radius: $radius-sm;
+  font-size: 0.625rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: $color-text-label;
+}
+
+.rating {
+  position: absolute;
+  top: $space-3;
+  right: $space-3;
+  padding: $space-1 $space-2;
+  background: rgba($color-neutral-white, 0.92);
+  border-radius: $radius-sm;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: $color-text-primary;
+}
+
+.body {
+  display: flex;
+  flex-direction: column;
+  gap: $space-3;
+  padding: $space-4;
+  flex: 1;
+}
+
+.location {
+  font-size: 0.6875rem;
+  font-weight: 500;
+  color: $color-text-muted;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-style: normal;
+}
+
+.title {
+  @include text-h3;
+  margin: 0;
+}
+
+.description {
+  @include text-body;
+  margin: 0;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: $space-2;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.tag {
+  padding: $space-1 $space-2;
+  border: 1px solid $color-surface-border;
+  border-radius: $radius-full;
+  font-size: 0.625rem;
+  color: $color-text-secondary;
+}
+
+.footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: $space-3;
+  margin-top: auto;
+  padding-top: $space-3;
+  border-top: 1px solid $color-surface-border;
+}
+
+.priceBlock {
+  display: flex;
+  flex-direction: column;
+  gap: 0.125rem;
+}
+
+.fairPrice {
+  font-size: 0.625rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: $color-text-section-label;
+}
+
+.price {
+  font-family: $font-family-heading;
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: $color-text-primary;
+}
+
+.priceSuffix {
+  font-family: $font-family-body;
+  font-size: 0.6875rem;
+  font-weight: 500;
+  color: $color-text-muted;
+}
+
+.detailsLink {
+  @include button-outline;
+  padding: $space-2 $space-4;
+  font-size: 0.6875rem;
+}
