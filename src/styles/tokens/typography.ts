@@ -2,7 +2,7 @@
 export const fontFamily = {
   heading: '"Cormorant Garamond", Georgia, "Times New Roman", serif',
   headingItalic: '"Cormorant Garamond", Georgia, "Times New Roman", serif',
-  body: '"Montserrat", system-ui, -apple-system, sans-serif',
+  body: '"Priva One Pro", system-ui, -apple-system, sans-serif',
 } as const;
 
 export const fontWeight = {

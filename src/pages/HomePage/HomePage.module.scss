@@ -10,7 +10,6 @@
   align-items: flex-start;
   padding-top: 109px;
   padding-bottom: $space-16;
-  background-color: $color-neutral-cream;
 
   @include desktop-up {
     padding-bottom: $space-20;
@@ -73,14 +72,13 @@
   flex-shrink: 0;
   width: 1.125rem;
   height: 1.125rem;
-  object-fit: contain;
 }
 
 .heroOrnamentLine {
   flex-shrink: 0;
   width: 332px;
   max-width: 100%;
-  height: 1px;
+  height: 2px;
   background-color: #b79c73;
 }
 
@@ -145,4 +143,299 @@
   line-height: 1;
   font-weight: 400;
   color: inherit;
+}
+
+.howItWorks {
+  padding-top: $space-12;
+}
+
+.howItWorksContainer {
+  @include container;
+  display: flex;
+  flex-direction: column;
+  gap: $space-10;
+}
+
+.howHeader {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+
+  .sectionLabel {
+    padding-bottom: 1rem;
+  }
+}
+
+.sectionLabel {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: $space-4;
+  width: 100%;
+}
+
+.sectionLabelLine {
+  flex: 1;
+  height: 2px;
+  background-color: #b79c73;
+}
+
+.sectionLabelText {
+  @include text-section-label;
+  flex-shrink: 0;
+  color: #b79c73;
+}
+
+.howTitle {
+  @include text-h2;
+  margin: 0;
+  padding-bottom: 0.4rem;
+  max-width: 32rem;
+}
+
+.howSubtitle {
+  margin: 0;
+  max-width: 36rem;
+  font-family: $font-family-body;
+  font-size: 0.9375rem;
+  line-height: 1.55;
+  color: #635136;
+
+  @include desktop-up {
+    font-size: 1rem;
+  }
+}
+
+.pillars {
+  display: grid;
+  gap: $space-6;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+
+  @include tablet-up {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    align-items: stretch;
+  }
+}
+
+.pillarItem {
+  margin: 0;
+  min-width: 0;
+}
+
+.pillar {
+  display: flex;
+  align-items: flex-start;
+  gap: $space-4;
+  height: 100%;
+  padding: 2.1875rem;
+  background-color: #f5f1e9;
+  border: 1px solid #ece2cf;
+  border-radius: $radius-lg;
+}
+
+.pillarIcon {
+  flex-shrink: 0;
+  width: 2rem;
+  height: 2rem;
+}
+
+.pillarContent {
+  display: flex;
+  flex-direction: column;
+  gap: $space-3;
+  min-width: 0;
+  flex: 1;
+}
+
+.pillarTitle {
+  @include text-h3;
+  margin: 0;
+  font-size: 1.125rem;
+}
+
+.pillarText {
+  @include text-body;
+  margin: 0;
+  color: $color-text-secondary;
+
+  strong {
+    font-weight: 700;
+    color: $color-text-primary;
+  }
+}
+
+.quote {
+  padding-top: $space-12;
+  text-align: center;
+}
+
+.quoteDivider {
+  @include container;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: $space-4;
+  max-width: 20rem;
+  margin: 0 auto $space-10;
+}
+
+.quoteDividerBottom {
+  max-width: 50rem;
+  margin: $space-10 auto 0;
+}
+
+.quoteDividerLine {
+  flex: 1;
+  height: 2px;
+  background-color: #b79c73;
+}
+
+.quoteDividerIcon {
+  flex-shrink: 0;
+  width: 1.125rem;
+  height: 1.125rem;
+}
+
+.quoteDividerBottom .quoteDividerIcon {
+  width: 10px;
+  height: 10px;
+}
+
+.quoteText {
+  @include container;
+  @include text-h2;
+  font-size: 1.8rem;
+  display: flex;
+  flex-wrap: nowrap;
+  align-items: center;
+  justify-content: center;
+  gap: clamp(0.5rem, 2vw, 1rem);
+  max-width: 40rem;
+  margin: 0 auto;
+  padding-inline: 0;
+  text-align: center;
+}
+
+.quoteContent {
+  flex-shrink: 0;
+  white-space: nowrap;
+}
+
+.quoteMark {
+  flex-shrink: 0;
+  width: 20px;
+  height: auto;
+  aspect-ratio: 52 / 42;
+  object-fit: contain;
+}
+
+.quoteMarkClosing {
+  transform: rotate(180deg);
+}
+
+.quoteEmphasis {
+  font-family: $font-family-heading;
+  font-style: italic;
+  font-weight: 400;
+  color: #a1600a;
+}
+
+.archive {
+  padding-block: $space-12 $section-gap-mobile;
+  scroll-margin-top: $space-4;
+
+  @include desktop-up {
+    padding-bottom: $section-gap-desktop;
+  }
+}
+
+.archiveContainer {
+  @include container;
+}
+
+.archiveHeader {
+  display: flex;
+  flex-direction: column;
+  gap: $space-6;
+
+  @include desktop-up {
+    flex-direction: row;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: $space-8;
+  }
+}
+
+.archiveIntro {
+  max-width: 28rem;
+}
+
+.archiveTitle {
+  @include text-h2;
+  margin: 0 0 $space-4;
+}
+
+.archiveOrnament {
+  display: flex;
+  align-items: center;
+  gap: $space-3;
+  margin-bottom: $space-4;
+}
+
+.archiveOrnamentIcon {
+  flex-shrink: 0;
+  width: 0.875rem;
+  height: 0.875rem;
+}
+
+.archiveOrnamentLine {
+  flex-shrink: 0;
+  width: 11.5rem;
+  height: 2px;
+  background-color: #b79c72;
+}
+
+.archiveDescription {
+  margin: 0;
+  font-family: $font-family-body;
+  font-size: 1rem;
+  font-weight: 500;
+  line-height: 1.55;
+  color: $color-text-muted;
+}
+
+.archiveStatus {
+  margin: $space-6 0 0;
+  font-family: $font-family-body;
+  font-size: 0.875rem;
+  color: $color-text-secondary;
+}
+
+.archiveError {
+  color: $color-semantic-error;
+}
+
+.archiveGrid {
+  display: grid;
+  gap: $space-6;
+  margin: $space-10 0 0;
+  padding: 0;
+  list-style: none;
+
+  @include tablet-up {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  @include desktop-up {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+.archiveItem {
+  margin: 0;
+  min-width: 0;
 }

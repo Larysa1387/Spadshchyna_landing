@@ -1,6 +1,8 @@
+@use 'fonts';
 @use 'tokens' as *;
 @use 'mixins' as *;
 @use 'typography' as *;
+@use 'base';
 
 :root {
   --color-brand-primary: #{$color-brand-primary};
@@ -38,25 +40,25 @@
   --header-height: 7.5rem;
 }
 
-*,
-*::before,
-*::after {
-  box-sizing: border-box;
-}
-
 html {
+  font-family: $font-family-body;
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  scroll-behavior: smooth;
+
+  @media (prefers-reduced-motion: reduce) {
+    scroll-behavior: auto;
+  }
 }
 
 body {
-  margin: 0;
   min-width: 320px;
   min-height: 100vh;
   @include text-body;
-  background-color: $color-surface-page;
+  background-color: $color-neutral-white;
+  color: $color-text-primary;
 }
 
 a {
@@ -66,15 +68,6 @@ a {
   &:hover {
     color: $color-brand-accent-hover;
   }
-}
-
-img {
-  display: block;
-  max-width: 100%;
-}
-
-button {
-  font: inherit;
 }
 
 .container {
@@ -111,6 +104,14 @@ button {
 
 .text-tagline {
   @include text-tagline;
+}
+
+.text-quote {
+  @include text-quote;
+}
+
+.text-quote-emphasis {
+  @include text-quote-emphasis;
 }
 
 .visuallyHidden {

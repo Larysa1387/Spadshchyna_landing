@@ -1,0 +1,10 @@
+@use '@/styles/scss/tokens' as *;
+@use '@/styles/scss/mixins' as *;
+
+.page {
+  min-height: 100vh;
+}
+
+.container {
+  @include container;
+}

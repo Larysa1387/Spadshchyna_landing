@@ -114,3 +114,28 @@
     font-size: 0.5625rem;
   }
 }
+
+@mixin text-quote {
+  font-family: $font-family-heading;
+  font-size: 1.5rem;
+  line-height: 1.25;
+  font-weight: 700;
+  color: $color-text-primary;
+
+  @include tablet-up {
+    font-size: 1.75rem;
+    line-height: 1.22;
+  }
+
+  @include desktop-up {
+    font-size: 1.875rem;
+    line-height: 1.2;
+  }
+}
+
+@mixin text-quote-emphasis {
+  font-family: $font-family-heading;
+  font-style: italic;
+  font-weight: 700;
+  color: $color-text-section-label;
+}

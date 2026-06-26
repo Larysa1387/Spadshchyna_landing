@@ -1,0 +1,121 @@
+@use 'tokens' as *;
+@use 'mixins' as *;
+@use 'typography' as *;
+
+h1 {
+  @include text-h1;
+  margin: 0;
+}
+
+h2 {
+  @include text-h2;
+  margin: 0;
+}
+
+h3 {
+  @include text-h3;
+  margin: 0;
+}
+
+h4,
+h5,
+h6 {
+  @include text-h3;
+  margin: 0;
+}
+
+p {
+  @include text-body;
+  margin: 0;
+}
+
+blockquote {
+  margin: 0;
+  padding: 0;
+  border: none;
+  @include text-quote;
+}
+
+ul,
+ol {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+figure {
+  margin: 0;
+}
+
+img,
+svg,
+video,
+canvas {
+  display: block;
+  max-width: 100%;
+}
+
+a,
+button,
+input,
+select,
+textarea,
+summary,
+[role='button'] {
+  @include interactive-transition;
+}
+
+button {
+  margin: 0;
+  padding: 0;
+  border: none;
+  background: none;
+  cursor: pointer;
+  font: inherit;
+  color: inherit;
+}
+
+input,
+textarea,
+select {
+  font: inherit;
+  color: $color-text-primary;
+  background-color: $color-neutral-white;
+  border: 1px solid $color-surface-border;
+  border-radius: $radius-sm;
+}
+
+input::placeholder,
+textarea::placeholder {
+  color: $color-text-muted;
+}
+
+strong,
+b {
+  font-weight: 700;
+}
+
+em,
+i {
+  font-style: italic;
+}
+
+small {
+  @include text-body;
+  font-size: 0.875em;
+}
+
+hr {
+  margin: 0;
+  border: none;
+  border-top: 1px solid $color-surface-border;
+}
+
+a:focus-visible,
+button:focus-visible,
+input:focus-visible,
+textarea:focus-visible,
+select:focus-visible {
+  outline: 2px solid $color-brand-gold;
+  outline-offset: 2px;
+}

@@ -6,7 +6,7 @@
   position: sticky;
   top: 0;
   z-index: 100;
-  background: rgba($color-neutral-cream, 0.95);
+  background: rgba($color-neutral-white, 0.95);
   backdrop-filter: blur(8px);
   border-bottom: 1px solid $color-surface-border;
   transition:
@@ -86,6 +86,8 @@
 .navLink {
   @include nav-link;
   color: $color-neutral-brown-600;
+  border-bottom: 1px solid transparent;
+  padding-bottom: 0.125rem;
 
   &:hover {
     color: #8f8044;
@@ -93,6 +95,7 @@
 
   &.active {
     color: $color-neutral-brown-600;
+    border-bottom-color: #8f8044;
   }
 }
 
