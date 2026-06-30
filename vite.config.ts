@@ -2,7 +2,12 @@ import path from 'node:path';
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
 
+const repositoryBase = '/Spadshchyna_landing/';
+
 export default defineConfig({
+  base:
+    process.env.VITE_BASE_PATH ??
+    (process.env.NODE_ENV === 'production' ? repositoryBase : '/'),
   plugins: [react()],
   resolve: {
     alias: {
@@ -12,8 +17,9 @@ export default defineConfig({
   server: {
     proxy: {
       '/api': {
-        target: 'http://spadshchyna-teamproject.duckdns.org:8000',
+        target: 'https://spadshchyna-teamproject.duckdns.org',
         changeOrigin: true,
+        secure: true,
       },
     },
   },

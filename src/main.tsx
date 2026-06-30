@@ -1,6 +1,7 @@
 import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
 import App from './App.tsx';
+import { AuthProvider } from '@/features/auth/AuthProvider';
 import { FavouritesProvider } from '@/features/favourites/FavouritesProvider';
 import { applyDesignTokens } from '@/styles/engine';
 import 'modern-normalize/modern-normalize.css';
@@ -10,8 +11,10 @@ applyDesignTokens();
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
-    <FavouritesProvider>
-      <App />
-    </FavouritesProvider>
+    <AuthProvider>
+      <FavouritesProvider>
+        <App />
+      </FavouritesProvider>
+    </AuthProvider>
   </StrictMode>,
 );

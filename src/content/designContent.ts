@@ -16,6 +16,171 @@ export const navigation = {
   logout: 'LOG OUT',
 } as const;
 
+export const auth = {
+  login: {
+    title: 'Sign in to your account',
+    email: 'Email',
+    password: 'Password',
+    forgotPassword: 'Forgot password?',
+    submit: 'Sign in',
+    footer: "Don't have an account?",
+    footerLink: 'Register',
+  },
+  register: {
+    title: 'Create your account',
+    email: 'Email',
+    firstName: 'First name',
+    lastName: 'Last name',
+    password: 'Password',
+    submit: 'Create account',
+    footer: 'Already have an account?',
+    footerLink: 'Sign in',
+  },
+  close: 'Close dialog',
+  showPassword: 'Show password',
+  hidePassword: 'Hide password',
+} as const;
+
+export const productPage = {
+  breadcrumbs: {
+    home: 'Home',
+    archive: 'Homesteads',
+  },
+  aboutTitle: 'About the homestead',
+  amenitiesTitle: 'Amenities',
+  reviewsTitle: 'What guests love',
+  propertyDetails: {
+    location: 'Location',
+    houseType: 'House type',
+    houseTypeValue: 'Entire homestead',
+    capacity: 'Capacity',
+    capacityValue: (maxGuests: number) => `Up to ${maxGuests} guests`,
+    rooms: 'Rooms',
+    roomsValue: (bedrooms: number, beds: number, bathrooms: number) => {
+      const bedroomLabel = `${bedrooms} bedroom${bedrooms === 1 ? '' : 's'}`;
+      const bedLabel = `${beds} bed${beds === 1 ? '' : 's'}`;
+      const bathroomLabel = `${bathrooms} bathroom${bathrooms === 1 ? '' : 's'}`;
+      return `${bedroomLabel}, ${bedLabel}, ${bathroomLabel}`;
+    },
+    cancellation: 'Cancellation policy',
+    cancellationValue: 'Free cancellation up to 7 days before check-in',
+  },
+  host: {
+    hostedBy: (name: string) => `Hosted by ${name}`,
+    role: 'Local host',
+    responseTime: 'Response time: within a few hours',
+    languagesLabel: 'Languages:',
+    contactHost: (email: string) => `Contact host ${email}`,
+    contactEmail: (firstName: string) => `${firstName.toLowerCase()}@ukr.net`,
+    languageLabels: {
+      en: 'English',
+      uk: 'Ukrainian',
+    } as Record<string, string>,
+  },
+  booking: {
+    checkIn: 'Check-in',
+    checkOut: 'Check-out',
+    guests: 'Guests',
+    addDate: 'Add date',
+    decreaseGuests: 'Decrease guests',
+    increaseGuests: 'Increase guests',
+    guestsValue: (count: number) => `${count} guest${count === 1 ? '' : 's'}`,
+    checkAvailability: 'Check availability',
+    addToFavorites: 'Add to favourites',
+    removeFromFavorites: 'Remove from favourites',
+  },
+  priceSuffix: 'UAH / night',
+  priceNote: (guests: number) => `Price for ${guests} guests`,
+  reviewsLabel: 'reviews',
+  notFound: {
+    title: 'Homestead not found',
+    back: 'Back to archive',
+  },
+  loading: 'Loading homestead…',
+  error: 'Unable to load homestead details.',
+} as const;
+
+export const checkout = {
+  breadcrumbs: ['Home', 'Homesteads', 'Payment'],
+  title: 'Secure Checkout',
+  securityNote: 'Your payment is secure and encrypted',
+  trustTitle: 'Your trust is our priority',
+  trustItems: [
+    {
+      title: 'Secure payments',
+      description: 'Your data is protected with industry-standard encryption.',
+    },
+    {
+      title: 'Verified homesteads',
+      description:
+        'All our homesteads are personally verified for your safety and comfort.',
+    },
+    {
+      title: 'Supporting heritage',
+      description:
+        'Every booking helps restore and preserve Ukrainian heritage.',
+    },
+    {
+      title: 'Loved by guests',
+      description: "Real reviews from real guests who've stayed with us.",
+    },
+  ],
+  donation: {
+    title: 'Support Heritage Restoration',
+    subtitle: 'Donate to restoration',
+    description:
+      'A portion of your booking goes to preserving historic homesteads across Ukraine.',
+    impactTemplate: (pct: number, amount: string) =>
+      `${pct}% of your booking (${amount}) will be donated to restore historic homesteads across Ukraine.`,
+    legal:
+      'By completing your booking, you agree to our Terms of Service and Privacy Policy.',
+  },
+  support: {
+    cancellation: 'Cancel for free up to 7 days before check-in.',
+    help: "Contact our support team — we're here for you.",
+    email: 'support@spadshchyna.ua',
+  },
+  confirmation: {
+    title: 'Booking Confirmed!',
+    message:
+      "Your payment was successful. We've sent a confirmation to your email. The host will be notified about your upcoming stay.",
+    viewFavourites: 'View favourites',
+    backToHomesteads: 'Back to homesteads',
+    bookingReference: 'Booking reference',
+    loading: 'Loading booking details…',
+    summaryTitle: 'Your booking',
+    summaryLabels: {
+      homestead: 'Homestead',
+      dates: 'Dates',
+      guests: 'Guests',
+      total: 'Total',
+    },
+    guestsValue: (count: number) => `${count} guest${count === 1 ? '' : 's'}`,
+  },
+  bookingLabels: {
+    checkIn: 'Check-in',
+    checkOut: 'Check-out',
+    guests: 'Guests',
+    yourBooking: 'Your booking',
+  },
+  summaryLabels: {
+    total: 'Total (UAH)',
+    vatNote: (vat: string) => `Includes VAT ${vat}`,
+    payButton: (amount: string) => `Pay ${amount}`,
+    cleaningFee: 'Cleaning fee',
+    serviceFee: (pct: number) => `Service fee (${pct}%)`,
+    donation: (pct: number) => `Donation (${pct}%)`,
+    guestsValue: (count: number) => `${count} guest${count === 1 ? '' : 's'}`,
+    nightsValue: (nights: number) =>
+      `${nights} night${nights === 1 ? '' : 's'}`,
+    roomsValue: (rooms: number) => `${rooms} room${rooms === 1 ? '' : 's'}`,
+  },
+  loading: 'Loading checkout…',
+  unavailable: 'These dates are not available for this homestead.',
+  error: 'Unable to load checkout details.',
+  payError: 'Unable to start payment. Please try again.',
+} as const;
+
 export const homePage = {
   hero: {
     title: ['Discover', 'the Living Heritage', 'of Ukraine'],

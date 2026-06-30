@@ -8,7 +8,7 @@
   z-index: 100;
   background: rgba($color-neutral-white, 0.95);
   backdrop-filter: blur(8px);
-  border-bottom: 1px solid $color-surface-border;
+  border-bottom: 2px solid #cec5bc;
   transition:
     background-color $transition-base,
     border-color $transition-base;
@@ -29,7 +29,7 @@
   align-items: center;
   justify-content: space-between;
   gap: $space-4;
-  padding-block: 2rem;
+  padding-block: 1.6rem;
 }
 
 .logo {
@@ -75,7 +75,7 @@
 
 .nav {
   display: flex;
-  align-items: center;
+  align-items: flex-end;
   gap: $space-4;
 
   @include tablet-up {
@@ -87,7 +87,8 @@
   @include nav-link;
   color: $color-neutral-brown-600;
   border-bottom: 1px solid transparent;
-  padding-bottom: 0.125rem;
+  padding-bottom: $space-2;
+  line-height: 1;
 
   &:hover {
     color: #8f8044;
@@ -99,12 +100,39 @@
   }
 }
 
+.navLinkLabel {
+  position: relative;
+  display: inline-block;
+}
+
+.favouritesBadge {
+  position: absolute;
+  top: -0.7rem;
+  right: -0.75rem;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  min-width: 1rem;
+  height: 1rem;
+  padding-inline: 0.2rem;
+  padding-top: 2px;
+  border: none;
+  color: #635136;
+  font-family: $font-family-body;
+  font-size: 0.8625rem;
+  font-weight: 400;
+  line-height: 1;
+  letter-spacing: 0;
+  text-transform: none;
+}
+
 .loginLink {
   @include button-outline;
   border-color: $color-neutral-brown-500;
   color: $color-neutral-brown-600;
   padding: $space-2 $space-4;
   font-size: 0.6875rem;
+  line-height: 1;
 
   @include desktop-up {
     font-size: 0.75rem;
@@ -112,5 +140,21 @@
 }
 
 .logoutLink {
-  @extend .loginLink;
+  @include button-outline;
+  padding: $space-2 $space-4;
+  font-size: 0.6875rem;
+  line-height: 1;
+  background-color: $color-brand-accent;
+  border-color: $color-brand-accent;
+  color: $color-text-inverse;
+
+  &:hover {
+    background-color: $color-brand-accent-hover;
+    border-color: $color-brand-accent-hover;
+    color: $color-text-inverse;
+  }
+
+  @include desktop-up {
+    font-size: 0.75rem;
+  }
 }

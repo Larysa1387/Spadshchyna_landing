@@ -85,7 +85,7 @@
 .heroSubtitle {
   margin: 0 0 25px;
   max-width: 26rem;
-  font-family: $font-family-body;
+  font-family: $font-family-montserrat;
   font-size: 1.0625rem;
   line-height: 1.45;
   font-weight: 400;
@@ -197,7 +197,7 @@
 .howSubtitle {
   margin: 0;
   max-width: 36rem;
-  font-family: $font-family-body;
+  font-family: $font-family-montserrat;
   font-size: 0.9375rem;
   line-height: 1.55;
   color: #635136;
@@ -260,6 +260,7 @@
 .pillarText {
   @include text-body;
   margin: 0;
+  font-family: $font-family-montserrat;
   color: $color-text-secondary;
 
   strong {
@@ -345,12 +346,8 @@
 }
 
 .archive {
-  padding-block: $space-12 $section-gap-mobile;
+  padding-block: $space-12 3rem;
   scroll-margin-top: $space-4;
-
-  @include desktop-up {
-    padding-bottom: $section-gap-desktop;
-  }
 }
 
 .archiveContainer {
@@ -401,8 +398,8 @@
 
 .archiveDescription {
   margin: 0;
-  font-family: $font-family-body;
-  font-size: 1rem;
+  font-family: $font-family-montserrat;
+  font-size: 0.8rem;
   font-weight: 500;
   line-height: 1.55;
   color: $color-text-muted;

@@ -1,19 +1,21 @@
 import { NavLink, useLocation } from 'react-router-dom';
 import { brand, navigation } from '@/content/designContent';
 import { paths } from '@/app/paths';
+import { useAuth } from '@/features/auth/useAuth';
+import { useFavourites } from '@/features/favourites/useFavourites';
 import styles from './Header.module.scss';
-
-const authRoutes: string[] = [
-  paths.favourites,
-  paths.checkout,
-  paths.bookingConfirmed,
-];
 
 export function Header() {
   const { pathname } = useLocation();
-  const isAuthenticated = authRoutes.includes(pathname);
+  const { isAuthenticated, openLoginModal, logout } = useAuth();
+  const { favourites } = useFavourites();
+  const favouritesCount = favourites.length;
 
   const isHome = pathname === paths.home;
+
+  const handleLogout = () => {
+    void logout();
+  };
 
   return (
     <header className={`${styles.header} ${isHome ? styles.headerOnHome : ''}`}>
@@ -45,8 +47,20 @@ export function Header() {
             className={({ isActive }) =>
               isActive ? `${styles.navLink} ${styles.active}` : styles.navLink
             }
+            aria-label={
+              favouritesCount > 0
+                ? `${navigation.favourites}, ${favouritesCount} items`
+                : navigation.favourites
+            }
           >
-            {navigation.favourites}
+            <span className={styles.navLinkLabel}>
+              {navigation.favourites}
+              {favouritesCount > 0 && (
+                <span className={styles.favouritesBadge} aria-hidden>
+                  {favouritesCount > 99 ? '99+' : favouritesCount}
+                </span>
+              )}
+            </span>
           </NavLink>
           <NavLink
             to={paths.home}
@@ -58,13 +72,21 @@ export function Header() {
             {navigation.homesteads}
           </NavLink>
           {isAuthenticated ? (
-            <NavLink to={paths.home} className={styles.logoutLink}>
+            <button
+              type="button"
+              className={styles.logoutLink}
+              onClick={handleLogout}
+            >
               {navigation.logout}
-            </NavLink>
+            </button>
           ) : (
-            <NavLink to={paths.favourites} className={styles.loginLink}>
+            <button
+              type="button"
+              className={styles.loginLink}
+              onClick={openLoginModal}
+            >
               {navigation.login}
-            </NavLink>
+            </button>
           )}
         </nav>
       </div>

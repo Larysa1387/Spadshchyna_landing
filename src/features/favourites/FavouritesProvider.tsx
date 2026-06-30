@@ -10,15 +10,20 @@ import {
   listFavourites,
   removeFavourite,
 } from '@/api/favourites';
-import { getApiErrorMessage } from '@/api/client';
-import { isAuthenticated } from '@/api/authStorage';
+import { getApiErrorMessage, isUnauthorizedError } from '@/api/client';
 import type { ApiHomesteadCard } from '@/api/types';
+import { useAuth } from '@/features/auth/useAuth';
 import { FavouritesContext } from './favouritesContext';
 
 export function FavouritesProvider({ children }: { children: ReactNode }) {
+  const { isAuthenticated, isInitializing, authModal, openLoginModal, logout } =
+    useAuth();
   const [favourites, setFavourites] = useState<ApiHomesteadCard[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [pendingFavouriteId, setPendingFavouriteId] = useState<number | null>(
+    null,
+  );
 
   const favouriteIds = useMemo(
     () => new Set(favourites.map((item) => item.id)),
@@ -26,7 +31,11 @@ export function FavouritesProvider({ children }: { children: ReactNode }) {
   );
 
   const refreshFavourites = useCallback(async () => {
-    if (!isAuthenticated()) {
+    if (isInitializing) {
+      return;
+    }
+
+    if (!isAuthenticated) {
       setFavourites([]);
       setError(null);
       return;
@@ -40,15 +49,70 @@ export function FavouritesProvider({ children }: { children: ReactNode }) {
       setFavourites(data);
     } catch (requestError) {
       setFavourites([]);
+
+      if (isUnauthorizedError(requestError)) {
+        await logout();
+        openLoginModal();
+      }
+
       setError(getApiErrorMessage(requestError, 'Unable to load favourites.'));
     } finally {
       setIsLoading(false);
     }
-  }, []);
+  }, [isAuthenticated, isInitializing, logout, openLoginModal]);
 
   useEffect(() => {
     void refreshFavourites();
   }, [refreshFavourites]);
+
+  useEffect(() => {
+    if (authModal !== null || isAuthenticated || pendingFavouriteId === null) {
+      return;
+    }
+
+    setPendingFavouriteId(null);
+  }, [authModal, isAuthenticated, pendingFavouriteId]);
+
+  useEffect(() => {
+    if (isInitializing || !isAuthenticated || pendingFavouriteId === null) {
+      return;
+    }
+
+    const homesteadId = pendingFavouriteId;
+    setPendingFavouriteId(null);
+
+    async function completePendingFavourite() {
+      if (favouriteIds.has(homesteadId)) {
+        return;
+      }
+
+      setError(null);
+
+      try {
+        await addFavourite(homesteadId);
+        await refreshFavourites();
+      } catch (requestError) {
+        if (isUnauthorizedError(requestError)) {
+          await logout();
+          openLoginModal();
+        }
+
+        setError(
+          getApiErrorMessage(requestError, 'Unable to update favourites.'),
+        );
+      }
+    }
+
+    void completePendingFavourite();
+  }, [
+    favouriteIds,
+    isAuthenticated,
+    isInitializing,
+    logout,
+    openLoginModal,
+    pendingFavouriteId,
+    refreshFavourites,
+  ]);
 
   const isFavourited = useCallback(
     (homesteadId: number) => favouriteIds.has(homesteadId),
@@ -57,8 +121,9 @@ export function FavouritesProvider({ children }: { children: ReactNode }) {
 
   const toggleFavourite = useCallback(
     async (homesteadId: number) => {
-      if (!isAuthenticated()) {
-        setError('Please log in to manage favourites.');
+      if (!isAuthenticated) {
+        setPendingFavouriteId(homesteadId);
+        openLoginModal();
         return;
       }
 
@@ -76,12 +141,17 @@ export function FavouritesProvider({ children }: { children: ReactNode }) {
           await refreshFavourites();
         }
       } catch (requestError) {
+        if (isUnauthorizedError(requestError)) {
+          await logout();
+          openLoginModal();
+        }
+
         setError(
           getApiErrorMessage(requestError, 'Unable to update favourites.'),
         );
       }
     },
-    [favouriteIds, refreshFavourites],
+    [favouriteIds, isAuthenticated, logout, openLoginModal, refreshFavourites],
   );
 
   const value = useMemo(

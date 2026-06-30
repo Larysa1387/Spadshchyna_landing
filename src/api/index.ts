@@ -1,6 +1,6 @@
 export { API_BASE_URL } from './config';
 export { apiClient, getApiErrorMessage } from './client';
-export { login, logout, getCurrentUser } from './auth';
+export { login, register, logout, getCurrentUser } from './auth';
 export {
   getAccessToken,
   getRefreshToken,
@@ -9,16 +9,29 @@ export {
   isAuthenticated,
 } from './authStorage';
 export { listFavourites, addFavourite, removeFavourite } from './favourites';
-export { listHomesteads, getHomestead } from './homesteads';
+export { listHomesteads, getHomestead, checkAvailability } from './homesteads';
+export { createBooking, listBookings } from './bookings';
 export { listRegions } from './regions';
 export type {
   ApiHomesteadCard,
   PaginatedHomesteadsResponse,
   ListHomesteadsParams,
   RegionResponse,
+  HomesteadDetail,
+  HostResponse,
+  PhotoResponse,
+  AmenityResponse,
+  ReviewResponse,
+  PricingResponse,
   MessageResponse,
   TokenResponse,
   LoginRequest,
+  RegisterRequest,
   UserResponse,
   ApiErrorDetail,
+  CheckAvailabilityRequest,
+  CheckAvailabilityResponse,
+  CreateBookingRequest,
+  CreateBookingResponse,
+  BookingListItem,
 } from './types';

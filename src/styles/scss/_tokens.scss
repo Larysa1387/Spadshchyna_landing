@@ -32,6 +32,7 @@ $color-brand-accent: palette('accent-600');
 $color-brand-accent-hover: palette('accent-700');
 $color-brand-gold: palette('gold-500');
 $color-brand-gold-hover: palette('tan-500');
+$color-brand-tan: palette('tan-500');
 
 // Neutral
 $color-neutral-white: palette('white');
@@ -71,6 +72,12 @@ $font-family-body:
   -apple-system,
   sans-serif;
 $font-family-cta: $font-family-heading;
+$font-family-breadcrumb: $font-family-body;
+$font-family-montserrat:
+  'Montserrat',
+  system-ui,
+  -apple-system,
+  sans-serif;
 
 $breakpoint-tablet: 768px;
 $breakpoint-desktop: 1024px;

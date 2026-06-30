@@ -1,0 +1,117 @@
+@use '@/styles/scss/tokens' as *;
+@use '@/styles/scss/mixins' as *;
+@use '@/styles/scss/typography' as *;
+
+.page {
+  @include section-spacing;
+  @include container;
+  max-width: 40rem;
+  text-align: center;
+}
+
+.icon {
+  width: 4rem;
+  height: 4rem;
+  margin: 0 auto $space-6;
+  border-radius: $radius-full;
+  display: grid;
+  place-items: center;
+  background: rgba($color-brand-gold, 0.25);
+  color: $color-brand-accent;
+  font-size: 1.5rem;
+}
+
+.title {
+  @include text-h1;
+  margin-bottom: $space-4;
+}
+
+.message {
+  @include text-body;
+  color: $color-text-secondary;
+  margin-bottom: $space-4;
+}
+
+.bookingRef {
+  @include text-body;
+  color: $color-text-muted;
+  margin-bottom: $space-6;
+  font-size: 0.875rem;
+
+  strong {
+    color: $color-text-primary;
+  }
+}
+
+.loading {
+  @include text-body;
+  color: $color-text-secondary;
+  margin-bottom: $space-6;
+}
+
+.summaryCard {
+  @include card-surface;
+  padding: $space-6;
+  margin-bottom: $space-8;
+  text-align: left;
+}
+
+.summaryTitle {
+  @include text-h3;
+  margin: 0 0 $space-4;
+}
+
+.summaryGrid {
+  display: grid;
+  gap: $space-4;
+  margin: 0;
+}
+
+.summaryField {
+  margin: 0;
+}
+
+.fieldLabel {
+  font-size: 0.6875rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: $color-text-label;
+}
+
+.fieldValue {
+  @include text-body;
+  margin-top: $space-1;
+}
+
+.homesteadLink {
+  color: $color-brand-accent;
+  text-decoration: none;
+
+  &:hover {
+    text-decoration: underline;
+  }
+}
+
+.totalValue {
+  @include text-body;
+  margin-top: $space-1;
+  font-family: $font-family-heading;
+  font-weight: 700;
+  color: $color-text-primary;
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: $space-3;
+  justify-content: center;
+}
+
+.primaryBtn {
+  @include button-solid;
+}
+
+.secondaryBtn {
+  @include button-outline;
+}

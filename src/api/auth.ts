@@ -1,11 +1,27 @@
 import { apiClient } from './client';
 import { clearTokens, setTokens } from './authStorage';
-import type { LoginRequest, TokenResponse, UserResponse } from './types';
+import type {
+  LoginRequest,
+  RegisterRequest,
+  TokenResponse,
+  UserResponse,
+} from './types';
 
 export async function login(credentials: LoginRequest): Promise<TokenResponse> {
   const { data } = await apiClient.post<TokenResponse>(
     '/api/v1/auth/login',
     credentials,
+  );
+  setTokens(data.access_token, data.refresh_token);
+  return data;
+}
+
+export async function register(
+  payload: RegisterRequest,
+): Promise<TokenResponse> {
+  const { data } = await apiClient.post<TokenResponse>(
+    '/api/v1/auth/register',
+    payload,
   );
   setTokens(data.access_token, data.refresh_token);
   return data;
