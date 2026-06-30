@@ -8,6 +8,7 @@ import {
 import { useFavourites } from '@/features/favourites/useFavourites';
 import { homePage } from '@/content/designContent';
 import { paths } from '@/app/paths';
+import { publicAsset } from '@/lib/assets';
 import styles from './HomesteadCard.module.scss';
 
 type HomesteadCardProps = {
@@ -45,6 +46,7 @@ export function HomesteadCard({
   const navigate = useNavigate();
   const favourited = homesteadId ? isFavourited(homesteadId) : false;
   const productId = homesteadId ?? id;
+  const imageBase = image ? publicAsset(image) : null;
 
   const handleDetailsClick = () => {
     navigate(paths.homesteadDetail(String(productId)));
@@ -61,16 +63,16 @@ export function HomesteadCard({
             loading="lazy"
             decoding="async"
           />
-        ) : image ? (
+        ) : imageBase ? (
           <picture>
             <source
-              srcSet={`${image}.webp 1x, ${image}@2x.webp 2x`}
+              srcSet={`${imageBase}.webp 1x, ${imageBase}@2x.webp 2x`}
               type="image/webp"
             />
             <img
               className={styles.image}
-              src={`${image}.jpeg`}
-              srcSet={`${image}.jpeg 1x, ${image}@2x.jpeg 2x`}
+              src={`${imageBase}.jpeg`}
+              srcSet={`${imageBase}.jpeg 1x, ${imageBase}@2x.jpeg 2x`}
               alt={title}
               loading="lazy"
               decoding="async"

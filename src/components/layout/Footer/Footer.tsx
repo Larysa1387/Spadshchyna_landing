@@ -1,6 +1,7 @@
 import { NavLink } from 'react-router-dom';
 import { brand } from '@/content/designContent';
 import { paths } from '@/app/paths';
+import { publicAsset, publicAssetSrcSet } from '@/lib/assets';
 import styles from './Footer.module.scss';
 
 export function Footer() {
@@ -10,8 +11,11 @@ export function Footer() {
         <NavLink to={paths.home} className={styles.logo}>
           <img
             className={styles.logoIcon}
-            src="/assets/logo/logo-icon.png"
-            srcSet="/assets/logo/logo-icon.png 1x, /assets/logo/logo-icon@2x.png 2x"
+            src={publicAsset('assets/logo/logo-icon.png')}
+            srcSet={publicAssetSrcSet(
+              'assets/logo/logo-icon.png',
+              'assets/logo/logo-icon@2x.png',
+            )}
             width={32}
             height={32}
             alt=""
@@ -20,8 +24,11 @@ export function Footer() {
           <span className={styles.logoDivider} aria-hidden />
           <img
             className={styles.logoTextImage}
-            src="/assets/logo/logo-text.png"
-            srcSet="/assets/logo/logo-text.png 1x, /assets/logo/logo-text@2x.png 2x"
+            src={publicAsset('assets/logo/logo-text.png')}
+            srcSet={publicAssetSrcSet(
+              'assets/logo/logo-text.png',
+              'assets/logo/logo-text@2x.png',
+            )}
             width={208}
             height={32}
             alt={`${brand.name} — ${brand.tagline}`}
@@ -31,7 +38,7 @@ export function Footer() {
           <span>© {brand.footer.copyright}</span>
           <img
             className={styles.metaOrnament}
-            src="/assets/logo/meta-ornament.svg"
+            src={publicAsset('assets/logo/meta-ornament.svg')}
             width={16}
             height={16}
             alt=""

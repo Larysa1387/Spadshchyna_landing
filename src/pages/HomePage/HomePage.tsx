@@ -4,6 +4,7 @@ import { LogoIcon } from '@/components/icons/LogoIcon';
 import { useArchiveFilters } from '@/features/homesteads/useArchiveFilters';
 import { useHomesteadsArchive } from '@/features/homesteads/useHomesteadsArchive';
 import { homePage } from '@/content/designContent';
+import { publicAsset, publicAssetSrcSet } from '@/lib/assets';
 import styles from './HomePage.module.scss';
 
 const PILLAR_ICON_COLORS = ['#ffc101', '#f62a24', '#1c63bc'] as const;
@@ -132,8 +133,11 @@ export function HomePage() {
         <blockquote className={styles.quoteText}>
           <img
             className={styles.quoteMark}
-            src="/assets/quote/quote-mark.png"
-            srcSet="/assets/quote/quote-mark.png 1x, /assets/quote/quote-mark@2x.png 2x"
+            src={publicAsset('assets/quote/quote-mark.png')}
+            srcSet={publicAssetSrcSet(
+              'assets/quote/quote-mark.png',
+              'assets/quote/quote-mark@2x.png',
+            )}
             width={20}
             height={16}
             alt=""
@@ -146,8 +150,11 @@ export function HomePage() {
           </span>
           <img
             className={`${styles.quoteMark} ${styles.quoteMarkClosing}`}
-            src="/assets/quote/quote-mark.png"
-            srcSet="/assets/quote/quote-mark.png 1x, /assets/quote/quote-mark@2x.png 2x"
+            src={publicAsset('assets/quote/quote-mark.png')}
+            srcSet={publicAssetSrcSet(
+              'assets/quote/quote-mark.png',
+              'assets/quote/quote-mark@2x.png',
+            )}
             width={20}
             height={16}
             alt=""

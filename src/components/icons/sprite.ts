@@ -1,4 +1,4 @@
-export const ICON_SPRITE_URL = '/assets/sprites/icons.svg';
+export const ICON_SPRITE_URL = `${import.meta.env.BASE_URL}assets/sprites/icons.svg`;
 
 export const iconSpriteHref = (symbolId: string) =>
   `${ICON_SPRITE_URL}#${symbolId}`;

@@ -18,6 +18,7 @@ import { useFavourites } from '@/features/favourites/useFavourites';
 import { useHomesteadDetail } from '@/features/homesteads/useHomesteadDetail';
 import { paths } from '@/app/paths';
 import { addDays, formatDisplayDate, todayIso } from '@/lib/format';
+import { publicAsset } from '@/lib/assets';
 import styles from './ProductPage.module.scss';
 
 const PILLAR_ICON_COLORS = ['#ffc101', '#f62a24', '#1c63bc'] as const;
@@ -76,7 +77,7 @@ function HostDetailIcon({ type }: { type: 'bell' | 'globe' | 'message' }) {
     return (
       <img
         className={styles.hostDetailIcon}
-        src="/assets/icons/notification-bell-svgrepo-com.svg"
+        src={publicAsset('assets/icons/notification-bell-svgrepo-com.svg')}
         width={16}
         height={16}
         alt=""

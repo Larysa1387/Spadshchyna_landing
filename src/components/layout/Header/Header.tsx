@@ -3,6 +3,7 @@ import { brand, navigation } from '@/content/designContent';
 import { paths } from '@/app/paths';
 import { useAuth } from '@/features/auth/useAuth';
 import { useFavourites } from '@/features/favourites/useFavourites';
+import { publicAsset, publicAssetSrcSet } from '@/lib/assets';
 import styles from './Header.module.scss';
 
 export function Header() {
@@ -23,8 +24,11 @@ export function Header() {
         <NavLink to={paths.home} className={styles.logo}>
           <img
             className={styles.logoIcon}
-            src="/assets/logo/logo-icon.png"
-            srcSet="/assets/logo/logo-icon.png 1x, /assets/logo/logo-icon@2x.png 2x"
+            src={publicAsset('assets/logo/logo-icon.png')}
+            srcSet={publicAssetSrcSet(
+              'assets/logo/logo-icon.png',
+              'assets/logo/logo-icon@2x.png',
+            )}
             width={48}
             height={48}
             alt=""
@@ -33,8 +37,11 @@ export function Header() {
           <span className={styles.logoDivider} aria-hidden />
           <img
             className={styles.logoTextImage}
-            src="/assets/logo/logo-text.png"
-            srcSet="/assets/logo/logo-text.png 1x, /assets/logo/logo-text@2x.png 2x"
+            src={publicAsset('assets/logo/logo-text.png')}
+            srcSet={publicAssetSrcSet(
+              'assets/logo/logo-text.png',
+              'assets/logo/logo-text@2x.png',
+            )}
             width={310}
             height={48}
             alt={`${brand.name} — ${brand.tagline}`}
