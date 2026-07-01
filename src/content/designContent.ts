@@ -49,6 +49,7 @@ export const productPage = {
   aboutTitle: 'About the homestead',
   amenitiesTitle: 'Amenities',
   reviewsTitle: 'What guests love',
+  recommendationsTitle: 'You may also like',
   propertyDetails: {
     location: 'Location',
     houseType: 'House type',
@@ -68,7 +69,10 @@ export const productPage = {
   host: {
     hostedBy: (name: string) => `Hosted by ${name}`,
     role: 'Local host',
-    responseTime: 'Response time: within a few hours',
+    responseTime: {
+      prefix: 'Response time:',
+      highlight: 'within a few hours',
+    },
     languagesLabel: 'Languages:',
     contactHost: (email: string) => `Contact host ${email}`,
     contactEmail: (firstName: string) => `${firstName.toLowerCase()}@ukr.net`,

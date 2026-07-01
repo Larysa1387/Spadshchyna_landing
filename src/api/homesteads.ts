@@ -49,3 +49,12 @@ export async function checkAvailability(
   );
   return data;
 }
+
+export async function getHomesteadRecommendations(
+  homesteadId: number,
+): Promise<PaginatedHomesteadsResponse['items']> {
+  const { data } = await apiClient.get<PaginatedHomesteadsResponse['items']>(
+    `${HOMESTEADS_PATH}/${homesteadId}/recommendations`,
+  );
+  return data;
+}

@@ -10,15 +10,20 @@ import { Link, useParams } from 'react-router-dom';
 import {
   HeartIcon,
   LocationMetaIcon,
+  LocationPinIcon,
+  PriceTagIcon,
   RatingFilledStarIcon,
+  RatingStarIcon,
 } from '@/components/icons';
 import { LogoIcon } from '@/components/icons/LogoIcon';
 import { productPage } from '@/content/designContent';
 import { useFavourites } from '@/features/favourites/useFavourites';
 import { useHomesteadDetail } from '@/features/homesteads/useHomesteadDetail';
+import { useHomesteadRecommendations } from '@/features/homesteads/useHomesteadRecommendations';
 import { paths } from '@/app/paths';
 import { addDays, formatDisplayDate, todayIso } from '@/lib/format';
 import { publicAsset } from '@/lib/assets';
+import { RecommendationsGrid } from '@/components/homestead/RecommendationsGrid/RecommendationsGrid';
 import styles from './ProductPage.module.scss';
 
 const PILLAR_ICON_COLORS = ['#ffc101', '#f62a24', '#1c63bc'] as const;
@@ -52,6 +57,31 @@ function GalleryThumbsArrowIcon({
 
 function formatReviewCategory(category: string) {
   return category.replace(/_/g, ' ');
+}
+
+const REVIEW_THEME_ICON_COLOR = '#a1600a';
+
+function ReviewThemeIcon({ reviewId }: { reviewId: number }) {
+  const iconProps = {
+    className: styles.reviewThemeIcon,
+    size: 14,
+    'aria-hidden': true as const,
+  };
+
+  switch (reviewId % 5) {
+    case 0:
+      return (
+        <LogoIcon {...iconProps} fill={REVIEW_THEME_ICON_COLOR} size={10} />
+      );
+    case 1:
+      return <LocationPinIcon {...iconProps} />;
+    case 2:
+      return <PriceTagIcon {...iconProps} />;
+    case 3:
+      return <RatingStarIcon {...iconProps} />;
+    default:
+      return <HeartIcon {...iconProps} />;
+  }
 }
 
 function formatHostFirstName(name: string) {
@@ -143,21 +173,19 @@ function HostDetailIcon({ type }: { type: 'bell' | 'globe' | 'message' }) {
     );
   }
 
-  const paths: Record<Exclude<typeof type, 'bell' | 'globe'>, string> = {
-    message:
-      'M3.25 3.25h9.5a.75.75 0 0 1 .75.75v5.5a.75.75 0 0 1-.75.75H7l-2.25 2.25V9.25H3.25a.75.75 0 0 1-.75-.75V4a.75.75 0 0 1 .75-.75Z',
-  };
-
   return (
     <svg {...iconProps}>
       <path
-        d={paths[type]}
+        d="M3.25 3.25h9.5a.75.75 0 0 1 .75.75v5.5a.75.75 0 0 1-.75.75H7l-2.25 2.25V9.25H3.25a.75.75 0 0 1-.75-.75V4a.75.75 0 0 1 .75-.75Z"
         fill="none"
         stroke="currentColor"
         strokeWidth="1.1"
         strokeLinecap="round"
         strokeLinejoin="round"
       />
+      <circle cx="6" cy="6.25" r="0.45" fill="currentColor" />
+      <circle cx="8" cy="6.25" r="0.45" fill="currentColor" />
+      <circle cx="10" cy="6.25" r="0.45" fill="currentColor" />
     </svg>
   );
 }
@@ -199,32 +227,113 @@ function PropertyDetailIcon({
 }: {
   type: 'house' | 'capacity' | 'bed' | 'shield';
 }) {
-  const paths: Record<typeof type, string> = {
+  const iconProps = {
+    className: styles.propertyDetailIcon,
+    viewBox: '0 0 16 16',
+    width: 18,
+    height: 18,
+    'aria-hidden': true as const,
+  };
+
+  const strokeProps = {
+    fill: 'none' as const,
+    stroke: 'currentColor',
+    strokeWidth: 1.1,
+    strokeLinecap: 'round' as const,
+    strokeLinejoin: 'round' as const,
+  };
+
+  if (type === 'capacity') {
+    const capacityStrokeProps = {
+      ...strokeProps,
+      strokeWidth: 0.8,
+    };
+
+    return (
+      <svg
+        {...iconProps}
+        className={`${styles.propertyDetailIcon} ${styles.propertyDetailIconCapacity}`}
+        width={22}
+        height={22}
+      >
+        <circle cx="10.35" cy="5.35" r="1.05" {...capacityStrokeProps} />
+        <path
+          d="M8.6 9.85v-.45c0-.95.82-1.72 1.85-1.72s1.85.77 1.85 1.72v.45"
+          {...capacityStrokeProps}
+        />
+        <path d="M8.15 10.3h4.3" {...capacityStrokeProps} />
+        <circle cx="5.65" cy="5.65" r="1.4" {...capacityStrokeProps} />
+        <path
+          d="M2.75 10.75v-.75c0-1.45 1.46-2.625 3.25-2.625s3.25 1.175 3.25 2.625v.75"
+          {...capacityStrokeProps}
+        />
+        <path d="M2.75 11.5h6.5" {...capacityStrokeProps} />
+      </svg>
+    );
+  }
+
+  if (type === 'bed') {
+    return (
+      <svg {...iconProps}>
+        <path
+          d="M4.1 2.75h7.8q.85 0 .85.85v1.9H3.25V3.6q0-.85.85-.85Z"
+          {...strokeProps}
+        />
+        <rect
+          x="3"
+          y="6.1"
+          width="3.85"
+          height="1.35"
+          rx="0.4"
+          {...strokeProps}
+        />
+        <rect
+          x="9.15"
+          y="6.1"
+          width="3.85"
+          height="1.35"
+          rx="0.4"
+          {...strokeProps}
+        />
+        <rect
+          x="2.85"
+          y="7.85"
+          width="10.3"
+          height="2.7"
+          rx="0.55"
+          {...strokeProps}
+        />
+        <path
+          d="M2.35 10.9h11.3M2.85 10.9v1.2M13.15 10.9v1.2"
+          {...strokeProps}
+        />
+      </svg>
+    );
+  }
+
+  if (type === 'shield') {
+    return (
+      <svg {...iconProps}>
+        <path
+          d="M8 1.75 12.75 3.5V7.5c0 2.45-1.95 4.74-4.75 5.5-2.8-.76-4.75-3.05-4.75-5.5V3.5L8 1.75Z"
+          {...strokeProps}
+        />
+        <path d="M5.45 7.55 7.2 9.3 11.55 4.85" {...strokeProps} />
+      </svg>
+    );
+  }
+
+  const paths: Record<
+    Exclude<typeof type, 'capacity' | 'bed' | 'shield'>,
+    string
+  > = {
     house:
       'M2.5 5.75 8 1.75l5.5 4V13a.75.75 0 0 1-.75.75H3.25A.75.75 0 0 1 2.5 13V5.75Zm2 1.25v5.5h3.5v-5.5',
-    capacity:
-      'M6 6.25a1.75 1.75 0 1 0 0-3.5 1.75 1.75 0 0 0 0 3.5Zm-3.25 4.5v-.75c0-1.45 1.46-2.625 3.25-2.625s3.25 1.175 3.25 2.625v.75',
-    bed: 'M2.5 11.25V8.5a1 1 0 0 1 1-1h9a1 1 0 0 1 1 1v2.75M2.5 8.5V5.75a1 1 0 0 1 1-1h2.25M13.5 8.5V5.75a1 1 0 0 0-1-1H10.25M4.75 11.25h6.5',
-    shield:
-      'M8 1.75 12.75 3.5V7.5c0 2.45-1.95 4.74-4.75 5.5-2.8-.76-4.75-3.05-4.75-5.5V3.5L8 1.75Zm-1 4.25 1 1 2.25-2.25',
   };
 
   return (
-    <svg
-      className={styles.propertyDetailIcon}
-      viewBox="0 0 16 16"
-      width={18}
-      height={18}
-      aria-hidden
-    >
-      <path
-        d={paths[type]}
-        fill="none"
-        stroke="currentColor"
-        strokeWidth="1.1"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
+    <svg {...iconProps}>
+      <path d={paths[type]} {...strokeProps} />
     </svg>
   );
 }
@@ -245,6 +354,7 @@ function openDatePicker(input: HTMLInputElement | null) {
 export function ProductPage() {
   const { homesteadId } = useParams<{ homesteadId: string }>();
   const { homestead, isLoading, error } = useHomesteadDetail(homesteadId);
+  const { recommendations } = useHomesteadRecommendations(homestead?.id);
   const { isFavourited, toggleFavourite } = useFavourites();
   const [activePhotoId, setActivePhotoId] = useState<number | null>(null);
   const thumbsRef = useRef<HTMLUListElement>(null);
@@ -254,6 +364,17 @@ export function ProductPage() {
   const [checkIn, setCheckIn] = useState('');
   const [checkOut, setCheckOut] = useState('');
   const [guests, setGuests] = useState(2);
+
+  useEffect(() => {
+    const prefersReducedMotion = window.matchMedia(
+      '(prefers-reduced-motion: reduce)',
+    ).matches;
+
+    window.scrollTo({
+      top: 0,
+      behavior: prefersReducedMotion ? 'auto' : 'smooth',
+    });
+  }, [homesteadId]);
 
   const updateThumbsScrollState = useCallback(() => {
     const list = thumbsRef.current;
@@ -821,7 +942,12 @@ export function ProductPage() {
               <ul className={styles.hostDetails}>
                 <li className={styles.hostDetailItem}>
                   <HostDetailIcon type="bell" />
-                  <span>{productPage.host.responseTime}</span>
+                  <span>
+                    {productPage.host.responseTime.prefix}{' '}
+                    <span className={styles.hostDetailHighlight}>
+                      {productPage.host.responseTime.highlight}
+                    </span>
+                  </span>
                 </li>
                 {homestead.host.languages.length > 0 && (
                   <li className={styles.hostDetailItem}>
@@ -963,6 +1089,7 @@ export function ProductPage() {
                   <li key={review.id}>
                     <blockquote className={styles.review}>
                       <p className={styles.reviewTheme}>
+                        <ReviewThemeIcon reviewId={review.id} />
                         {formatReviewCategory(review.category)}
                       </p>
                       <p className={styles.reviewQuote}>{review.text}</p>
@@ -977,6 +1104,11 @@ export function ProductPage() {
           )}
         </div>
       </div>
+
+      <RecommendationsGrid
+        title={productPage.recommendationsTitle}
+        recommendations={recommendations}
+      />
     </article>
   );
 }

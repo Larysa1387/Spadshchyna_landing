@@ -9,7 +9,12 @@ export {
   isAuthenticated,
 } from './authStorage';
 export { listFavourites, addFavourite, removeFavourite } from './favourites';
-export { listHomesteads, getHomestead, checkAvailability } from './homesteads';
+export {
+  listHomesteads,
+  getHomestead,
+  checkAvailability,
+  getHomesteadRecommendations,
+} from './homesteads';
 export { createBooking, listBookings } from './bookings';
 export { listRegions } from './regions';
 export type {

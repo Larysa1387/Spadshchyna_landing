@@ -329,11 +329,21 @@ $gallery-sync-height-with-arrow: calc(
   overflow: hidden;
   cursor: pointer;
   background: none;
+  transition: border-color 0.2s ease;
 
   img {
     width: 100%;
     height: 100%;
     object-fit: cover;
+    transition: transform 0.2s ease;
+  }
+
+  &:hover {
+    border-color: $color-brand-accent;
+
+    img {
+      transform: scale(1.05);
+    }
   }
 }
 
@@ -386,10 +396,21 @@ $gallery-sync-height-with-arrow: calc(
   background-color: #b79c72;
 }
 
+$section-content-offset: calc(0.875rem + 1.55rem);
+
 .aboutText {
   @include text-body;
   color: $color-text-secondary;
   margin: 0;
+
+  @include tablet-up {
+    margin-left: $section-content-offset;
+  }
+
+  @include desktop-up {
+    font-size: 0.875rem;
+    line-height: 1.8;
+  }
 }
 
 .amenities {
@@ -401,6 +422,8 @@ $gallery-sync-height-with-arrow: calc(
 
   @include tablet-up {
     grid-template-columns: repeat(4, 1fr);
+    row-gap: $space-4;
+    margin-left: $section-content-offset;
   }
 }
 
@@ -409,7 +432,7 @@ $gallery-sync-height-with-arrow: calc(
   align-items: flex-start;
   gap: $space-2;
   @include text-body;
-  color: $color-text-secondary;
+  color: #3a291b;
 }
 
 .amenityOrnamentIcon {
@@ -463,7 +486,7 @@ $gallery-sync-height-with-arrow: calc(
 .hostName {
   margin: 0;
   font-family: $font-family-heading;
-  font-size: 1.25rem;
+  font-size: 1.15rem;
   font-weight: 700;
   line-height: 1.2;
   color: $color-text-primary;
@@ -475,7 +498,7 @@ $gallery-sync-height-with-arrow: calc(
   font-size: 0.875rem;
   font-weight: 400;
   line-height: 1.4;
-  color: #635136;
+  color: #3a291b;
 }
 
 .hostDetails {
@@ -501,6 +524,10 @@ $gallery-sync-height-with-arrow: calc(
   }
 }
 
+.hostDetailHighlight {
+  font-weight: 500;
+}
+
 .hostDetailIcon {
   flex-shrink: 0;
   margin-top: 0.125rem;
@@ -516,6 +543,7 @@ $gallery-sync-height-with-arrow: calc(
 
 .hostContactLink {
   color: #a1600a;
+  font-weight: 500;
   text-decoration: none;
 
   &:hover {
@@ -547,7 +575,12 @@ $gallery-sync-height-with-arrow: calc(
 .propertyDetailIcon {
   flex-shrink: 0;
   margin-top: 0.125rem;
-  color: #7b6443;
+  color: #a1600a;
+}
+
+.propertyDetailIconCapacity {
+  width: 1.375rem;
+  height: 1.375rem;
 }
 
 .propertyDetailContent {
@@ -572,7 +605,7 @@ $gallery-sync-height-with-arrow: calc(
   font-size: 0.875rem;
   font-weight: 400;
   line-height: 1.45;
-  color: #635136;
+  color: #3a291b;
 }
 
 .reviews {
@@ -595,10 +628,18 @@ $gallery-sync-height-with-arrow: calc(
 }
 
 .reviewTheme {
+  display: flex;
+  align-items: center;
+  gap: $space-2;
   color: #a1600a;
   font-weight: 500;
   margin: 0 0 $space-2;
   text-transform: capitalize;
+}
+
+.reviewThemeIcon {
+  flex-shrink: 0;
+  color: #a1600a;
 }
 
 .reviewQuote {
@@ -618,7 +659,7 @@ $gallery-sync-height-with-arrow: calc(
 }
 
 .reviewAuthor {
-  font-size: 0.875rem;
+  font-size: 0.975rem;
   color: #b79c72;
   margin: 0;
 }

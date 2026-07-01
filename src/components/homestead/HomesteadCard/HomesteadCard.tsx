@@ -24,6 +24,7 @@ type HomesteadCardProps = {
   price: number;
   image?: string;
   imageUrl?: string | null;
+  variant?: 'default' | 'recommendation';
 };
 
 export type { HomesteadCardProps };
@@ -41,20 +42,31 @@ export function HomesteadCard({
   price,
   image,
   imageUrl,
+  variant = 'default',
 }: HomesteadCardProps) {
   const { isFavourited, toggleFavourite } = useFavourites();
   const navigate = useNavigate();
   const favourited = homesteadId ? isFavourited(homesteadId) : false;
   const productId = homesteadId ?? id;
   const imageBase = image ? publicAsset(image) : null;
+  const isRecommendation = variant === 'recommendation';
+  const productPath = paths.homesteadDetail(String(productId));
 
   const handleDetailsClick = () => {
-    navigate(paths.homesteadDetail(String(productId)));
+    navigate(productPath);
   };
 
   return (
-    <article className={styles.card}>
-      <figure className={styles.imageWrap}>
+    <article
+      className={`${styles.card}${
+        isRecommendation ? ` ${styles.cardRecommendation}` : ''
+      }`}
+    >
+      <figure
+        className={`${styles.imageWrap}${
+          isRecommendation ? ` ${styles.imageWrapRecommendation}` : ''
+        }`}
+      >
         {imageUrl ? (
           <img
             className={styles.image}
@@ -82,25 +94,33 @@ export function HomesteadCard({
           <div className={styles.image} role="img" aria-label={title} />
         )}
         <figcaption className="visuallyHidden">{title}</figcaption>
-        <button
-          className={`${styles.favoriteBtn}${favourited ? ` ${styles.favoriteBtnActive}` : ''}`}
-          type="button"
-          aria-label={
-            favourited ? 'Remove from favourites' : 'Add to favourites'
-          }
-          aria-pressed={favourited}
-          onClick={() => {
-            if (homesteadId) {
-              void toggleFavourite(homesteadId);
-            }
-          }}
-        >
-          <HeartIcon filled={favourited} className={styles.favoriteIcon} />
-        </button>
-        <span className={styles.region}>{region}</span>
+        {!isRecommendation && (
+          <>
+            <button
+              className={`${styles.favoriteBtn}${favourited ? ` ${styles.favoriteBtnActive}` : ''}`}
+              type="button"
+              aria-label={
+                favourited ? 'Remove from favourites' : 'Add to favourites'
+              }
+              aria-pressed={favourited}
+              onClick={() => {
+                if (homesteadId) {
+                  void toggleFavourite(homesteadId);
+                }
+              }}
+            >
+              <HeartIcon filled={favourited} className={styles.favoriteIcon} />
+            </button>
+            <span className={styles.region}>{region}</span>
+          </>
+        )}
       </figure>
 
-      <div className={styles.body}>
+      <div
+        className={`${styles.body}${
+          isRecommendation ? ` ${styles.bodyRecommendation}` : ''
+        }`}
+      >
         <div className={styles.meta}>
           <address className={styles.location}>
             <LocationMetaIcon className={styles.metaIcon} />
@@ -112,33 +132,55 @@ export function HomesteadCard({
           </data>
         </div>
 
-        <h3 className={styles.title}>
-          <Link to={paths.homesteadDetail(id)}>{title}</Link>
+        <h3
+          className={`${styles.title}${
+            isRecommendation ? ` ${styles.titleRecommendation}` : ''
+          }`}
+        >
+          <Link to={productPath}>{title}</Link>
         </h3>
 
-        <p className={styles.description}>{description}</p>
+        {!isRecommendation && (
+          <>
+            <p className={styles.description}>{description}</p>
 
-        {amenities.length > 0 && (
-          <ul className={styles.amenities} aria-label="Amenities">
-            {amenities.slice(0, 3).map((amenity) => (
-              <li key={amenity} className={styles.amenity}>
-                {amenity}
-              </li>
-            ))}
-            {extraPhotos > 0 && (
-              <li className={styles.amenity}>+{extraPhotos}</li>
+            {amenities.length > 0 && (
+              <ul className={styles.amenities} aria-label="Amenities">
+                {amenities.slice(0, 3).map((amenity) => (
+                  <li key={amenity} className={styles.amenity} title={amenity}>
+                    {amenity}
+                  </li>
+                ))}
+                {extraPhotos > 0 && (
+                  <li className={`${styles.amenity} ${styles.amenityMeta}`}>
+                    +{extraPhotos}
+                  </li>
+                )}
+              </ul>
             )}
-          </ul>
+          </>
         )}
 
-        <div className={styles.footer}>
-          <span className={styles.footerLine} aria-hidden />
+        <div
+          className={`${styles.footer}${
+            isRecommendation ? ` ${styles.footerRecommendation}` : ''
+          }`}
+        >
+          {!isRecommendation && (
+            <span className={styles.footerLine} aria-hidden />
+          )}
           <div className={styles.footerRow}>
             <p className={styles.priceBlock}>
-              <span className={styles.fairPrice}>
-                {homePage.archive.fairPrice}
-              </span>
-              <span className={styles.price}>
+              {!isRecommendation && (
+                <span className={styles.fairPrice}>
+                  {homePage.archive.fairPrice}
+                </span>
+              )}
+              <span
+                className={`${styles.price}${
+                  isRecommendation ? ` ${styles.priceRecommendation}` : ''
+                }`}
+              >
                 <data value={price}>{price}</data>{' '}
                 <span className={styles.priceSuffix}>
                   {homePage.archive.priceSuffix}
@@ -147,12 +189,17 @@ export function HomesteadCard({
             </p>
             <button
               type="button"
-              className={styles.detailsLink}
+              className={`${styles.detailsLink}${
+                isRecommendation ? ` ${styles.detailsLinkRecommendation}` : ''
+              }`}
               onClick={handleDetailsClick}
+              aria-label={homePage.archive.details}
             >
-              <span className={styles.detailsLinkText}>
-                {homePage.archive.details}
-              </span>
+              {!isRecommendation && (
+                <span className={styles.detailsLinkText}>
+                  {homePage.archive.details}
+                </span>
+              )}
               <span className={styles.detailsArrow} aria-hidden>
                 <DetailsArrowIcon />
               </span>
