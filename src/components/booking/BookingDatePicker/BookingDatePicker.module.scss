@@ -1,0 +1,214 @@
+@use '@/styles/scss/tokens' as *;
+@use '@/styles/scss/mixins' as *;
+
+$picker-bg: #efe6d8;
+$picker-border: #c1b6a4;
+$picker-accent: #a1600a;
+$picker-text: #635136;
+$picker-text-muted: #8d7d71;
+$picker-radius: 6px;
+
+.root {
+  position: relative;
+  background: $picker-bg;
+  border-radius: $picker-radius;
+}
+
+.trigger {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  width: 100%;
+  padding: 0.2rem 0.95rem;
+  border: 1px solid $picker-border;
+  border-radius: $picker-radius;
+  background: $picker-bg;
+  text-align: left;
+  cursor: pointer;
+
+  &:disabled {
+    cursor: not-allowed;
+    opacity: 0.65;
+  }
+
+  svg {
+    flex-shrink: 0;
+    color: #7b6443;
+  }
+}
+
+.triggerLabel {
+  font-family: $font-family-body;
+  font-size: 0.6875rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  color: $picker-accent;
+}
+
+.triggerValue {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: $space-2;
+  font-family: $font-family-body;
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: $picker-text;
+}
+
+.triggerPlaceholder {
+  color: $color-text-muted;
+}
+
+.popup {
+  position: absolute;
+  top: calc(100% + $space-2);
+  left: 0;
+  z-index: 20;
+  width: min(17.5rem, calc(100vw - 2rem));
+  padding: $space-3;
+  border: 1px solid $picker-border;
+  border-radius: $picker-radius;
+  background: $picker-bg;
+  box-shadow: 0 8px 24px rgba(58, 41, 27, 0.12);
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: $space-2;
+  margin-bottom: $space-3;
+}
+
+.monthLabel {
+  margin: 0;
+  font-family: $font-family-body;
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: $picker-text;
+  text-align: center;
+}
+
+.navBtn {
+  display: grid;
+  place-items: center;
+  width: 1.75rem;
+  height: 1.75rem;
+  padding: 0;
+  border: 1px solid $picker-border;
+  border-radius: $picker-radius;
+  background: transparent;
+  color: $picker-accent;
+  cursor: pointer;
+
+  &:hover {
+    border-color: $picker-accent;
+    background: rgba($picker-accent, 0.08);
+  }
+}
+
+.weekdays {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: $space-1;
+  margin-bottom: $space-2;
+}
+
+.weekday {
+  font-family: $font-family-body;
+  font-size: 0.6875rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-align: center;
+  color: $picker-text-muted;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: $space-1;
+}
+
+.day {
+  display: grid;
+  place-items: center;
+  width: 100%;
+  aspect-ratio: 1;
+  padding: 0;
+  border: 1px solid transparent;
+  border-radius: $picker-radius;
+  background: transparent;
+  font-family: $font-family-body;
+  font-size: 0.8125rem;
+  font-weight: 500;
+  color: $picker-text;
+  cursor: pointer;
+
+  &:hover:not(:disabled) {
+    border-color: $picker-border;
+    background: rgba($picker-accent, 0.08);
+  }
+}
+
+.dayOutside {
+  color: $picker-text-muted;
+  opacity: 0.65;
+}
+
+.daySelected {
+  border-color: $picker-accent;
+  background: $picker-accent;
+  color: #f5f1e9;
+
+  &:hover:not(:disabled) {
+    border-color: $picker-accent;
+    background: $picker-accent;
+    color: #f5f1e9;
+  }
+}
+
+.dayToday:not(.daySelected) {
+  border-color: $picker-accent;
+  color: $picker-accent;
+}
+
+.dayDisabled {
+  opacity: 0.35;
+  cursor: not-allowed;
+
+  &:hover {
+    border-color: transparent;
+    background: transparent;
+  }
+}
+
+.footer {
+  display: flex;
+  justify-content: space-between;
+  gap: $space-2;
+  margin-top: $space-3;
+  padding-top: $space-3;
+  border-top: 1px solid $picker-border;
+}
+
+.footerBtn {
+  padding: 0.25rem 0.5rem;
+  border: none;
+  border-radius: $picker-radius;
+  background: transparent;
+  font-family: $font-family-body;
+  font-size: 0.8125rem;
+  font-weight: 500;
+  color: $picker-accent;
+  cursor: pointer;
+
+  &:hover:not(:disabled) {
+    text-decoration: underline;
+  }
+
+  &:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+  }
+}

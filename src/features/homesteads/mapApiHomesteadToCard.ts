@@ -11,7 +11,7 @@ export function mapApiHomesteadToCard(
     location: homestead.location,
     rating: homestead.rating,
     title: homestead.name,
-    description: homestead.description,
+    description: homestead.short_description || homestead.description,
     amenities: homestead.amenities ?? [],
     price: homestead.price_per_night,
     imageUrl: homestead.main_photo,

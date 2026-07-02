@@ -133,6 +133,8 @@
   padding: $space-2 $space-4;
   font-size: 0.6875rem;
   line-height: 1;
+  letter-spacing: 1px;
+  text-transform: uppercase;
 
   @include desktop-up {
     font-size: 0.75rem;
@@ -144,6 +146,8 @@
   padding: $space-2 $space-4;
   font-size: 0.6875rem;
   line-height: 1;
+  letter-spacing: 1px;
+  text-transform: uppercase;
   background-color: $color-brand-accent;
   border-color: $color-brand-accent;
   color: $color-text-inverse;

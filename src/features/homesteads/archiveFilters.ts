@@ -26,7 +26,7 @@ export type RatingFilterOption = {
 
 export const PRICE_FILTER_OPTIONS: PriceFilterOption[] = [
   { value: '', label: 'Any price' },
-  { value: '0-2000', label: 'Up to 2000 UAH', price_min: 0, price_max: 2000 },
+  { value: '0-2000', label: '0 - 2000 UAH', price_min: 0, price_max: 2000 },
   {
     value: '2000-3000',
     label: '2000 – 3000 UAH',
@@ -39,7 +39,7 @@ export const PRICE_FILTER_OPTIONS: PriceFilterOption[] = [
 export const RATING_FILTER_OPTIONS: RatingFilterOption[] = [
   { value: '', label: 'All' },
   { value: 'middle', label: '4.6 – 4.8', rating_min: 4.6, rating_max: 4.8 },
-  { value: 'high', label: '4.8+', rating_min: 4.8, rating_max: 5.0 },
+  { value: 'high', label: '4.8+', rating_min: 4.8, rating_max: null },
 ];
 
 export function getPriceFilterParams(priceFilter: string) {
@@ -81,7 +81,7 @@ export function matchesRatingBand(
     return false;
   }
 
-  // Upper band uses 4.8+; middle band keeps 4.8 in the top tier only.
+  // Middle band is [ratingMin, ratingMax); high band (4.8+) has no upper cap.
   if (ratingMax != null && rating >= ratingMax) {
     return false;
   }

@@ -15,7 +15,7 @@ import {
   clearTokens,
   isAuthenticated as hasStoredToken,
 } from '@/api/authStorage';
-import { getApiErrorMessage } from '@/api/client';
+import { getApiErrorMessage, isUnauthorizedError } from '@/api/client';
 import type { LoginRequest, RegisterRequest } from '@/api/types';
 import { AuthModal } from '@/components/auth/AuthModal/AuthModal';
 import { AuthContext, type AuthModalMode } from './authContext';
@@ -45,10 +45,12 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         if (!cancelled) {
           setUser(currentUser);
         }
-      } catch {
-        clearTokens();
-        if (!cancelled) {
-          setUser(null);
+      } catch (error) {
+        if (isUnauthorizedError(error)) {
+          clearTokens();
+          if (!cancelled) {
+            setUser(null);
+          }
         }
       } finally {
         if (!cancelled) {
@@ -145,7 +147,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const value = useMemo(
     () => ({
       user,
-      isAuthenticated: user !== null,
+      isAuthenticated: user !== null || (!isInitializing && hasStoredToken()),
       isInitializing,
       authModal,
       authError,

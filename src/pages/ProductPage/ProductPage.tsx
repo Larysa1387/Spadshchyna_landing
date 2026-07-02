@@ -8,12 +8,15 @@ import {
 } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import {
+  EveIcon,
   HeartIcon,
+  LeafIcon,
   LocationMetaIcon,
   LocationPinIcon,
   PriceTagIcon,
   RatingFilledStarIcon,
   RatingStarIcon,
+  SpoonIcon,
 } from '@/components/icons';
 import { LogoIcon } from '@/components/icons/LogoIcon';
 import { productPage } from '@/content/designContent';
@@ -21,7 +24,8 @@ import { useFavourites } from '@/features/favourites/useFavourites';
 import { useHomesteadDetail } from '@/features/homesteads/useHomesteadDetail';
 import { useHomesteadRecommendations } from '@/features/homesteads/useHomesteadRecommendations';
 import { paths } from '@/app/paths';
-import { addDays, formatDisplayDate, todayIso } from '@/lib/format';
+import { addDays, todayIso } from '@/lib/format';
+import { BookingDatePicker } from '@/components/booking/BookingDatePicker/BookingDatePicker';
 import { publicAsset } from '@/lib/assets';
 import { RecommendationsGrid } from '@/components/homestead/RecommendationsGrid/RecommendationsGrid';
 import styles from './ProductPage.module.scss';
@@ -61,27 +65,33 @@ function formatReviewCategory(category: string) {
 
 const REVIEW_THEME_ICON_COLOR = '#a1600a';
 
+type ReviewThemeIconProps = {
+  className?: string;
+  size?: number;
+  'aria-hidden'?: boolean;
+};
+
+const REVIEW_THEME_ICONS: Array<(props: ReviewThemeIconProps) => ReactNode> = [
+  (props) => <LogoIcon {...props} fill={REVIEW_THEME_ICON_COLOR} size={10} />,
+  (props) => <LocationPinIcon {...props} />,
+  (props) => <LocationMetaIcon {...props} />,
+  (props) => <HeartIcon {...props} />,
+  (props) => <LeafIcon {...props} />,
+  (props) => <SpoonIcon {...props} />,
+  (props) => <EveIcon {...props} />,
+  (props) => <PriceTagIcon {...props} />,
+  (props) => <RatingStarIcon {...props} />,
+];
+
 function ReviewThemeIcon({ reviewId }: { reviewId: number }) {
-  const iconProps = {
+  const iconProps: ReviewThemeIconProps = {
     className: styles.reviewThemeIcon,
     size: 14,
-    'aria-hidden': true as const,
+    'aria-hidden': true,
   };
 
-  switch (reviewId % 5) {
-    case 0:
-      return (
-        <LogoIcon {...iconProps} fill={REVIEW_THEME_ICON_COLOR} size={10} />
-      );
-    case 1:
-      return <LocationPinIcon {...iconProps} />;
-    case 2:
-      return <PriceTagIcon {...iconProps} />;
-    case 3:
-      return <RatingStarIcon {...iconProps} />;
-    default:
-      return <HeartIcon {...iconProps} />;
-  }
+  const Icon = REVIEW_THEME_ICONS[reviewId % REVIEW_THEME_ICONS.length];
+  return Icon(iconProps);
 }
 
 function formatHostFirstName(name: string) {
@@ -207,21 +217,6 @@ function SectionHeading({ id, children }: { id: string; children: ReactNode }) {
   );
 }
 
-function BookingCalendarIcon() {
-  return (
-    <svg width="16" height="16" viewBox="0 0 16 16" aria-hidden>
-      <path
-        d="M4.5 2.25v1.25M11.5 2.25v1.25M3.25 5.75h9.5M3.25 4h9.5a1 1 0 0 1 1 1v7.5a1 1 0 0 1-1 1h-9.5a1 1 0 0 1-1-1V5a1 1 0 0 1 1-1Z"
-        fill="none"
-        stroke="currentColor"
-        strokeWidth="1.1"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
-    </svg>
-  );
-}
-
 function PropertyDetailIcon({
   type,
 }: {
@@ -338,19 +333,6 @@ function PropertyDetailIcon({
   );
 }
 
-function openDatePicker(input: HTMLInputElement | null) {
-  if (!input) {
-    return;
-  }
-
-  if ('showPicker' in input && typeof input.showPicker === 'function') {
-    input.showPicker();
-    return;
-  }
-
-  input.click();
-}
-
 export function ProductPage() {
   const { homesteadId } = useParams<{ homesteadId: string }>();
   const { homestead, isLoading, error } = useHomesteadDetail(homesteadId);
@@ -358,8 +340,6 @@ export function ProductPage() {
   const { isFavourited, toggleFavourite } = useFavourites();
   const [activePhotoId, setActivePhotoId] = useState<number | null>(null);
   const thumbsRef = useRef<HTMLUListElement>(null);
-  const checkInInputRef = useRef<HTMLInputElement>(null);
-  const checkOutInputRef = useRef<HTMLInputElement>(null);
   const [canScrollThumbsDown, setCanScrollThumbsDown] = useState(false);
   const [checkIn, setCheckIn] = useState('');
   const [checkOut, setCheckOut] = useState('');
@@ -481,11 +461,8 @@ export function ProductPage() {
       return;
     }
 
-    const defaultCheckIn = addDays(todayIso(), 30);
-    const defaultCheckOut = addDays(defaultCheckIn, 3);
-
-    setCheckIn(defaultCheckIn);
-    setCheckOut(defaultCheckOut);
+    setCheckIn('');
+    setCheckOut('');
     setGuests(
       Math.min(homestead.pricing.base_guests, homestead.pricing.max_guests),
     );
@@ -509,6 +486,11 @@ export function ProductPage() {
   const handleCheckInChange = useCallback((value: string) => {
     setCheckIn(value);
 
+    if (!value) {
+      setCheckOut('');
+      return;
+    }
+
     setCheckOut((currentCheckOut) => {
       if (!currentCheckOut || currentCheckOut <= value) {
         return addDays(value, 1);
@@ -520,6 +502,11 @@ export function ProductPage() {
 
   const handleCheckOutChange = useCallback(
     (value: string) => {
+      if (!value) {
+        setCheckOut('');
+        return;
+      }
+
       if (checkIn && value > checkIn) {
         setCheckOut(value);
       }
@@ -743,7 +730,9 @@ export function ProductPage() {
                   ({homestead.review_count} {productPage.reviewsLabel})
                 </span>
               </p>
-              <p className={styles.description}>{homestead.description}</p>
+              <p className={styles.description}>
+                {homestead.short_description || homestead.description}
+              </p>
             </header>
 
             <div className={styles.pricing}>
@@ -767,92 +756,21 @@ export function ProductPage() {
             >
               <div className={styles.bookingFields}>
                 <div className={styles.bookingDates}>
-                  <div className={styles.bookingFieldWrap}>
-                    <button
-                      type="button"
-                      className={styles.bookingField}
-                      aria-haspopup="dialog"
-                      aria-label={`${productPage.booking.checkIn}: ${
-                        checkIn
-                          ? formatDisplayDate(checkIn)
-                          : productPage.booking.addDate
-                      }`}
-                      onClick={() => openDatePicker(checkInInputRef.current)}
-                    >
-                      <span className={styles.bookingFieldLabel}>
-                        {productPage.booking.checkIn}
-                      </span>
-                      <span className={styles.bookingFieldValue}>
-                        <span
-                          className={
-                            checkIn ? undefined : styles.bookingFieldPlaceholder
-                          }
-                        >
-                          {checkIn
-                            ? formatDisplayDate(checkIn)
-                            : productPage.booking.addDate}
-                        </span>
-                        <BookingCalendarIcon />
-                      </span>
-                    </button>
-                    <input
-                      ref={checkInInputRef}
-                      type="date"
-                      className={styles.hiddenDateInput}
-                      value={checkIn}
-                      min={todayIso()}
-                      onChange={(event) =>
-                        handleCheckInChange(event.target.value)
-                      }
-                      tabIndex={-1}
-                      aria-hidden
-                    />
-                  </div>
-                  <div className={styles.bookingFieldWrap}>
-                    <button
-                      type="button"
-                      className={styles.bookingField}
-                      aria-haspopup="dialog"
-                      aria-label={`${productPage.booking.checkOut}: ${
-                        checkOut
-                          ? formatDisplayDate(checkOut)
-                          : productPage.booking.addDate
-                      }`}
-                      onClick={() => openDatePicker(checkOutInputRef.current)}
-                      disabled={!checkIn}
-                    >
-                      <span className={styles.bookingFieldLabel}>
-                        {productPage.booking.checkOut}
-                      </span>
-                      <span className={styles.bookingFieldValue}>
-                        <span
-                          className={
-                            checkOut
-                              ? undefined
-                              : styles.bookingFieldPlaceholder
-                          }
-                        >
-                          {checkOut
-                            ? formatDisplayDate(checkOut)
-                            : productPage.booking.addDate}
-                        </span>
-                        <BookingCalendarIcon />
-                      </span>
-                    </button>
-                    <input
-                      ref={checkOutInputRef}
-                      type="date"
-                      className={styles.hiddenDateInput}
-                      value={checkOut}
-                      min={checkIn ? addDays(checkIn, 1) : todayIso()}
-                      onChange={(event) =>
-                        handleCheckOutChange(event.target.value)
-                      }
-                      tabIndex={-1}
-                      aria-hidden
-                      disabled={!checkIn}
-                    />
-                  </div>
+                  <BookingDatePicker
+                    label={productPage.booking.checkIn}
+                    value={checkIn}
+                    min={todayIso()}
+                    placeholder={productPage.booking.addDate}
+                    onChange={handleCheckInChange}
+                  />
+                  <BookingDatePicker
+                    label={productPage.booking.checkOut}
+                    value={checkOut}
+                    min={checkIn ? addDays(checkIn, 1) : todayIso()}
+                    placeholder={productPage.booking.addDate}
+                    disabled={!checkIn}
+                    onChange={handleCheckOutChange}
+                  />
                 </div>
 
                 <div

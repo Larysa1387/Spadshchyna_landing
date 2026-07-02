@@ -2,6 +2,7 @@ export type ApiHomesteadCard = {
   id: number;
   name: string;
   description: string;
+  short_description: string;
   location: string;
   region: string;
   price_per_night: number;
@@ -117,6 +118,7 @@ export type HomesteadDetail = {
   name: string;
   location: string;
   description: string;
+  short_description: string;
   bedrooms: number;
   beds: number;
   bathrooms: number;

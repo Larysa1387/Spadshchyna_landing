@@ -716,6 +716,10 @@ $section-content-offset: calc(0.875rem + 1.55rem);
   @include text-h1;
   margin: 0;
   line-height: 0.95;
+
+  @include desktop-up {
+    font-size: 2.325rem;
+  }
 }
 
 .rating {
@@ -774,70 +778,6 @@ $section-content-offset: calc(0.875rem + 1.55rem);
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: $space-3;
-}
-
-.bookingFieldWrap {
-  position: relative;
-  background: #efe6d8;
-  border-radius: 6px;
-}
-
-.hiddenDateInput {
-  position: absolute;
-  width: 1px;
-  height: 1px;
-  margin: -1px;
-  padding: 0;
-  overflow: hidden;
-  clip: rect(0, 0, 0, 0);
-  white-space: nowrap;
-  border: 0;
-}
-
-.bookingField {
-  display: flex;
-  flex-direction: column;
-  gap: 0.25rem;
-  width: 100%;
-  padding: 0.2rem 0.95rem;
-  border: 1px solid #c1b6a4;
-  border-radius: 6px;
-  background: #efe6d8;
-  text-align: left;
-  cursor: pointer;
-
-  &:disabled {
-    cursor: not-allowed;
-    opacity: 0.65;
-  }
-
-  svg {
-    flex-shrink: 0;
-    color: #7b6443;
-  }
-}
-
-.bookingFieldLabel {
-  font-family: $font-family-body;
-  font-size: 0.6875rem;
-  font-weight: 600;
-  letter-spacing: 0.08em;
-  color: #a1600a;
-}
-
-.bookingFieldValue {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: $space-2;
-  font-family: $font-family-body;
-  font-size: 0.875rem;
-  font-weight: 500;
-  color: #635136;
-}
-
-.bookingFieldPlaceholder {
-  color: $color-text-muted;
 }
 
 .bookingFieldGuests {

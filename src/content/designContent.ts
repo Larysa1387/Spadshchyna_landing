@@ -12,8 +12,8 @@ export const brand = {
 export const navigation = {
   homesteads: 'HOMESTEADS',
   favourites: 'FAVOURITES',
-  login: 'LOG IN',
-  logout: 'LOG OUT',
+  login: 'Sign in',
+  logout: 'Sign out',
 } as const;
 
 export const auth = {

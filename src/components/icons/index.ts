@@ -1,9 +1,12 @@
 export { DetailsArrowIcon } from './DetailsArrowIcon';
+export { EveIcon } from './EveIcon';
 export { HeartIcon } from './HeartIcon';
+export { LeafIcon } from './LeafIcon';
 export { LocationMetaIcon } from './LocationMetaIcon';
 export { LocationPinIcon } from './LocationPinIcon';
 export { LogoIcon } from './LogoIcon';
 export { PriceTagIcon } from './PriceTagIcon';
 export { RatingFilledStarIcon } from './RatingFilledStarIcon';
 export { RatingStarIcon } from './RatingStarIcon';
+export { SpoonIcon } from './SpoonIcon';
 export { iconSpriteHref, iconSpriteIds, ICON_SPRITE_URL } from './sprite';
