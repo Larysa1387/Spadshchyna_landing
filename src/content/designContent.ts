@@ -14,6 +14,7 @@ export const navigation = {
   favourites: 'FAVOURITES',
   login: 'Sign in',
   logout: 'Sign out',
+  dashboard: 'My account',
 } as const;
 
 export const auth = {
@@ -238,6 +239,64 @@ export const homePage = {
       ratingHigh: '4.8+',
     },
   },
+} as const;
+
+export const userPage = {
+  loginPrompt: 'Sign in to view your dashboard.',
+  nav: {
+    dashboard: 'Dashboard',
+    bookings: 'My Bookings',
+    favourites: 'Favourites',
+    reviews: 'Reviews',
+    impact: 'Impact & Donations',
+  },
+  quote: 'We travel not to escape life, but for life not to escape us.',
+  welcome: (name: string) => `Welcome back, ${name}!`,
+  exploredSummary: (regions: number, restored: number) =>
+    `You have already explored ${regions} regions of Ukraine and helped restore ${restored} historic homesteads.`,
+  stats: {
+    nights: 'nights traveled',
+    regions: 'regions explored',
+    donated: 'donated to restoration',
+  },
+  upcomingStay: 'Upcoming Stay',
+  pastJourneys: 'Past Journeys',
+  pastJourneysEmpty: {
+    title: 'No journeys yet, but many stories await',
+    description:
+      'Your past journeys will appear here. Find a homestead, experience authentic heritage, and create memories that will last a lifetime.',
+  },
+  favouriteHomesteads: 'Favourite Homesteads',
+  viewAll: 'View all',
+  viewBooking: 'View Booking',
+  viewHomesteads: 'View Homestead',
+  hostedBy: (name: string) => `Hosted by ${name}`,
+  guests: (count: number) => `${count} guests`,
+  noUpcoming: 'No upcoming stays yet.',
+  noPast: 'No past journeys yet.',
+  impact: {
+    title: 'Impact You Made',
+    subtitle: 'Together you helped preserve heritage',
+    donationNote: '5% from your bookings went to restoration projects.',
+    thankYou:
+      'Thank you for being part of Spadshchyna community that cares about our heritage.',
+    supportTitle: 'Your support in action',
+    items: [
+      {
+        title: 'Homes restored',
+        text: 'Preserving authentic historic homes.',
+      },
+      {
+        title: 'Crafts supported',
+        text: 'Supporting local artisans and traditional crafts.',
+      },
+      {
+        title: 'Communities strengthened',
+        text: 'Helping rural communities thrive and grow.',
+      },
+    ],
+  },
+  addFavourite: 'Add favourite homestead',
 } as const;
 
 export const homesteads = [

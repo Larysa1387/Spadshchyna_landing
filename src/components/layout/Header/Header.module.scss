@@ -126,6 +126,39 @@
   text-transform: none;
 }
 
+.navIconLink {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2rem;
+  height: 2rem;
+  padding: 0;
+  border: 1px solid transparent;
+  border-radius: $radius-full;
+  color: $color-neutral-brown-600;
+  text-decoration: none;
+  transition:
+    color $transition-base,
+    border-color $transition-base,
+    background-color $transition-base;
+
+  &:hover {
+    color: #8f8044;
+    border-color: #cec5bc;
+    background: rgba(#efe6d8, 0.5);
+  }
+}
+
+.navIconLinkActive {
+  color: $color-brand-accent;
+  border-color: #c1b6a4;
+  background: #efe6d8;
+}
+
+.navIcon {
+  display: block;
+}
+
 .loginLink {
   @include button-outline;
   border-color: $color-neutral-brown-500;

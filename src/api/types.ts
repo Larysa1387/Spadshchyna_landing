@@ -181,3 +181,35 @@ export type BookingListItem = {
   total: number;
   created_at: string;
 };
+
+export type DashboardStats = {
+  total_nights: number;
+  total_donated: number;
+};
+
+export type PastJourney = {
+  booking_id: number;
+  homestead_name: string;
+  region: string;
+  main_photo: string | null;
+  rating: number;
+  check_in: string;
+  check_out: string;
+};
+
+export type UpcomingStay = {
+  booking_id: number;
+  homestead_name: string;
+  region: string;
+  main_photo: string | null;
+  check_in: string;
+  check_out: string;
+  guests: number;
+};
+
+export type DashboardResponse = {
+  stats: DashboardStats;
+  upcoming_stay: UpcomingStay | null;
+  past_journeys: PastJourney[];
+  favourite_homesteads: ApiHomesteadCard[];
+};

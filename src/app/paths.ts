@@ -3,6 +3,7 @@ export const paths = {
   homesteads: '/homesteads',
   homesteadDetail: (id: string) => `/homesteads/${id}` as const,
   favourites: '/favourites',
+  dashboard: '/dashboard',
   checkout: '/checkout',
   bookingConfirmed: '/booking-confirmed',
 } as const;

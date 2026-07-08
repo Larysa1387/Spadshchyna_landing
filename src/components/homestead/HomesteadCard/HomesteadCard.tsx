@@ -141,69 +141,73 @@ export function HomesteadCard({
         </h3>
 
         {!isRecommendation && (
-          <>
-            <p className={styles.description}>{description}</p>
-
-            {amenities.length > 0 && (
-              <ul className={styles.amenities} aria-label="Amenities">
-                {amenities.slice(0, 3).map((amenity) => (
-                  <li key={amenity} className={styles.amenity} title={amenity}>
-                    {amenity}
-                  </li>
-                ))}
-                {extraPhotos > 0 && (
-                  <li className={`${styles.amenity} ${styles.amenityMeta}`}>
-                    +{extraPhotos}
-                  </li>
-                )}
-              </ul>
-            )}
-          </>
+          <p className={styles.description}>{description}</p>
         )}
 
-        <div
-          className={`${styles.footer}${
-            isRecommendation ? ` ${styles.footerRecommendation}` : ''
-          }`}
-        >
+        <div className={styles.cardBottom}>
           {!isRecommendation && (
-            <span className={styles.footerLine} aria-hidden />
-          )}
-          <div className={styles.footerRow}>
-            <p className={styles.priceBlock}>
-              {!isRecommendation && (
-                <span className={styles.fairPrice}>
-                  {homePage.archive.fairPrice}
-                </span>
-              )}
-              <span
-                className={`${styles.price}${
-                  isRecommendation ? ` ${styles.priceRecommendation}` : ''
-                }`}
-              >
-                <data value={price}>{price}</data>{' '}
-                <span className={styles.priceSuffix}>
-                  {homePage.archive.priceSuffix}
-                </span>
-              </span>
-            </p>
-            <button
-              type="button"
-              className={`${styles.detailsLink}${
-                isRecommendation ? ` ${styles.detailsLinkRecommendation}` : ''
-              }`}
-              onClick={handleDetailsClick}
-              aria-label={homePage.archive.details}
+            <ul
+              className={styles.amenities}
+              aria-label={amenities.length > 0 ? 'Amenities' : undefined}
+              aria-hidden={amenities.length === 0 ? true : undefined}
             >
-              {!isRecommendation && (
-                <span className={styles.detailsLinkText}>
-                  {homePage.archive.details}
-                </span>
+              {amenities.slice(0, 3).map((amenity) => (
+                <li key={amenity} className={styles.amenity} title={amenity}>
+                  <span className={styles.amenityText}>{amenity}</span>
+                </li>
+              ))}
+              {extraPhotos > 0 && (
+                <li className={`${styles.amenity} ${styles.amenityMeta}`}>
+                  +{extraPhotos}
+                </li>
               )}
-              <span className={styles.detailsArrow} aria-hidden>
-                <DetailsArrowIcon />
-              </span>
-            </button>
+            </ul>
+          )}
+
+          <div
+            className={`${styles.footer}${
+              isRecommendation ? ` ${styles.footerRecommendation}` : ''
+            }`}
+          >
+            {!isRecommendation && (
+              <span className={styles.footerLine} aria-hidden />
+            )}
+            <div className={styles.footerRow}>
+              <p className={styles.priceBlock}>
+                {!isRecommendation && (
+                  <span className={styles.fairPrice}>
+                    {homePage.archive.fairPrice}
+                  </span>
+                )}
+                <span
+                  className={`${styles.price}${
+                    isRecommendation ? ` ${styles.priceRecommendation}` : ''
+                  }`}
+                >
+                  <data value={price}>{price}</data>{' '}
+                  <span className={styles.priceSuffix}>
+                    {homePage.archive.priceSuffix}
+                  </span>
+                </span>
+              </p>
+              <button
+                type="button"
+                className={`${styles.detailsLink}${
+                  isRecommendation ? ` ${styles.detailsLinkRecommendation}` : ''
+                }`}
+                onClick={handleDetailsClick}
+                aria-label={homePage.archive.details}
+              >
+                {!isRecommendation && (
+                  <span className={styles.detailsLinkText}>
+                    {homePage.archive.details}
+                  </span>
+                )}
+                <span className={styles.detailsArrow} aria-hidden>
+                  <DetailsArrowIcon />
+                </span>
+              </button>
+            </div>
           </div>
         </div>
       </div>

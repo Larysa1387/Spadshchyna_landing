@@ -25,6 +25,7 @@ import { useHomesteadDetail } from '@/features/homesteads/useHomesteadDetail';
 import { useHomesteadRecommendations } from '@/features/homesteads/useHomesteadRecommendations';
 import { paths } from '@/app/paths';
 import { addDays, todayIso } from '@/lib/format';
+import { compareIsoDates } from '@/lib/calendar';
 import { BookingDatePicker } from '@/components/booking/BookingDatePicker/BookingDatePicker';
 import { publicAsset } from '@/lib/assets';
 import { RecommendationsGrid } from '@/components/homestead/RecommendationsGrid/RecommendationsGrid';
@@ -491,13 +492,7 @@ export function ProductPage() {
       return;
     }
 
-    setCheckOut((currentCheckOut) => {
-      if (!currentCheckOut || currentCheckOut <= value) {
-        return addDays(value, 1);
-      }
-
-      return currentCheckOut;
-    });
+    setCheckOut(addDays(value, 1));
   }, []);
 
   const handleCheckOutChange = useCallback(
@@ -507,7 +502,7 @@ export function ProductPage() {
         return;
       }
 
-      if (checkIn && value > checkIn) {
+      if (checkIn && compareIsoDates(value, checkIn) > 0) {
         setCheckOut(value);
       }
     },

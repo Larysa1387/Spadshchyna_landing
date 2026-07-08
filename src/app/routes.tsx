@@ -5,6 +5,7 @@ import { FavouritesPage } from '@/pages/FavouritesPage/FavouritesPage';
 import { ProductPage } from '@/pages/ProductPage/ProductPage';
 import { CheckoutPage } from '@/pages/CheckoutPage/CheckoutPage';
 import { BookingConfirmedPage } from '@/pages/BookingConfirmedPage/BookingConfirmedPage';
+import { UserPage } from '@/pages/UserPage/UserPage';
 import { paths } from './paths';
 
 const basename =
@@ -19,6 +20,7 @@ export const router = createBrowserRouter(
       children: [
         { path: paths.home, element: <HomePage /> },
         { path: paths.favourites, element: <FavouritesPage /> },
+        { path: paths.dashboard, element: <UserPage /> },
         {
           path: `${paths.homesteads}/:homesteadId`,
           element: <ProductPage />,

@@ -1,4 +1,5 @@
 import { NavLink, useLocation } from 'react-router-dom';
+import { PersonIcon } from '@/components/icons';
 import { brand, navigation } from '@/content/designContent';
 import { paths } from '@/app/paths';
 import { useAuth } from '@/features/auth/useAuth';
@@ -78,6 +79,19 @@ export function Header() {
           >
             {navigation.homesteads}
           </NavLink>
+          {isAuthenticated && (
+            <NavLink
+              to={paths.dashboard}
+              className={({ isActive }) =>
+                isActive
+                  ? `${styles.navIconLink} ${styles.navIconLinkActive}`
+                  : styles.navIconLink
+              }
+              aria-label={navigation.dashboard}
+            >
+              <PersonIcon className={styles.navIcon} size={18} />
+            </NavLink>
+          )}
           {isAuthenticated ? (
             <button
               type="button"

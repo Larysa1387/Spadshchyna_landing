@@ -1,3 +1,5 @@
+export { BedIcon } from './BedIcon';
+export { PersonIcon } from './PersonIcon';
 export { DetailsArrowIcon } from './DetailsArrowIcon';
 export { EveIcon } from './EveIcon';
 export { HeartIcon } from './HeartIcon';

@@ -16,6 +16,7 @@ export {
   getHomesteadRecommendations,
 } from './homesteads';
 export { createBooking, listBookings } from './bookings';
+export { getDashboard } from './dashboard';
 export { listRegions } from './regions';
 export type {
   ApiHomesteadCard,
@@ -39,4 +40,6 @@ export type {
   CreateBookingRequest,
   CreateBookingResponse,
   BookingListItem,
+  DashboardResponse,
+  PastJourney,
 } from './types';
