@@ -135,13 +135,19 @@ export const checkout = {
     subtitle: 'Donate to restoration',
     description:
       'A portion of your booking goes to preserving historic homesteads across Ukraine.',
+    impactHeading: "You're making an impact",
     impactTemplate: (pct: number, amount: string) =>
       `${pct}% of your booking (${amount}) will be donated to restore historic homesteads across Ukraine.`,
-    legal:
-      'By completing your booking, you agree to our Terms of Service and Privacy Policy.',
+    impactLink: 'Learn more about our initiative',
+    sliderMarkers: [0, 5, 25, 50, 75, 100],
+    legalPrefix: 'By completing your booking, you agree to our',
+    termsLabel: 'Terms of Service',
+    privacyLabel: 'Privacy Policy',
   },
   support: {
+    cancellationTitle: 'Free cancelation',
     cancellation: 'Cancel for free up to 7 days before check-in.',
+    helpTitle: 'Need help?',
     help: "Contact our support team — we're here for you.",
     email: 'support@spadshchyna.ua',
   },
@@ -170,9 +176,11 @@ export const checkout = {
   },
   summaryLabels: {
     total: 'Total (UAH)',
-    vatNote: (vat: string) => `Includes VAT ${vat}`,
+    vatNoteLabel: 'Includes VAT',
     payButton: (amount: string) => `Pay ${amount}`,
     cleaningFee: 'Cleaning fee',
+    cleaningFeeTooltip:
+      'One-time fee for professional cleaning after your checkout.',
     serviceFee: (pct: number) => `Service fee (${pct}%)`,
     donation: (pct: number) => `Donation (${pct}%)`,
     guestsValue: (count: number) => `${count} guest${count === 1 ? '' : 's'}`,
@@ -181,6 +189,7 @@ export const checkout = {
     roomsValue: (rooms: number) => `${rooms} room${rooms === 1 ? '' : 's'}`,
   },
   loading: 'Loading checkout…',
+  loginPrompt: 'Sign in to complete your booking.',
   unavailable: 'These dates are not available for this homestead.',
   error: 'Unable to load checkout details.',
   payError: 'Unable to start payment. Please try again.',
