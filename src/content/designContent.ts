@@ -91,6 +91,13 @@ export const productPage = {
     increaseGuests: 'Increase guests',
     guestsValue: (count: number) => `${count} guest${count === 1 ? '' : 's'}`,
     checkAvailability: 'Check availability',
+    checking: 'Checking availability…',
+    selectDates: 'Please select check-in and check-out dates.',
+    invalidDates: 'Check-out must be after check-in.',
+    invalidGuests: (max: number) => `Guest count must be between 1 and ${max}.`,
+    datesUnavailable:
+      'These dates are already booked. Please choose different dates.',
+    checkFailed: 'Unable to check availability. Please try again.',
     addToFavorites: 'Add to favourites',
     removeFromFavorites: 'Remove from favourites',
   },

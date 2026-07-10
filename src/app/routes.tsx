@@ -27,6 +27,7 @@ export const router = createBrowserRouter(
         },
         { path: paths.checkout, element: <CheckoutPage /> },
         { path: paths.bookingConfirmed, element: <BookingConfirmedPage /> },
+        { path: paths.bookingSuccess, element: <BookingConfirmedPage /> },
         { path: '*', element: <Navigate to={paths.home} replace /> },
       ],
     },

@@ -6,4 +6,5 @@ export const paths = {
   dashboard: '/dashboard',
   checkout: '/checkout',
   bookingConfirmed: '/booking-confirmed',
+  bookingSuccess: '/booking/success',
 } as const;

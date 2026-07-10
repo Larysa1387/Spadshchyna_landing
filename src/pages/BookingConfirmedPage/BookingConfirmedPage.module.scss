@@ -5,38 +5,49 @@
 .page {
   @include section-spacing;
   @include container;
-  max-width: 40rem;
+  display: flex;
+  justify-content: center;
+  padding-block: $space-10;
+}
+
+.card {
+  width: min(100%, 36rem);
+  padding: $space-10 $space-8;
+  border: 1px solid #ece2cf;
+  border-radius: $radius-lg;
+  background: $color-surface-card;
   text-align: center;
 }
 
 .icon {
-  width: 4rem;
-  height: 4rem;
+  display: block;
   margin: 0 auto $space-6;
-  border-radius: $radius-full;
-  display: grid;
-  place-items: center;
-  background: rgba($color-brand-gold, 0.25);
-  color: $color-brand-accent;
-  font-size: 1.5rem;
 }
 
 .title {
-  @include text-h1;
-  margin-bottom: $space-4;
+  margin: 0 0 $space-4;
+  font-family: $font-family-body;
+  font-size: 1.75rem;
+  font-weight: 700;
+  line-height: 1.25;
+  color: $color-text-primary;
 }
 
 .message {
-  @include text-body;
-  color: $color-text-secondary;
-  margin-bottom: $space-4;
+  margin: 0 0 $space-4;
+  font-family: $font-family-body;
+  font-size: 1rem;
+  font-weight: 400;
+  line-height: 1.55;
+  color: $color-text-primary;
 }
 
 .bookingRef {
-  @include text-body;
-  color: $color-text-muted;
-  margin-bottom: $space-6;
+  margin: 0 0 $space-6;
+  font-family: $font-family-body;
   font-size: 0.875rem;
+  font-weight: 400;
+  color: $color-text-muted;
 
   strong {
     color: $color-text-primary;
@@ -44,21 +55,27 @@
 }
 
 .loading {
-  @include text-body;
+  margin: 0 0 $space-6;
+  font-family: $font-family-body;
+  font-size: 0.9375rem;
   color: $color-text-secondary;
-  margin-bottom: $space-6;
 }
 
 .summaryCard {
-  @include card-surface;
-  padding: $space-6;
   margin-bottom: $space-8;
+  padding: $space-6;
+  border: 1px solid $color-surface-border;
+  border-radius: $radius-md;
+  background: $color-surface-page;
   text-align: left;
 }
 
 .summaryTitle {
-  @include text-h3;
   margin: 0 0 $space-4;
+  font-family: $font-family-body;
+  font-size: 1.125rem;
+  font-weight: 700;
+  color: $color-text-primary;
 }
 
 .summaryGrid {
@@ -80,8 +97,11 @@
 }
 
 .fieldValue {
-  @include text-body;
   margin-top: $space-1;
+  font-family: $font-family-body;
+  font-size: 0.9375rem;
+  line-height: 1.5;
+  color: $color-text-primary;
 }
 
 .homesteadLink {
@@ -94,24 +114,29 @@
 }
 
 .totalValue {
-  @include text-body;
   margin-top: $space-1;
-  font-family: $font-family-heading;
+  font-family: $font-family-body;
+  font-size: 0.9375rem;
   font-weight: 700;
   color: $color-text-primary;
 }
 
 .actions {
   display: flex;
-  flex-wrap: wrap;
-  gap: $space-3;
   justify-content: center;
 }
 
 .primaryBtn {
   @include button-solid;
-}
-
-.secondaryBtn {
-  @include button-outline;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: $space-2;
+  min-width: 14rem;
+  border-radius: 999px;
+  padding: $space-3 $space-6;
+  font-weight: 700;
+  letter-spacing: 0;
+  text-transform: none;
+  text-decoration: none;
 }

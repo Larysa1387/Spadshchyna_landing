@@ -117,6 +117,30 @@
   }
 }
 
+@mixin button-booking {
+  @include button-solid;
+  width: 100%;
+  border: 0;
+  text-align: center;
+  text-decoration: none;
+  font-family: $font-family-body;
+  font-weight: 400;
+  letter-spacing: 0.08em;
+  text-transform: none;
+  border-radius: 6px;
+  color: palette('cream-100');
+  cursor: pointer;
+
+  &:hover:not(:disabled) {
+    color: palette('cream-100');
+  }
+
+  &:disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
+  }
+}
+
 @mixin card-surface {
   background: $color-surface-card;
   border: 1px solid $color-surface-border;

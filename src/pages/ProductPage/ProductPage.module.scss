@@ -876,19 +876,27 @@ $section-content-offset: calc(0.875rem + 1.55rem);
 }
 
 .bookingBtn {
-  @include button-solid;
-  width: 100%;
-  text-align: center;
-  text-decoration: none;
-  font-weight: 400;
-  letter-spacing: 0.08em;
-  text-transform: none;
-  border-radius: 6px;
-  color: #f5f1e9;
+  @include button-booking;
+}
 
-  &:hover {
-    color: #f5f1e9;
-  }
+.bookingMessageWarning,
+.bookingMessageError {
+  margin: 0;
+  padding: 0.75rem 0.9rem;
+  border-radius: $radius-md;
+  font-family: $font-family-body;
+  font-size: 0.8125rem;
+  line-height: 1.5;
+}
+
+.bookingMessageWarning {
+  background: rgba($color-brand-accent, 0.1);
+  color: $color-brand-accent;
+}
+
+.bookingMessageError {
+  background: rgba($color-semantic-error, 0.08);
+  color: $color-semantic-error;
 }
 
 .favoriteBtn {

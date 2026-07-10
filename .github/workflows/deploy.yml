@@ -36,6 +36,9 @@ jobs:
       - name: Configure SPA fallback
         run: cp dist/index.html dist/404.html
 
+      # Stripe success_url must use the deployed base path, e.g.
+      # https://larysa1387.github.io/Spadshchyna_landing/booking/success?session_id={CHECKOUT_SESSION_ID}
+
       - name: Deploy to gh-pages branch
         uses: peaceiris/actions-gh-pages@v4
         with:

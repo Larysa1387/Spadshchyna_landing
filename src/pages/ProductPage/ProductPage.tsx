@@ -6,7 +6,7 @@ import {
   useState,
   type ReactNode,
 } from 'react';
-import { Link, useParams } from 'react-router-dom';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 import {
   EveIcon,
   HeartIcon,
@@ -24,6 +24,8 @@ import { useFavourites } from '@/features/favourites/useFavourites';
 import { useHomesteadDetail } from '@/features/homesteads/useHomesteadDetail';
 import { useHomesteadRecommendations } from '@/features/homesteads/useHomesteadRecommendations';
 import { paths } from '@/app/paths';
+import { checkAvailability } from '@/api/homesteads';
+import { getApiErrorMessage } from '@/api/client';
 import { addDays, todayIso } from '@/lib/format';
 import { compareIsoDates } from '@/lib/calendar';
 import { BookingDatePicker } from '@/components/booking/BookingDatePicker/BookingDatePicker';
@@ -336,6 +338,7 @@ function PropertyDetailIcon({
 
 export function ProductPage() {
   const { homesteadId } = useParams<{ homesteadId: string }>();
+  const navigate = useNavigate();
   const { homestead, isLoading, error } = useHomesteadDetail(homesteadId);
   const { recommendations } = useHomesteadRecommendations(homestead?.id);
   const { isFavourited, toggleFavourite } = useFavourites();
@@ -345,6 +348,11 @@ export function ProductPage() {
   const [checkIn, setCheckIn] = useState('');
   const [checkOut, setCheckOut] = useState('');
   const [guests, setGuests] = useState(2);
+  const [isCheckingAvailability, setIsCheckingAvailability] = useState(false);
+  const [bookingMessage, setBookingMessage] = useState<{
+    type: 'error' | 'unavailable';
+    text: string;
+  } | null>(null);
 
   useEffect(() => {
     const prefersReducedMotion = window.matchMedia(
@@ -484,6 +492,10 @@ export function ProductPage() {
     setGuests((current) => Math.min(maxGuests, current + 1));
   };
 
+  useEffect(() => {
+    setBookingMessage(null);
+  }, [checkIn, checkOut, guests]);
+
   const handleCheckInChange = useCallback((value: string) => {
     setCheckIn(value);
 
@@ -509,19 +521,70 @@ export function ProductPage() {
     [checkIn],
   );
 
-  const checkoutUrl = useMemo(() => {
-    if (!homestead || !checkIn || !checkOut) {
-      return paths.checkout;
+  const handleBookingSubmit = useCallback(async () => {
+    if (!homestead) {
+      return;
     }
 
-    const params = new URLSearchParams({
-      homesteadId: String(homestead.id),
-      checkIn,
-      checkOut,
-      guests: String(guests),
-    });
-    return `${paths.checkout}?${params.toString()}`;
-  }, [checkIn, checkOut, guests, homestead]);
+    setBookingMessage(null);
+
+    if (!checkIn || !checkOut) {
+      setBookingMessage({
+        type: 'error',
+        text: productPage.booking.selectDates,
+      });
+      return;
+    }
+
+    if (compareIsoDates(checkOut, checkIn) <= 0) {
+      setBookingMessage({
+        type: 'error',
+        text: productPage.booking.invalidDates,
+      });
+      return;
+    }
+
+    if (guests < minGuests || guests > maxGuests) {
+      setBookingMessage({
+        type: 'error',
+        text: productPage.booking.invalidGuests(maxGuests),
+      });
+      return;
+    }
+
+    setIsCheckingAvailability(true);
+
+    try {
+      const availability = await checkAvailability(homestead.id, {
+        check_in: checkIn,
+        check_out: checkOut,
+        guests,
+      });
+
+      if (availability.available) {
+        const params = new URLSearchParams({
+          homesteadId: String(homestead.id),
+          checkIn,
+          checkOut,
+          guests: String(guests),
+        });
+        navigate(`${paths.checkout}?${params.toString()}`);
+        return;
+      }
+
+      setBookingMessage({
+        type: 'unavailable',
+        text: productPage.booking.datesUnavailable,
+      });
+    } catch (requestError) {
+      setBookingMessage({
+        type: 'error',
+        text: getApiErrorMessage(requestError, productPage.booking.checkFailed),
+      });
+    } finally {
+      setIsCheckingAvailability(false);
+    }
+  }, [checkIn, checkOut, guests, homestead, maxGuests, minGuests, navigate]);
 
   if (isLoading) {
     return (
@@ -806,9 +869,28 @@ export function ProductPage() {
                 </div>
               </div>
 
-              <Link to={checkoutUrl} className={styles.bookingBtn}>
-                {productPage.booking.checkAvailability}
-              </Link>
+              <button
+                type="button"
+                className={styles.bookingBtn}
+                onClick={() => void handleBookingSubmit()}
+                disabled={isCheckingAvailability}
+              >
+                {isCheckingAvailability
+                  ? productPage.booking.checking
+                  : productPage.booking.checkAvailability}
+              </button>
+              {bookingMessage && (
+                <p
+                  className={
+                    bookingMessage.type === 'unavailable'
+                      ? styles.bookingMessageWarning
+                      : styles.bookingMessageError
+                  }
+                  role="alert"
+                >
+                  {bookingMessage.text}
+                </p>
+              )}
               <button
                 type="button"
                 className={`${styles.favoriteBtn}${
