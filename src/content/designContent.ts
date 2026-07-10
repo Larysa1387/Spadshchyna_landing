@@ -143,8 +143,6 @@ export const checkout = {
     description:
       'A portion of your booking goes to preserving historic homesteads across Ukraine.',
     impactHeading: "You're making an impact",
-    impactTemplate: (pct: number, amount: string) =>
-      `${pct}% of your booking (${amount}) will be donated to restore historic homesteads across Ukraine.`,
     impactLink: 'Learn more about our initiative',
     sliderMarkers: [0, 5, 25, 50, 75, 100],
     legalPrefix: 'By completing your booking, you agree to our',

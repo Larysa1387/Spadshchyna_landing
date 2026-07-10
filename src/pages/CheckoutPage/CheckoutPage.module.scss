@@ -366,6 +366,11 @@
   font-size: 0.8425rem;
   line-height: 1.55;
   color: #635136;
+
+  strong {
+    font-weight: 700;
+    color: $color-text-primary;
+  }
 }
 
 .impactLink {

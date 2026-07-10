@@ -826,10 +826,9 @@ export function CheckoutPage() {
                     {checkout.donation.impactHeading}
                   </p>
                   <p className={styles.impactText}>
-                    {checkout.donation.impactTemplate(
-                      donationPct,
-                      formatUah(donationAmount),
-                    )}{' '}
+                    <strong>{donationPct}%</strong> of your booking (
+                    <strong>{formatUah(donationAmount)}</strong>) will be
+                    donated to restore historic homesteads across Ukraine.{' '}
                     <a href="#impact" className={styles.impactLink}>
                       {checkout.donation.impactLink}
                     </a>
