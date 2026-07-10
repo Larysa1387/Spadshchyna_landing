@@ -54,7 +54,7 @@ html {
 }
 
 body {
-  min-width: 320px;
+  min-width: $breakpoint-mobile;
   min-height: 100vh;
   @include text-body;
   background-color: $color-neutral-white;

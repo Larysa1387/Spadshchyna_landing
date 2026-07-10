@@ -11,6 +11,13 @@
   padding-top: 109px;
   padding-bottom: $space-16;
 
+  @include mobile-only {
+    min-height: 34rem;
+    padding-top: 5.5rem;
+    padding-bottom: 0;
+    align-items: stretch;
+  }
+
   @include desktop-up {
     padding-bottom: $space-20;
   }
@@ -24,6 +31,11 @@
     background-size: auto 100%;
     background-position: top center;
     background-repeat: no-repeat;
+
+    @include mobile-only {
+      background-size: cover;
+      background-position: center 28%;
+    }
 
     @include desktop-up {
       background-size: cover;
@@ -51,6 +63,16 @@
   @include container;
   position: relative;
   z-index: 1;
+
+  @include mobile-only {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    width: 100%;
+    min-height: calc(34rem - 5.5rem);
+    justify-content: space-between;
+    padding: 20px;
+  }
 }
 
 .heroTitle {
@@ -61,10 +83,60 @@
   letter-spacing: -0.01em;
   color: $color-text-primary;
   margin: 0 0 $space-8;
+
+  @include mobile-only {
+    font-size: clamp(1.625rem, 5vw + 0.75rem, 2.25rem);
+    margin-bottom: 0;
+    max-width: 15rem;
+  }
 }
 
 .heroTitleLine {
   display: block;
+}
+
+.heroPillar {
+  display: none;
+
+  @include mobile-only {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.75rem;
+    margin-bottom: -2.25rem;
+    padding: $space-5;
+    background-color: #f5f1e9;
+    border: 1px solid #ece2cf;
+    border-radius: $radius-xl;
+    position: relative;
+    z-index: 2;
+
+    .pillarText {
+      font-size: 0.8125rem;
+      line-height: 1.45;
+    }
+  }
+}
+
+.heroPillarIcon {
+  flex-shrink: 0;
+  width: 1.5rem;
+  height: 1.5rem;
+}
+
+.heroPillarContent {
+  display: flex;
+  flex-direction: column;
+  gap: $space-2;
+  min-width: 0;
+}
+
+.heroPillarTitle {
+  margin: 0;
+  font-family: $font-family-montserrat;
+  font-size: 0.9375rem;
+  font-weight: 700;
+  line-height: 1.35;
+  color: $color-text-primary;
 }
 
 .heroOrnament {
@@ -72,6 +144,10 @@
   align-items: center;
   gap: $space-4;
   margin: 0 0 $space-6;
+
+  @include mobile-only {
+    display: none;
+  }
 }
 
 .heroOrnamentIcon {
@@ -96,6 +172,10 @@
   line-height: 1.45;
   font-weight: 400;
   color: $color-neutral-brown-500;
+
+  @include mobile-only {
+    display: none;
+  }
 
   @include tablet-up {
     font-size: 1.125rem;
@@ -122,6 +202,10 @@
     box-shadow $transition-base,
     transform $transition-base,
     color $transition-base;
+
+  @include mobile-only {
+    display: none;
+  }
 
   @include tablet-up {
     padding: 0.75rem $space-4;
@@ -153,6 +237,10 @@
 
 .howItWorks {
   padding-top: $space-12;
+
+  @include mobile-only {
+    display: none;
+  }
 }
 
 .howItWorksContainer {
@@ -278,6 +366,10 @@
 .quote {
   padding-top: $space-12;
   text-align: center;
+
+  @include mobile-only {
+    padding-top: 1.4rem;
+  }
 }
 
 .quoteDivider {
@@ -288,6 +380,12 @@
   gap: $space-4;
   max-width: 20rem;
   margin: 0 auto $space-10;
+
+  @include mobile-only {
+    &:first-of-type {
+      display: none;
+    }
+  }
 }
 
 .quoteDividerBottom {
@@ -325,11 +423,50 @@
   margin: 0 auto;
   padding-inline: 0;
   text-align: center;
+
+  @include mobile-only {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr) auto;
+    grid-template-rows: auto;
+    align-items: center;
+    justify-items: center;
+    column-gap: $space-2;
+    row-gap: 0;
+    width: fit-content;
+    max-width: calc(100% - ($content-padding-mobile * 2));
+    font-size: 1.375rem;
+    line-height: 1.35;
+    text-align: center;
+  }
 }
 
 .quoteContent {
   flex-shrink: 0;
   white-space: nowrap;
+
+  @include mobile-only {
+    grid-column: 2;
+    grid-row: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    white-space: normal;
+    line-height: 0.95;
+  }
+}
+
+.quoteLine {
+  @include mobile-only {
+    display: block;
+  }
+
+  @include tablet-up {
+    display: inline;
+
+    &:first-child::after {
+      content: '\00a0';
+    }
+  }
 }
 
 .quoteMark {
@@ -338,10 +475,27 @@
   height: auto;
   aspect-ratio: 52 / 42;
   object-fit: contain;
+
+  @include mobile-only {
+    width: 14px;
+    grid-column: 1;
+    grid-row: 1;
+    align-self: start;
+    justify-self: end;
+    margin-top: 0.15rem;
+  }
 }
 
 .quoteMarkClosing {
   transform: rotate(180deg);
+
+  @include mobile-only {
+    grid-column: 3;
+    grid-row: 1;
+    align-self: end;
+    justify-self: start;
+    margin-bottom: 0.15rem;
+  }
 }
 
 .quoteEmphasis {
@@ -354,6 +508,10 @@
 .archive {
   padding-block: $space-12 3rem;
   scroll-margin-top: $space-4;
+
+  @include mobile-only {
+    padding-top: 2rem;
+  }
 }
 
 .archiveContainer {
@@ -365,6 +523,10 @@
   flex-direction: column;
   gap: $space-6;
 
+  @include mobile-only {
+    gap: $space-4;
+  }
+
   @include desktop-up {
     flex-direction: row;
     align-items: flex-start;
@@ -375,11 +537,19 @@
 
 .archiveIntro {
   max-width: 28rem;
+
+  @include mobile-only {
+    max-width: none;
+  }
 }
 
 .archiveTitle {
   @include text-h2;
   margin: 0 0 $space-4;
+
+  @include mobile-only {
+    margin-bottom: $space-3;
+  }
 }
 
 .archiveOrnament {
@@ -387,6 +557,10 @@
   align-items: center;
   gap: $space-3;
   margin-bottom: $space-4;
+
+  @include mobile-only {
+    display: none;
+  }
 }
 
 .archiveOrnamentIcon {
@@ -409,6 +583,10 @@
   font-weight: 500;
   line-height: 1.55;
   color: $color-text-muted;
+
+  @include mobile-only {
+    display: none;
+  }
 }
 
 .archiveStatus {
@@ -428,6 +606,11 @@
   margin: $space-10 0 0;
   padding: 0;
   list-style: none;
+
+  @include mobile-only {
+    margin-top: $space-6;
+    gap: $space-5;
+  }
 
   @include tablet-up {
     grid-template-columns: repeat(2, minmax(0, 1fr));

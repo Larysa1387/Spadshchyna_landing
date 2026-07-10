@@ -28,6 +28,10 @@
   text-decoration: none;
   color: inherit;
   min-width: 0;
+
+  @include mobile-only {
+    display: none;
+  }
 }
 
 .logoDivider {

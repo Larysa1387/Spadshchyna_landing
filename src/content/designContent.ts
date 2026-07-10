@@ -258,7 +258,8 @@ export const homePage = {
     ],
   },
   quote: {
-    before: 'Our goal is to make heritage a',
+    line1: 'Our goal is to make heritage',
+    line2Prefix: 'a',
     emphasis: 'living',
     after: 'experience.',
   },

@@ -6,6 +6,12 @@
   gap: 1.65rem;
   width: 100%;
 
+  @include mobile-only {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 0.375rem;
+    max-width: none;
+  }
+
   @include tablet-up {
     grid-template-columns: repeat(3, minmax(0, 1fr));
     max-width: 46rem;
@@ -25,6 +31,12 @@
   grid-template-rows: auto auto;
   column-gap: $space-2;
   row-gap: 0.25rem;
+
+  @include mobile-only {
+    grid-template-columns: 1fr;
+    grid-template-rows: auto;
+    gap: 0;
+  }
 }
 
 .regionPinIcon {
@@ -33,6 +45,10 @@
   align-self: center;
   transform: translateY(-0.9875rem);
   color: #bca479;
+
+  @include mobile-only {
+    display: none;
+  }
 }
 
 .priceTagIcon {
@@ -41,16 +57,29 @@
   align-self: center;
   transform: translateY(-0.9875rem) rotate(90deg);
   color: #bca479;
+
+  @include mobile-only {
+    display: none;
+  }
 }
 
 .regionLabel {
   grid-column: 2;
   grid-row: 1;
+
+  @include mobile-only {
+    display: none;
+  }
 }
 
 .regionSelect {
   grid-column: 2;
   grid-row: 2;
+
+  @include mobile-only {
+    grid-column: 1;
+    grid-row: 1;
+  }
 }
 
 .selectWrap {
@@ -78,6 +107,15 @@
   background-repeat: no-repeat;
   background-position: right $space-3 center;
   padding-right: $space-8;
+
+  @include mobile-only {
+    padding: 0.4375rem 1.125rem 0.4375rem 0.5rem;
+    border-radius: $radius-full;
+    font-size: 0.5625rem;
+    font-weight: 600;
+    letter-spacing: 0;
+    background-position: right 0.375rem center;
+  }
 
   &:hover {
     border-color: #b79c72;
@@ -140,6 +178,10 @@
   letter-spacing: normal;
   text-transform: none;
   color: #8d7d71;
+
+  @include mobile-only {
+    display: none;
+  }
 }
 
 .error {

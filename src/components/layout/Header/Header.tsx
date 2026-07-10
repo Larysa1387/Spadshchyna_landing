@@ -1,5 +1,6 @@
+import { useEffect, useState } from 'react';
 import { NavLink, useLocation } from 'react-router-dom';
-import { PersonIcon } from '@/components/icons';
+import { MenuIcon, PersonIcon } from '@/components/icons';
 import { brand, navigation } from '@/content/designContent';
 import { paths } from '@/app/paths';
 import { useAuth } from '@/features/auth/useAuth';
@@ -12,17 +13,35 @@ export function Header() {
   const { isAuthenticated, openLoginModal, logout } = useAuth();
   const { favourites } = useFavourites();
   const favouritesCount = favourites.length;
+  const [menuOpen, setMenuOpen] = useState(false);
 
   const isHome = pathname === paths.home;
 
+  useEffect(() => {
+    setMenuOpen(false);
+  }, [pathname]);
+
+  useEffect(() => {
+    document.body.style.overflow = menuOpen ? 'hidden' : '';
+
+    return () => {
+      document.body.style.overflow = '';
+    };
+  }, [menuOpen]);
+
   const handleLogout = () => {
     void logout();
+    setMenuOpen(false);
+  };
+
+  const closeMenu = () => {
+    setMenuOpen(false);
   };
 
   return (
     <header className={`${styles.header} ${isHome ? styles.headerOnHome : ''}`}>
       <div className={styles.inner}>
-        <NavLink to={paths.home} className={styles.logo}>
+        <NavLink to={paths.home} className={styles.logo} onClick={closeMenu}>
           <img
             className={styles.logoIcon}
             src={publicAsset('assets/logo/logo-icon.png')}
@@ -49,7 +68,22 @@ export function Header() {
           />
         </NavLink>
 
-        <nav className={styles.nav} aria-label="Main navigation">
+        <button
+          type="button"
+          className={styles.menuBtn}
+          aria-expanded={menuOpen}
+          aria-controls="main-nav"
+          aria-label={menuOpen ? 'Close menu' : 'Open menu'}
+          onClick={() => setMenuOpen((open) => !open)}
+        >
+          <MenuIcon className={styles.menuIcon} />
+        </button>
+
+        <nav
+          id="main-nav"
+          className={`${styles.nav}${menuOpen ? ` ${styles.navOpen}` : ''}`}
+          aria-label="Main navigation"
+        >
           <NavLink
             to={paths.favourites}
             className={({ isActive }) =>
@@ -60,6 +94,7 @@ export function Header() {
                 ? `${navigation.favourites}, ${favouritesCount} items`
                 : navigation.favourites
             }
+            onClick={closeMenu}
           >
             <span className={styles.navLinkLabel}>
               {navigation.favourites}
@@ -76,6 +111,7 @@ export function Header() {
               isActive ? `${styles.navLink} ${styles.active}` : styles.navLink
             }
             end
+            onClick={closeMenu}
           >
             {navigation.homesteads}
           </NavLink>
@@ -88,6 +124,7 @@ export function Header() {
                   : styles.navIconLink
               }
               aria-label={navigation.dashboard}
+              onClick={closeMenu}
             >
               <PersonIcon className={styles.navIcon} size={18} />
             </NavLink>
@@ -104,7 +141,10 @@ export function Header() {
             <button
               type="button"
               className={styles.loginLink}
-              onClick={openLoginModal}
+              onClick={() => {
+                closeMenu();
+                openLoginModal();
+              }}
             >
               {navigation.login}
             </button>

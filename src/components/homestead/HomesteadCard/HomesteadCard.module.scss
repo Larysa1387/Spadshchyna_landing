@@ -18,6 +18,13 @@
     box-shadow: $shadow-md;
     transform: translateY(-2px);
   }
+
+  @include mobile-only {
+    &:hover {
+      box-shadow: none;
+      transform: none;
+    }
+  }
 }
 
 .imageWrap {
@@ -152,6 +159,11 @@
   gap: $space-3;
   padding: $space-5;
   flex: 1;
+
+  @include mobile-only {
+    padding: $space-4;
+    gap: $space-2;
+  }
 }
 
 .meta {
@@ -220,6 +232,11 @@
   overflow: hidden;
   min-height: calc(0.8125rem * 1.55 * 3);
 
+  @include mobile-only {
+    -webkit-line-clamp: 2;
+    min-height: auto;
+  }
+
   @include desktop-up {
     min-height: calc(0.875rem * 1.6 * 3);
   }
@@ -242,6 +259,10 @@
   margin: 0;
   padding: 0;
   min-width: 0;
+
+  @include mobile-only {
+    display: none;
+  }
 }
 
 .amenity {

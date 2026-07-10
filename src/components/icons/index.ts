@@ -5,6 +5,7 @@ export { EveIcon } from './EveIcon';
 export { HeartIcon } from './HeartIcon';
 export { LeafIcon } from './LeafIcon';
 export { LocationMetaIcon } from './LocationMetaIcon';
+export { MenuIcon } from './MenuIcon';
 export { LocationPinIcon } from './LocationPinIcon';
 export { LogoIcon } from './LogoIcon';
 export { PriceTagIcon } from './PriceTagIcon';

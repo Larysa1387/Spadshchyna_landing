@@ -1,5 +1,17 @@
 @use 'tokens' as *;
 
+@mixin mobile-only {
+  @media (max-width: ($breakpoint-tablet - 1px)) {
+    @content;
+  }
+}
+
+@mixin until-tablet {
+  @include mobile-only {
+    @content;
+  }
+}
+
 @mixin tablet-up {
   @media (min-width: $breakpoint-tablet) {
     @content;

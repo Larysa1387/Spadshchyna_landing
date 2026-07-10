@@ -58,6 +58,25 @@ export function HomePage() {
             ))}
           </h1>
 
+          <article
+            className={styles.heroPillar}
+            aria-labelledby="hero-pillar-title"
+          >
+            <LogoIcon
+              className={styles.heroPillarIcon}
+              fill={PILLAR_ICON_COLORS[0]}
+            />
+            <div className={styles.heroPillarContent}>
+              <h2 id="hero-pillar-title" className={styles.heroPillarTitle}>
+                {homePage.howItWorks.pillars[0].title}
+              </h2>
+              <PillarDescription
+                description={homePage.howItWorks.pillars[0].description}
+                index={0}
+              />
+            </div>
+          </article>
+
           <div className={styles.heroOrnament} aria-hidden>
             <LogoIcon
               className={styles.heroOrnamentIcon}
@@ -144,9 +163,14 @@ export function HomePage() {
             aria-hidden
           />
           <span className={styles.quoteContent}>
-            {homePage.quote.before}{' '}
-            <em className={styles.quoteEmphasis}>{homePage.quote.emphasis}</em>{' '}
-            {homePage.quote.after}
+            <span className={styles.quoteLine}>{homePage.quote.line1}</span>
+            <span className={styles.quoteLine}>
+              {homePage.quote.line2Prefix}{' '}
+              <em className={styles.quoteEmphasis}>
+                {homePage.quote.emphasis}
+              </em>{' '}
+              {homePage.quote.after}
+            </span>
           </span>
           <img
             className={`${styles.quoteMark} ${styles.quoteMarkClosing}`}
