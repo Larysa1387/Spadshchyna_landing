@@ -255,6 +255,20 @@
   margin-bottom: $space-5;
 }
 
+.sliderWrapDisabled {
+  opacity: 0.75;
+  pointer-events: none;
+  user-select: none;
+
+  .sliderTrack {
+    cursor: not-allowed;
+  }
+
+  .sliderThumb {
+    cursor: not-allowed;
+  }
+}
+
 .sliderTrack {
   position: relative;
   height: 1rem;
@@ -311,6 +325,10 @@
 
   &:active {
     cursor: grabbing;
+  }
+
+  &:disabled {
+    cursor: not-allowed;
   }
 }
 

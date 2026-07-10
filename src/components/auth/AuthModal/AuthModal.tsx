@@ -1,4 +1,6 @@
 import { useEffect, useId, useRef, useState, type FormEvent } from 'react';
+import { Link } from 'react-router-dom';
+import { paths } from '@/app/paths';
 import { auth as authCopy } from '@/content/designContent';
 import type { AuthModalMode } from '@/features/auth/authContext';
 import styles from './AuthModal.module.scss';
@@ -266,9 +268,13 @@ export function AuthModal({
           </div>
 
           {mode === 'login' && (
-            <a className={styles.forgotLink} href="#">
+            <Link
+              className={styles.forgotLink}
+              to={paths.forgotPassword}
+              onClick={onClose}
+            >
               {authCopy.login.forgotPassword}
-            </a>
+            </Link>
           )}
 
           {error && (

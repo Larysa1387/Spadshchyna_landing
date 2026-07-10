@@ -7,4 +7,6 @@ export const paths = {
   checkout: '/checkout',
   bookingConfirmed: '/booking-confirmed',
   bookingSuccess: '/booking/success',
+  forgotPassword: '/forgot-password',
+  resetPassword: '/reset-password',
 } as const;

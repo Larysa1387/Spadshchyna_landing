@@ -17,7 +17,6 @@ import {
 } from '@/api/authStorage';
 import { getApiErrorMessage, isUnauthorizedError } from '@/api/client';
 import type { LoginRequest, RegisterRequest } from '@/api/types';
-import { AuthModal } from '@/components/auth/AuthModal/AuthModal';
 import { AuthContext, type AuthModalMode } from './authContext';
 
 export function AuthProvider({ children }: { children: ReactNode }) {
@@ -178,21 +177,5 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     ],
   );
 
-  return (
-    <AuthContext.Provider value={value}>
-      {children}
-      {authModal && (
-        <AuthModal
-          mode={authModal}
-          error={authError}
-          isSubmitting={isSubmitting}
-          onClose={closeAuthModal}
-          onSwitchMode={switchAuthModal}
-          onLogin={async (email, password) => login({ email, password })}
-          onRegister={register}
-          onClearError={clearAuthError}
-        />
-      )}
-    </AuthContext.Provider>
-  );
+  return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 }

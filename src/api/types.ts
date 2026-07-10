@@ -57,6 +57,16 @@ export type RegisterRequest = {
   password: string;
 };
 
+export type ForgotPasswordRequest = {
+  email: string;
+};
+
+export type ResetPasswordRequest = {
+  email: string;
+  code: string;
+  new_password: string;
+};
+
 export type UserResponse = {
   id: number;
   first_name: string;

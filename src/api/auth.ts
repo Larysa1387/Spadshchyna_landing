@@ -1,8 +1,11 @@
 import { apiClient } from './client';
 import { clearTokens, setTokens } from './authStorage';
 import type {
+  ForgotPasswordRequest,
   LoginRequest,
+  MessageResponse,
   RegisterRequest,
+  ResetPasswordRequest,
   TokenResponse,
   UserResponse,
 } from './types';
@@ -37,5 +40,25 @@ export async function logout(): Promise<void> {
 
 export async function getCurrentUser(): Promise<UserResponse> {
   const { data } = await apiClient.get<UserResponse>('/api/v1/auth/me');
+  return data;
+}
+
+export async function forgotPassword(
+  payload: ForgotPasswordRequest,
+): Promise<MessageResponse> {
+  const { data } = await apiClient.post<MessageResponse>(
+    '/api/v1/auth/forgot-password',
+    payload,
+  );
+  return data;
+}
+
+export async function resetPassword(
+  payload: ResetPasswordRequest,
+): Promise<MessageResponse> {
+  const { data } = await apiClient.post<MessageResponse>(
+    '/api/v1/auth/reset-password',
+    payload,
+  );
   return data;
 }

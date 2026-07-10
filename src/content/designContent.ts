@@ -40,6 +40,33 @@ export const auth = {
   close: 'Close dialog',
   showPassword: 'Show password',
   hidePassword: 'Hide password',
+  forgotPasswordPage: {
+    title: 'Reset your password',
+    description:
+      'Enter your email and we will send you a 6-digit code to reset your password.',
+    email: 'Email',
+    submit: 'Send reset code',
+    success:
+      'If this email is registered, a reset code has been sent. Check your inbox.',
+    continue: 'Enter reset code',
+    backToSignIn: 'Back to sign in',
+  },
+  resetPasswordPage: {
+    title: 'Create a new password',
+    description:
+      'Enter the 6-digit code from your email and choose a new password.',
+    email: 'Email',
+    code: 'Reset code',
+    codeHint: '6-digit code from your email',
+    newPassword: 'New password',
+    confirmPassword: 'Confirm new password',
+    submit: 'Reset password',
+    success: 'Your password has been reset. You can now sign in.',
+    signIn: 'Sign in',
+    backToRequest: 'Request a new code',
+    passwordMismatch: 'Passwords do not match.',
+    invalidCode: 'Enter the 6-digit code from your email.',
+  },
 } as const;
 
 export const productPage = {
@@ -287,6 +314,7 @@ export const userPage = {
   hostedBy: (name: string) => `Hosted by ${name}`,
   guests: (count: number) => `${count} guests`,
   noUpcoming: 'No upcoming stays yet.',
+  browseArchive: 'Discover Homesteads Archive',
   noPast: 'No past journeys yet.',
   impact: {
     title: 'Impact You Made',

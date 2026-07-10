@@ -209,6 +209,27 @@ function SectionTitle({ children }: { children: string }) {
   );
 }
 
+const FAVOURITES_ROW_SLOTS = 5;
+
+function AddFavouriteCardItem() {
+  return (
+    <li>
+      <Link
+        to={`${paths.home}#archive`}
+        className={styles.addFavouriteCard}
+        aria-label={userPage.addFavourite}
+      >
+        <span className={styles.addFavouritePlus} aria-hidden>
+          +
+        </span>
+        <span className={styles.favouriteHeart} aria-hidden>
+          <HeartIcon className={styles.favouriteHeartIcon} size={14} />
+        </span>
+      </Link>
+    </li>
+  );
+}
+
 export function UserPage() {
   const { isAuthenticated, isInitializing, user, openLoginModal } = useAuth();
   const { favourites } = useFavourites();
@@ -450,7 +471,15 @@ export function UserPage() {
             {isLoadingDashboard ? (
               <p className={styles.status}>Loading…</p>
             ) : !upcomingStay ? (
-              <p className={styles.status}>{userPage.noUpcoming}</p>
+              <div className={styles.upcomingEmpty}>
+                <p className={styles.status}>{userPage.noUpcoming}</p>
+                <Link
+                  to={`${paths.home}#archive`}
+                  className={styles.primaryBtn}
+                >
+                  {userPage.browseArchive}
+                </Link>
+              </div>
             ) : (
               <article className={styles.upcomingCard}>
                 <img
@@ -489,6 +518,7 @@ export function UserPage() {
                             checkIn: upcomingStay.check_in,
                             checkOut: upcomingStay.check_out,
                             guests: String(upcomingStay.guests),
+                            mode: 'view',
                           }).toString()}`}
                           className={styles.primaryBtn}
                         >
@@ -592,67 +622,62 @@ export function UserPage() {
           </div>
 
           <ul className={styles.favouritesRow}>
-            {favouriteCards.map((homestead) => (
-              <li key={homestead.id}>
-                <article className={styles.favouriteCard}>
-                  <Link
-                    to={paths.homesteadDetail(
-                      String(homestead.homesteadId ?? homestead.id),
-                    )}
-                    className={styles.favouriteImageLink}
-                  >
-                    {homestead.imageUrl ? (
-                      <img src={homestead.imageUrl} alt={homestead.title} />
-                    ) : (
-                      <div
-                        className={styles.favouritePlaceholder}
-                        aria-hidden
-                      />
-                    )}
-                    <span className={styles.favouriteHeart} aria-hidden>
-                      <HeartIcon
-                        filled
-                        className={styles.favouriteHeartIcon}
-                        size={14}
-                      />
-                    </span>
-                  </Link>
-                  <div className={styles.favouriteFooter}>
-                    <Link
-                      to={paths.homesteadDetail(
-                        String(homestead.homesteadId ?? homestead.id),
-                      )}
-                      className={styles.favouriteTitle}
-                    >
-                      {homestead.title}
-                    </Link>
-                    <Link
-                      to={paths.homesteadDetail(
-                        String(homestead.homesteadId ?? homestead.id),
-                      )}
-                      className={styles.favouriteArrow}
-                      aria-label={`View ${homestead.title}`}
-                    >
-                      <DetailsArrowIcon width={18} height={6} />
-                    </Link>
-                  </div>
-                </article>
-              </li>
-            ))}
-            <li>
-              <Link
-                to={paths.home}
-                className={styles.addFavouriteCard}
-                aria-label={userPage.addFavourite}
-              >
-                <span className={styles.addFavouritePlus} aria-hidden>
-                  +
-                </span>
-                <span className={styles.favouriteHeart} aria-hidden>
-                  <HeartIcon className={styles.favouriteHeartIcon} size={14} />
-                </span>
-              </Link>
-            </li>
+            {favouriteCards.length === 0 ? (
+              Array.from({ length: FAVOURITES_ROW_SLOTS }, (_, index) => (
+                <AddFavouriteCardItem key={`add-favourite-empty-${index}`} />
+              ))
+            ) : (
+              <>
+                {favouriteCards.map((homestead) => (
+                  <li key={homestead.id}>
+                    <article className={styles.favouriteCard}>
+                      <Link
+                        to={paths.homesteadDetail(
+                          String(homestead.homesteadId ?? homestead.id),
+                        )}
+                        className={styles.favouriteImageLink}
+                      >
+                        {homestead.imageUrl ? (
+                          <img src={homestead.imageUrl} alt={homestead.title} />
+                        ) : (
+                          <div
+                            className={styles.favouritePlaceholder}
+                            aria-hidden
+                          />
+                        )}
+                        <span className={styles.favouriteHeart} aria-hidden>
+                          <HeartIcon
+                            filled
+                            className={styles.favouriteHeartIcon}
+                            size={14}
+                          />
+                        </span>
+                      </Link>
+                      <div className={styles.favouriteFooter}>
+                        <Link
+                          to={paths.homesteadDetail(
+                            String(homestead.homesteadId ?? homestead.id),
+                          )}
+                          className={styles.favouriteTitle}
+                        >
+                          {homestead.title}
+                        </Link>
+                        <Link
+                          to={paths.homesteadDetail(
+                            String(homestead.homesteadId ?? homestead.id),
+                          )}
+                          className={styles.favouriteArrow}
+                          aria-label={`View ${homestead.title}`}
+                        >
+                          <DetailsArrowIcon width={18} height={6} />
+                        </Link>
+                      </div>
+                    </article>
+                  </li>
+                ))}
+                <AddFavouriteCardItem key="add-favourite" />
+              </>
+            )}
           </ul>
         </section>
 

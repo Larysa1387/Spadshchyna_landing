@@ -1,6 +1,13 @@
 export { API_BASE_URL } from './config';
 export { apiClient, getApiErrorMessage } from './client';
-export { login, register, logout, getCurrentUser } from './auth';
+export {
+  login,
+  register,
+  logout,
+  getCurrentUser,
+  forgotPassword,
+  resetPassword,
+} from './auth';
 export {
   getAccessToken,
   getRefreshToken,
@@ -33,6 +40,8 @@ export type {
   TokenResponse,
   LoginRequest,
   RegisterRequest,
+  ForgotPasswordRequest,
+  ResetPasswordRequest,
   UserResponse,
   ApiErrorDetail,
   CheckAvailabilityRequest,

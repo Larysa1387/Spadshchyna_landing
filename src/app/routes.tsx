@@ -6,6 +6,8 @@ import { ProductPage } from '@/pages/ProductPage/ProductPage';
 import { CheckoutPage } from '@/pages/CheckoutPage/CheckoutPage';
 import { BookingConfirmedPage } from '@/pages/BookingConfirmedPage/BookingConfirmedPage';
 import { UserPage } from '@/pages/UserPage/UserPage';
+import { ForgotPasswordPage } from '@/pages/ForgotPasswordPage/ForgotPasswordPage';
+import { ResetPasswordPage } from '@/pages/ResetPasswordPage/ResetPasswordPage';
 import { paths } from './paths';
 
 const basename =
@@ -28,6 +30,8 @@ export const router = createBrowserRouter(
         { path: paths.checkout, element: <CheckoutPage /> },
         { path: paths.bookingConfirmed, element: <BookingConfirmedPage /> },
         { path: paths.bookingSuccess, element: <BookingConfirmedPage /> },
+        { path: paths.forgotPassword, element: <ForgotPasswordPage /> },
+        { path: paths.resetPassword, element: <ResetPasswordPage /> },
         { path: '*', element: <Navigate to={paths.home} replace /> },
       ],
     },

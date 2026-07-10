@@ -111,17 +111,23 @@ function DonationSlider({
   onChange,
   markers,
   label,
+  disabled = false,
 }: {
   value: number;
   onChange: (nextValue: number) => void;
   markers: readonly number[];
   label: string;
+  disabled?: boolean;
 }) {
   const trackRef = useRef<HTMLDivElement>(null);
   const isDraggingRef = useRef(false);
 
   const setValueFromClientX = useCallback(
     (clientX: number) => {
+      if (disabled) {
+        return;
+      }
+
       const track = trackRef.current;
       if (!track) {
         return;
@@ -131,17 +137,21 @@ function DonationSlider({
       const ratio = Math.min(1, Math.max(0, (clientX - left) / width));
       onChange(Math.round(ratio * 100));
     },
-    [onChange],
+    [disabled, onChange],
   );
 
   const handlePointerDown = (event: React.PointerEvent<HTMLDivElement>) => {
+    if (disabled) {
+      return;
+    }
+
     event.currentTarget.setPointerCapture(event.pointerId);
     isDraggingRef.current = true;
     setValueFromClientX(event.clientX);
   };
 
   const handlePointerMove = (event: React.PointerEvent<HTMLDivElement>) => {
-    if (!isDraggingRef.current) {
+    if (disabled || !isDraggingRef.current) {
       return;
     }
 
@@ -153,6 +163,10 @@ function DonationSlider({
   };
 
   const handleKeyDown = (event: React.KeyboardEvent<HTMLButtonElement>) => {
+    if (disabled) {
+      return;
+    }
+
     if (event.key === 'ArrowRight' || event.key === 'ArrowUp') {
       event.preventDefault();
       onChange(Math.min(100, value + 1));
@@ -165,14 +179,18 @@ function DonationSlider({
   };
 
   return (
-    <div className={styles.sliderWrap}>
+    <div
+      className={`${styles.sliderWrap}${
+        disabled ? ` ${styles.sliderWrapDisabled}` : ''
+      }`}
+    >
       <div
         ref={trackRef}
         className={styles.sliderTrack}
-        onPointerDown={handlePointerDown}
-        onPointerMove={handlePointerMove}
-        onPointerUp={handlePointerUp}
-        onPointerCancel={handlePointerUp}
+        onPointerDown={disabled ? undefined : handlePointerDown}
+        onPointerMove={disabled ? undefined : handlePointerMove}
+        onPointerUp={disabled ? undefined : handlePointerUp}
+        onPointerCancel={disabled ? undefined : handlePointerUp}
       >
         <div className={styles.sliderFill} style={{ width: `${value}%` }} />
         {markers.map((marker) => (
@@ -192,6 +210,9 @@ function DonationSlider({
           aria-valuemax={100}
           aria-valuenow={value}
           aria-label={label}
+          aria-disabled={disabled}
+          disabled={disabled}
+          tabIndex={disabled ? -1 : 0}
           onKeyDown={handleKeyDown}
         />
       </div>
@@ -485,6 +506,7 @@ const trustIcons = [LockIcon, ShieldIcon, HeartIcon, RatingStarIcon] as const;
 export function CheckoutPage() {
   const [searchParams] = useSearchParams();
   const homesteadIdParam = searchParams.get('homesteadId');
+  const isViewMode = searchParams.get('mode') === 'view';
   const {
     homestead,
     isLoading: isHomesteadLoading,
@@ -811,6 +833,7 @@ export function CheckoutPage() {
                 onChange={setDonationPct}
                 markers={DONATION_MARKERS}
                 label={checkout.donation.subtitle}
+                disabled={isViewMode}
               />
 
               <aside className={styles.impactBox}>
@@ -921,7 +944,7 @@ export function CheckoutPage() {
               </div>
             </div>
 
-            {!availability.available && (
+            {!availability.available && !isViewMode && (
               <p className={styles.unavailableNotice} role="alert">
                 {checkout.unavailable}
               </p>
@@ -992,7 +1015,7 @@ export function CheckoutPage() {
               type="button"
               className={styles.payBtn}
               onClick={() => void handlePay()}
-              disabled={!availability.available || isPaying}
+              disabled={isViewMode || !availability.available || isPaying}
             >
               <LockIcon className={styles.payBtnIcon} size={18} filled />
               <span>
