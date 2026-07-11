@@ -55,6 +55,11 @@
   margin-inline: $space-3 $space-4;
   background-color: #8f8044;
 
+  @include mobile-only {
+    height: 2rem;
+    margin-inline: $space-2 $space-3;
+  }
+
   @include desktop-up {
     height: 3rem;
   }
@@ -65,6 +70,11 @@
   width: 2.5rem;
   height: 2.5rem;
   object-fit: contain;
+
+  @include mobile-only {
+    width: 2rem;
+    height: 2rem;
+  }
 }
 
 .logoTextImage {
@@ -75,8 +85,8 @@
   object-position: left center;
 
   @include mobile-only {
-    height: 2.25rem;
-    max-width: min(12rem, 48vw);
+    height: 2rem;
+    max-width: min(9.5rem, 38vw);
   }
 
   @include desktop-up {
@@ -101,6 +111,12 @@
   &:hover {
     color: #8f8044;
   }
+}
+
+.mobileActions {
+  display: flex;
+  align-items: center;
+  gap: $space-2;
 
   @include tablet-up {
     display: none;
@@ -224,6 +240,12 @@
   color: $color-brand-accent;
   border-color: #c1b6a4;
   background: #efe6d8;
+}
+
+.navIconLinkInNav {
+  @include mobile-only {
+    display: none;
+  }
 }
 
 .navIcon {

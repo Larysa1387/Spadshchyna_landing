@@ -73,6 +73,13 @@ $picker-radius: 6px;
   box-shadow: 0 8px 24px rgba(58, 41, 27, 0.12);
 }
 
+.popupAbove {
+  @include mobile-only {
+    top: auto;
+    bottom: calc(100% + $space-2);
+  }
+}
+
 .header {
   display: flex;
   align-items: center;
@@ -210,5 +217,22 @@ $picker-radius: 6px;
   &:disabled {
     opacity: 0.4;
     cursor: not-allowed;
+  }
+}
+
+@include mobile-only {
+  .root {
+    background: transparent;
+  }
+
+  .trigger {
+    background: transparent;
+    border: none;
+    border-radius: 0;
+  }
+
+  .popup {
+    z-index: 30;
+    width: min(17.5rem, calc(100vw - 2rem));
   }
 }

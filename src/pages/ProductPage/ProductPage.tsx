@@ -353,6 +353,9 @@ export function ProductPage() {
     type: 'error' | 'unavailable';
     text: string;
   } | null>(null);
+  const [activeTab, setActiveTab] = useState<'about' | 'amenities' | 'reviews'>(
+    'about',
+  );
 
   useEffect(() => {
     const prefersReducedMotion = window.matchMedia(
@@ -460,6 +463,45 @@ export function ProductPage() {
       showPhotoAtIndex(activePhotoIndex + 1);
     }
   };
+
+  const touchStartXRef = useRef<number | null>(null);
+
+  const handleMainTouchStart = useCallback(
+    (event: React.TouchEvent<HTMLDivElement>) => {
+      touchStartXRef.current = event.changedTouches[0]?.clientX ?? null;
+    },
+    [],
+  );
+
+  const handleMainTouchEnd = useCallback(
+    (event: React.TouchEvent<HTMLDivElement>) => {
+      const startX = touchStartXRef.current;
+
+      if (startX === null) {
+        return;
+      }
+
+      const endX = event.changedTouches[0]?.clientX ?? startX;
+      const deltaX = endX - startX;
+      touchStartXRef.current = null;
+
+      if (Math.abs(deltaX) < 40) {
+        return;
+      }
+
+      if (deltaX < 0) {
+        if (activePhotoIndex < photos.length - 1) {
+          showPhotoAtIndex(activePhotoIndex + 1);
+        }
+        return;
+      }
+
+      if (activePhotoIndex > 0) {
+        showPhotoAtIndex(activePhotoIndex - 1);
+      }
+    },
+    [activePhotoIndex, photos.length, showPhotoAtIndex],
+  );
 
   useEffect(() => {
     updateThumbsScrollState();
@@ -656,8 +698,14 @@ export function ProductPage() {
                   aria-label="Photo gallery"
                   onScroll={updateThumbsScrollState}
                 >
-                  {photos.map((photo) => (
-                    <li key={photo.id} data-photo-id={photo.id}>
+                  {photos.map((photo, index) => (
+                    <li
+                      key={photo.id}
+                      data-photo-id={photo.id}
+                      className={
+                        index >= 4 ? styles.galleryThumbHiddenMobile : undefined
+                      }
+                    >
                       <button
                         type="button"
                         className={`${styles.galleryThumb}${
@@ -689,7 +737,11 @@ export function ProductPage() {
               </div>
             )}
 
-            <div className={styles.galleryMainSlider}>
+            <div
+              className={styles.galleryMainSlider}
+              onTouchStart={handleMainTouchStart}
+              onTouchEnd={handleMainTouchEnd}
+            >
               {photos.length > 1 && (
                 <>
                   <button
@@ -748,7 +800,10 @@ export function ProductPage() {
             </div>
 
             {homestead.featured_amenities.length > 0 && (
-              <ul className={styles.badges} aria-label="Property highlights">
+              <ul
+                className={`${styles.badges} ${styles.galleryBadges}`}
+                aria-label="Property highlights"
+              >
                 {homestead.featured_amenities.map((amenity, index) => (
                   <li key={amenity.id} className={styles.badge}>
                     <LogoIcon
@@ -782,7 +837,7 @@ export function ProductPage() {
                   className={styles.ratingStar}
                 />
                 <data className={styles.ratingValue} value={homestead.rating}>
-                  {homestead.rating.toFixed(1)}
+                  {homestead.rating.toFixed(2)}
                 </data>
                 <span className={styles.ratingCount}>
                   ({homestead.review_count} {productPage.reviewsLabel})
@@ -793,186 +848,162 @@ export function ProductPage() {
               </p>
             </header>
 
-            <div className={styles.pricing}>
-              <p className={styles.price}>
-                <data value={homestead.pricing.price_per_night}>
-                  {homestead.pricing.price_per_night}
-                </data>
-                <span className={styles.priceNote}>
-                  {' '}
-                  {productPage.priceSuffix}
-                </span>
-              </p>
-              <p className={styles.priceDetail}>
-                {productPage.priceNote(homestead.pricing.base_guests)}
-              </p>
-            </div>
-
-            <form
-              className={styles.bookingForm}
-              aria-label="Check availability"
-            >
-              <div className={styles.bookingFields}>
-                <div className={styles.bookingDates}>
-                  <BookingDatePicker
-                    label={productPage.booking.checkIn}
-                    value={checkIn}
-                    min={todayIso()}
-                    placeholder={productPage.booking.addDate}
-                    onChange={handleCheckInChange}
-                  />
-                  <BookingDatePicker
-                    label={productPage.booking.checkOut}
-                    value={checkOut}
-                    min={checkIn ? addDays(checkIn, 1) : todayIso()}
-                    placeholder={productPage.booking.addDate}
-                    disabled={!checkIn}
-                    onChange={handleCheckOutChange}
-                  />
+            <div className={styles.bookingPanel}>
+              <div className={styles.bookingCard}>
+                <div className={styles.pricing}>
+                  <p className={styles.price}>
+                    <data value={homestead.pricing.price_per_night}>
+                      {homestead.pricing.price_per_night}
+                    </data>
+                    <span className={styles.priceNote}>
+                      {' '}
+                      {productPage.priceSuffix}
+                    </span>
+                  </p>
+                  <p className={styles.priceDetail}>
+                    {productPage.priceNote(homestead.pricing.base_guests)}
+                  </p>
                 </div>
 
-                <div
-                  className={styles.bookingFieldGuests}
-                  role="group"
-                  aria-label={productPage.booking.guests}
-                >
-                  <span className={styles.bookingFieldGuestsLabel}>
-                    {productPage.booking.guests}
-                  </span>
-                  <div className={styles.guestStepper}>
-                    <button
-                      type="button"
-                      className={styles.guestStepperBtn}
-                      onClick={decreaseGuests}
-                      disabled={guests <= minGuests}
-                      aria-label={productPage.booking.decreaseGuests}
-                    >
-                      −
-                    </button>
-                    <span
-                      className={styles.guestStepperValue}
-                      aria-live="polite"
-                      aria-atomic="true"
-                    >
-                      {guests}
+                <div className={styles.bookingFields}>
+                  <div className={styles.bookingDates}>
+                    <BookingDatePicker
+                      label={productPage.booking.checkIn}
+                      value={checkIn}
+                      min={todayIso()}
+                      placeholder={productPage.booking.addDate}
+                      onChange={handleCheckInChange}
+                    />
+                    <BookingDatePicker
+                      label={productPage.booking.checkOut}
+                      value={checkOut}
+                      min={checkIn ? addDays(checkIn, 1) : todayIso()}
+                      placeholder={productPage.booking.addDate}
+                      disabled={!checkIn}
+                      onChange={handleCheckOutChange}
+                    />
+                  </div>
+
+                  <div
+                    className={styles.bookingFieldGuests}
+                    role="group"
+                    aria-label={productPage.booking.guests}
+                  >
+                    <span className={styles.bookingFieldGuestsLabel}>
+                      {productPage.booking.guests}
                     </span>
-                    <button
-                      type="button"
-                      className={styles.guestStepperBtn}
-                      onClick={increaseGuests}
-                      disabled={guests >= maxGuests}
-                      aria-label={productPage.booking.increaseGuests}
+                    <select
+                      className={styles.guestSelect}
+                      value={guests}
+                      aria-label={productPage.booking.guests}
+                      onChange={(event) =>
+                        setGuests(Number.parseInt(event.target.value, 10))
+                      }
                     >
-                      +
-                    </button>
+                      {Array.from({ length: maxGuests }, (_, index) => {
+                        const count = index + 1;
+
+                        return (
+                          <option key={count} value={count}>
+                            {productPage.booking.guestsValue(count)}
+                          </option>
+                        );
+                      })}
+                    </select>
+                    <div className={styles.guestStepper}>
+                      <button
+                        type="button"
+                        className={styles.guestStepperBtn}
+                        onClick={decreaseGuests}
+                        disabled={guests <= minGuests}
+                        aria-label={productPage.booking.decreaseGuests}
+                      >
+                        −
+                      </button>
+                      <span
+                        className={styles.guestStepperValue}
+                        aria-live="polite"
+                        aria-atomic="true"
+                      >
+                        {guests}
+                      </span>
+                      <button
+                        type="button"
+                        className={styles.guestStepperBtn}
+                        onClick={increaseGuests}
+                        disabled={guests >= maxGuests}
+                        aria-label={productPage.booking.increaseGuests}
+                      >
+                        +
+                      </button>
+                    </div>
                   </div>
                 </div>
               </div>
 
-              <button
-                type="button"
-                className={styles.bookingBtn}
-                onClick={() => void handleBookingSubmit()}
-                disabled={isCheckingAvailability}
-              >
-                {isCheckingAvailability
-                  ? productPage.booking.checking
-                  : productPage.booking.checkAvailability}
-              </button>
-              {bookingMessage && (
-                <p
-                  className={
-                    bookingMessage.type === 'unavailable'
-                      ? styles.bookingMessageWarning
-                      : styles.bookingMessageError
-                  }
-                  role="alert"
+              <div className={styles.bookingActions}>
+                <button
+                  type="button"
+                  className={styles.bookingBtn}
+                  onClick={() => void handleBookingSubmit()}
+                  disabled={isCheckingAvailability}
                 >
-                  {bookingMessage.text}
-                </p>
-              )}
-              <button
-                type="button"
-                className={`${styles.favoriteBtn}${
-                  favourited ? ` ${styles.favoriteBtnActive}` : ''
-                }`}
-                onClick={() => void toggleFavourite(homestead.id)}
+                  {isCheckingAvailability
+                    ? productPage.booking.checking
+                    : productPage.booking.checkAvailability}
+                </button>
+                {bookingMessage && (
+                  <p
+                    className={
+                      bookingMessage.type === 'unavailable'
+                        ? styles.bookingMessageWarning
+                        : styles.bookingMessageError
+                    }
+                    role="alert"
+                  >
+                    {bookingMessage.text}
+                  </p>
+                )}
+                <button
+                  type="button"
+                  className={`${styles.favoriteBtn}${
+                    favourited ? ` ${styles.favoriteBtnActive}` : ''
+                  }`}
+                  onClick={() => void toggleFavourite(homestead.id)}
+                >
+                  <HeartIcon
+                    filled={favourited}
+                    className={styles.favoriteBtnIcon}
+                  />
+                  {favourited
+                    ? productPage.booking.removeFromFavorites
+                    : productPage.booking.addToFavorites}
+                </button>
+              </div>
+            </div>
+
+            {homestead.featured_amenities.length > 0 && (
+              <ul
+                className={`${styles.badges} ${styles.mobileHighlights}`}
+                aria-label="Property highlights"
               >
-                <HeartIcon
-                  filled={favourited}
-                  className={styles.favoriteBtnIcon}
-                />
-                {favourited
-                  ? productPage.booking.removeFromFavorites
-                  : productPage.booking.addToFavorites}
-              </button>
-            </form>
+                {homestead.featured_amenities.map((amenity, index) => (
+                  <li key={amenity.id} className={styles.badge}>
+                    <LogoIcon
+                      className={styles.pillarIcon}
+                      fill={
+                        PILLAR_ICON_COLORS[index % PILLAR_ICON_COLORS.length]
+                      }
+                      size={18}
+                    />
+                    <span>{amenity.name}</span>
+                  </li>
+                ))}
+              </ul>
+            )}
           </aside>
 
-          <div className={styles.specSidebar}>
-            <section
-              className={styles.hostCard}
-              aria-labelledby="host-card-title"
-            >
-              <div className={styles.hostHeader}>
-                {homestead.host.photo_url ? (
-                  <img
-                    className={styles.hostAvatar}
-                    src={homestead.host.photo_url}
-                    alt=""
-                  />
-                ) : (
-                  <div className={styles.hostAvatarPlaceholder} aria-hidden />
-                )}
-                <div className={styles.hostIntro}>
-                  <h3 id="host-card-title" className={styles.hostName}>
-                    {productPage.host.hostedBy(
-                      formatHostFirstName(homestead.host.name),
-                    )}
-                  </h3>
-                  <p className={styles.hostRole}>{productPage.host.role}</p>
-                </div>
-              </div>
-
-              <ul className={styles.hostDetails}>
-                <li className={styles.hostDetailItem}>
-                  <HostDetailIcon type="bell" />
-                  <span>
-                    {productPage.host.responseTime.prefix}{' '}
-                    <span className={styles.hostDetailHighlight}>
-                      {productPage.host.responseTime.highlight}
-                    </span>
-                  </span>
-                </li>
-                {homestead.host.languages.length > 0 && (
-                  <li className={styles.hostDetailItem}>
-                    <HostDetailIcon type="globe" />
-                    <span className={styles.hostLanguages}>
-                      {productPage.host.languagesLabel}{' '}
-                      <strong>
-                        {formatHostLanguages(homestead.host.languages).join(
-                          ', ',
-                        )}
-                      </strong>
-                    </span>
-                  </li>
-                )}
-                <li className={styles.hostDetailItem}>
-                  <HostDetailIcon type="message" />
-                  <a
-                    className={styles.hostContactLink}
-                    href={`mailto:${productPage.host.contactEmail(formatHostFirstName(homestead.host.name))}`}
-                  >
-                    {productPage.host.contactHost(
-                      productPage.host.contactEmail(
-                        formatHostFirstName(homestead.host.name),
-                      ),
-                    )}
-                  </a>
-                </li>
-              </ul>
-            </section>
-
+          <aside className={styles.specSidebar}>
             <ul
               className={styles.propertyDetails}
               aria-label="Property details"
@@ -1042,61 +1073,187 @@ export function ProductPage() {
                 </div>
               </li>
             </ul>
-          </div>
+
+            <section
+              className={styles.hostCard}
+              aria-labelledby="host-card-title"
+            >
+              <div className={styles.hostHeader}>
+                {homestead.host.photo_url ? (
+                  <img
+                    className={styles.hostAvatar}
+                    src={homestead.host.photo_url}
+                    alt=""
+                  />
+                ) : (
+                  <div className={styles.hostAvatarPlaceholder} aria-hidden />
+                )}
+                <div className={styles.hostIntro}>
+                  <h3 id="host-card-title" className={styles.hostName}>
+                    {productPage.host.hostedBy(
+                      formatHostFirstName(homestead.host.name),
+                    )}
+                  </h3>
+                  <p className={styles.hostRole}>{productPage.host.role}</p>
+                </div>
+              </div>
+
+              <ul className={styles.hostDetails}>
+                <li className={styles.hostDetailItem}>
+                  <HostDetailIcon type="bell" />
+                  <span>
+                    {productPage.host.responseTime.prefix}{' '}
+                    <span className={styles.hostDetailHighlight}>
+                      {productPage.host.responseTime.highlight}
+                    </span>
+                  </span>
+                </li>
+                {homestead.host.languages.length > 0 && (
+                  <li className={styles.hostDetailItem}>
+                    <HostDetailIcon type="globe" />
+                    <span className={styles.hostLanguages}>
+                      {productPage.host.languagesLabel}{' '}
+                      <strong>
+                        {formatHostLanguages(homestead.host.languages).join(
+                          ', ',
+                        )}
+                      </strong>
+                    </span>
+                  </li>
+                )}
+                <li className={styles.hostDetailItem}>
+                  <HostDetailIcon type="message" />
+                  <a
+                    className={styles.hostContactLink}
+                    href={`mailto:${productPage.host.contactEmail(formatHostFirstName(homestead.host.name))}`}
+                  >
+                    {productPage.host.contactHost(
+                      productPage.host.contactEmail(
+                        formatHostFirstName(homestead.host.name),
+                      ),
+                    )}
+                  </a>
+                </li>
+              </ul>
+            </section>
+          </aside>
         </div>
 
         <div className={styles.content}>
-          <section aria-labelledby="about-title">
+          <div
+            className={styles.contentTabs}
+            role="tablist"
+            aria-label="Homestead details"
+          >
+            <button
+              type="button"
+              role="tab"
+              id="tab-about"
+              aria-selected={activeTab === 'about'}
+              aria-controls="panel-about"
+              className={`${styles.contentTab}${
+                activeTab === 'about' ? ` ${styles.contentTabActive}` : ''
+              }`}
+              onClick={() => setActiveTab('about')}
+            >
+              {productPage.tabs.about}
+            </button>
+            <button
+              type="button"
+              role="tab"
+              id="tab-amenities"
+              aria-selected={activeTab === 'amenities'}
+              aria-controls="panel-amenities"
+              className={`${styles.contentTab}${
+                activeTab === 'amenities' ? ` ${styles.contentTabActive}` : ''
+              }`}
+              onClick={() => setActiveTab('amenities')}
+            >
+              {productPage.tabs.amenities}
+            </button>
+            <button
+              type="button"
+              role="tab"
+              id="tab-reviews"
+              aria-selected={activeTab === 'reviews'}
+              aria-controls="panel-reviews"
+              className={`${styles.contentTab}${
+                activeTab === 'reviews' ? ` ${styles.contentTabActive}` : ''
+              }`}
+              onClick={() => setActiveTab('reviews')}
+            >
+              {productPage.tabs.reviews}
+            </button>
+          </div>
+
+          <section
+            id="panel-about"
+            role="tabpanel"
+            aria-labelledby="tab-about"
+            className={`${styles.contentSection}${
+              activeTab === 'about' ? ` ${styles.contentSectionActive}` : ''
+            }`}
+          >
             <SectionHeading id="about-title">
               {productPage.aboutTitle}
             </SectionHeading>
             <p className={styles.aboutText}>{homestead.description}</p>
           </section>
 
-          {homestead.amenities.length > 0 && (
-            <section aria-labelledby="amenities-title">
-              <SectionHeading id="amenities-title">
-                {productPage.amenitiesTitle}
-              </SectionHeading>
-              <ul className={styles.amenities}>
-                {homestead.amenities.map((amenity) => (
-                  <li key={amenity.id} className={styles.amenity}>
-                    <LogoIcon
-                      className={styles.amenityOrnamentIcon}
-                      fill="#b79c73"
-                      size={10}
-                      aria-hidden
-                    />
-                    {amenity.name}
-                  </li>
-                ))}
-              </ul>
-            </section>
-          )}
+          <section
+            id="panel-amenities"
+            role="tabpanel"
+            aria-labelledby="tab-amenities"
+            className={`${styles.contentSection}${
+              activeTab === 'amenities' ? ` ${styles.contentSectionActive}` : ''
+            }`}
+          >
+            <SectionHeading id="amenities-title">
+              {productPage.amenitiesTitle}
+            </SectionHeading>
+            <ul className={styles.amenities}>
+              {homestead.amenities.map((amenity) => (
+                <li key={amenity.id} className={styles.amenity}>
+                  <LogoIcon
+                    className={styles.amenityOrnamentIcon}
+                    fill="#b79c73"
+                    size={10}
+                    aria-hidden
+                  />
+                  {amenity.name}
+                </li>
+              ))}
+            </ul>
+          </section>
 
-          {homestead.reviews.length > 0 && (
-            <section aria-labelledby="reviews-title">
-              <SectionHeading id="reviews-title">
-                {productPage.reviewsTitle}
-              </SectionHeading>
-              <ul className={styles.reviews}>
-                {homestead.reviews.map((review) => (
-                  <li key={review.id}>
-                    <blockquote className={styles.review}>
-                      <p className={styles.reviewTheme}>
-                        <ReviewThemeIcon reviewId={review.id} />
-                        {formatReviewCategory(review.category)}
-                      </p>
-                      <p className={styles.reviewQuote}>{review.text}</p>
-                      <footer className={styles.reviewAuthor}>
-                        - {review.author_name}, {review.country}
-                      </footer>
-                    </blockquote>
-                  </li>
-                ))}
-              </ul>
-            </section>
-          )}
+          <section
+            id="panel-reviews"
+            role="tabpanel"
+            aria-labelledby="tab-reviews"
+            className={`${styles.contentSection}${
+              activeTab === 'reviews' ? ` ${styles.contentSectionActive}` : ''
+            }`}
+          >
+            <SectionHeading id="reviews-title">
+              {productPage.reviewsTitle}
+            </SectionHeading>
+            <ul className={styles.reviews}>
+              {homestead.reviews.map((review) => (
+                <li key={review.id}>
+                  <blockquote className={styles.review}>
+                    <p className={styles.reviewTheme}>
+                      <ReviewThemeIcon reviewId={review.id} />
+                      {formatReviewCategory(review.category)}
+                    </p>
+                    <p className={styles.reviewQuote}>{review.text}</p>
+                    <footer className={styles.reviewAuthor}>
+                      - {review.author_name}, {review.country}
+                    </footer>
+                  </blockquote>
+                </li>
+              ))}
+            </ul>
+          </section>
         </div>
       </div>
 

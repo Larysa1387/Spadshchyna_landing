@@ -4,6 +4,10 @@
 .section {
   @include container;
   margin-top: $space-10;
+
+  @include mobile-only {
+    margin-top: $space-8;
+  }
 }
 
 .heading {
@@ -11,6 +15,11 @@
   align-items: center;
   gap: 1.55rem;
   margin-bottom: $space-6;
+
+  @include mobile-only {
+    gap: $space-3;
+    margin-bottom: $space-5;
+  }
 }
 
 .headingIcon {
@@ -27,6 +36,11 @@
   line-height: 1.15;
   color: $color-text-primary;
   white-space: nowrap;
+
+  @include mobile-only {
+    font-size: 1.375rem;
+    white-space: normal;
+  }
 }
 
 .headingLine {
@@ -43,6 +57,10 @@
   padding: 0;
   list-style: none;
   align-items: stretch;
+
+  @include mobile-only {
+    gap: $space-5;
+  }
 }
 
 .item {

@@ -75,9 +75,14 @@ export const productPage = {
     archive: 'Homesteads',
   },
   aboutTitle: 'About the homestead',
+  tabs: {
+    about: 'About the homestead',
+    amenities: 'Amenities',
+    reviews: 'What guests love',
+  },
   amenitiesTitle: 'Amenities',
   reviewsTitle: 'What guests love',
-  recommendationsTitle: 'You may also like',
+  recommendationsTitle: 'Recommendations For You',
   propertyDetails: {
     location: 'Location',
     houseType: 'House type',

@@ -68,16 +68,31 @@ export function Header() {
           />
         </NavLink>
 
-        <button
-          type="button"
-          className={styles.menuBtn}
-          aria-expanded={menuOpen}
-          aria-controls="main-nav"
-          aria-label={menuOpen ? 'Close menu' : 'Open menu'}
-          onClick={() => setMenuOpen((open) => !open)}
-        >
-          <MenuIcon className={styles.menuIcon} />
-        </button>
+        <div className={styles.mobileActions}>
+          {isAuthenticated && (
+            <NavLink
+              to={paths.dashboard}
+              className={({ isActive }) =>
+                isActive
+                  ? `${styles.navIconLink} ${styles.navIconLinkActive}`
+                  : styles.navIconLink
+              }
+              aria-label={navigation.dashboard}
+            >
+              <PersonIcon className={styles.navIcon} size={18} />
+            </NavLink>
+          )}
+          <button
+            type="button"
+            className={styles.menuBtn}
+            aria-expanded={menuOpen}
+            aria-controls="main-nav"
+            aria-label={menuOpen ? 'Close menu' : 'Open menu'}
+            onClick={() => setMenuOpen((open) => !open)}
+          >
+            <MenuIcon className={styles.menuIcon} />
+          </button>
+        </div>
 
         <nav
           id="main-nav"
@@ -120,8 +135,8 @@ export function Header() {
               to={paths.dashboard}
               className={({ isActive }) =>
                 isActive
-                  ? `${styles.navIconLink} ${styles.navIconLinkActive}`
-                  : styles.navIconLink
+                  ? `${styles.navIconLink} ${styles.navIconLinkInNav} ${styles.navIconLinkActive}`
+                  : `${styles.navIconLink} ${styles.navIconLinkInNav}`
               }
               aria-label={navigation.dashboard}
               onClick={closeMenu}

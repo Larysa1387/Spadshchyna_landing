@@ -16,6 +16,7 @@ type BookingDatePickerProps = {
   min: string;
   placeholder: string;
   disabled?: boolean;
+  popupPosition?: 'below' | 'above';
   onChange: (value: string) => void;
 };
 
@@ -65,6 +66,7 @@ export function BookingDatePicker({
   min,
   placeholder,
   disabled = false,
+  popupPosition = 'below',
   onChange,
 }: BookingDatePickerProps) {
   const [open, setOpen] = useState(false);
@@ -175,7 +177,9 @@ export function BookingDatePicker({
           id={dialogId}
           role="dialog"
           aria-label={label}
-          className={styles.popup}
+          className={`${styles.popup}${
+            popupPosition === 'above' ? ` ${styles.popupAbove}` : ''
+          }`}
         >
           <div className={styles.header}>
             <button
