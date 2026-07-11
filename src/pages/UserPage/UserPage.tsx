@@ -120,28 +120,7 @@ function SidebarIcon({
   }
 }
 
-function UpcomingMetaIcon({
-  type,
-}: {
-  type: 'calendar' | 'capacity' | 'star';
-}) {
-  if (type === 'star') {
-    return (
-      <svg
-        className={styles.upcomingMetaIcon}
-        viewBox="0 0 12 12"
-        width={14}
-        height={14}
-        aria-hidden
-      >
-        <path
-          d="M6 1.2 7.55 4.35 11 4.85 8.5 7.2 9.1 10.6 6 8.95 2.9 10.6 3.5 7.2 1 4.85 4.45 4.35 6 1.2Z"
-          fill="currentColor"
-        />
-      </svg>
-    );
-  }
-
+function UpcomingMetaIcon({ type }: { type: 'calendar' | 'capacity' }) {
   if (type === 'capacity') {
     const strokeProps = {
       fill: 'none' as const,
@@ -209,7 +188,10 @@ function SectionTitle({ children }: { children: string }) {
   );
 }
 
-const FAVOURITES_ROW_SLOTS = 5;
+const FAVOURITES_ROW_SLOTS_DESKTOP = 5;
+const FAVOURITES_ROW_SLOTS_MOBILE = 2;
+const FAVOURITES_LIMIT_DESKTOP = 4;
+const FAVOURITES_LIMIT_MOBILE = 1;
 
 function AddFavouriteCardItem() {
   return (
@@ -239,6 +221,23 @@ export function UserPage() {
   const [isLoadingDashboard, setIsLoadingDashboard] = useState(false);
   const [totalDonated, setTotalDonated] = useState(0);
   const [totalNights, setTotalNights] = useState(0);
+  const [isMobileViewport, setIsMobileViewport] = useState(
+    () =>
+      typeof window !== 'undefined' &&
+      window.matchMedia('(max-width: 767px)').matches,
+  );
+
+  useEffect(() => {
+    const mediaQuery = window.matchMedia('(max-width: 767px)');
+    const updateViewport = () => setIsMobileViewport(mediaQuery.matches);
+
+    updateViewport();
+    mediaQuery.addEventListener('change', updateViewport);
+
+    return () => {
+      mediaQuery.removeEventListener('change', updateViewport);
+    };
+  }, []);
 
   useEffect(() => {
     if (isInitializing || !isAuthenticated) {
@@ -306,9 +305,19 @@ export function UserPage() {
   }, [isAuthenticated, isInitializing]);
 
   const favouriteCards = useMemo(
-    () => favourites.slice(0, 4).map(mapApiHomesteadToCard),
-    [favourites],
+    () =>
+      favourites
+        .slice(
+          0,
+          isMobileViewport ? FAVOURITES_LIMIT_MOBILE : FAVOURITES_LIMIT_DESKTOP,
+        )
+        .map(mapApiHomesteadToCard),
+    [favourites, isMobileViewport],
   );
+
+  const favouritesRowSlots = isMobileViewport
+    ? FAVOURITES_ROW_SLOTS_MOBILE
+    : FAVOURITES_ROW_SLOTS_DESKTOP;
 
   const upcomingHomesteadId = useMemo(() => {
     if (!upcomingStay) {
@@ -504,10 +513,6 @@ export function UserPage() {
                       <UpcomingMetaIcon type="capacity" />
                       <span>{userPage.guests(upcomingStay.guests)}</span>
                     </li>
-                    <li className={styles.upcomingMetaItem}>
-                      <UpcomingMetaIcon type="star" />
-                      <span>{userPage.hostedBy('Host')}</span>
-                    </li>
                   </ul>
                   <div className={styles.upcomingActions}>
                     {upcomingHomesteadId ? (
@@ -623,7 +628,7 @@ export function UserPage() {
 
           <ul className={styles.favouritesRow}>
             {favouriteCards.length === 0 ? (
-              Array.from({ length: FAVOURITES_ROW_SLOTS }, (_, index) => (
+              Array.from({ length: favouritesRowSlots }, (_, index) => (
                 <AddFavouriteCardItem key={`add-favourite-empty-${index}`} />
               ))
             ) : (
@@ -699,6 +704,10 @@ export function UserPage() {
               <p className={styles.impactNote}>
                 {userPage.impact.donationNote}
               </p>
+            </div>
+
+            <div className={styles.impactMedia}>
+              <img className={styles.impactImage} src={IMPACT_IMAGE} alt="" />
               <div className={styles.impactThanks}>
                 <span className={styles.impactThanksIcon} aria-hidden>
                   <HeartIcon filled size={14} />
@@ -706,8 +715,6 @@ export function UserPage() {
                 <p>{userPage.impact.thankYou}</p>
               </div>
             </div>
-
-            <img className={styles.impactImage} src={IMPACT_IMAGE} alt="" />
 
             <div className={styles.impactActions}>
               <h3>{userPage.impact.supportTitle}</h3>
