@@ -1140,120 +1140,178 @@ export function ProductPage() {
         </div>
 
         <div className={styles.content}>
-          <div
-            className={styles.contentTabs}
-            role="tablist"
-            aria-label="Homestead details"
-          >
-            <button
-              type="button"
-              role="tab"
-              id="tab-about"
-              aria-selected={activeTab === 'about'}
-              aria-controls="panel-about"
-              className={`${styles.contentTab}${
-                activeTab === 'about' ? ` ${styles.contentTabActive}` : ''
-              }`}
-              onClick={() => setActiveTab('about')}
-            >
-              {productPage.tabs.about}
-            </button>
-            <button
-              type="button"
-              role="tab"
-              id="tab-amenities"
-              aria-selected={activeTab === 'amenities'}
-              aria-controls="panel-amenities"
-              className={`${styles.contentTab}${
-                activeTab === 'amenities' ? ` ${styles.contentTabActive}` : ''
-              }`}
-              onClick={() => setActiveTab('amenities')}
-            >
-              {productPage.tabs.amenities}
-            </button>
-            <button
-              type="button"
-              role="tab"
-              id="tab-reviews"
-              aria-selected={activeTab === 'reviews'}
-              aria-controls="panel-reviews"
-              className={`${styles.contentTab}${
-                activeTab === 'reviews' ? ` ${styles.contentTabActive}` : ''
-              }`}
-              onClick={() => setActiveTab('reviews')}
-            >
-              {productPage.tabs.reviews}
-            </button>
+          <div className={styles.contentDesktop}>
+            <section aria-labelledby="about-title">
+              <SectionHeading id="about-title">
+                {productPage.aboutTitle}
+              </SectionHeading>
+              <p className={styles.aboutText}>{homestead.description}</p>
+            </section>
+
+            {homestead.amenities.length > 0 && (
+              <section aria-labelledby="amenities-title">
+                <SectionHeading id="amenities-title">
+                  {productPage.amenitiesTitle}
+                </SectionHeading>
+                <ul className={styles.amenities}>
+                  {homestead.amenities.map((amenity) => (
+                    <li key={amenity.id} className={styles.amenity}>
+                      <LogoIcon
+                        className={styles.amenityOrnamentIcon}
+                        fill="#b79c73"
+                        size={10}
+                        aria-hidden
+                      />
+                      {amenity.name}
+                    </li>
+                  ))}
+                </ul>
+              </section>
+            )}
+
+            {homestead.reviews.length > 0 && (
+              <section aria-labelledby="reviews-title">
+                <SectionHeading id="reviews-title">
+                  {productPage.reviewsTitle}
+                </SectionHeading>
+                <ul className={styles.reviews}>
+                  {homestead.reviews.map((review) => (
+                    <li key={review.id}>
+                      <blockquote className={styles.review}>
+                        <p className={styles.reviewTheme}>
+                          <ReviewThemeIcon reviewId={review.id} />
+                          {formatReviewCategory(review.category)}
+                        </p>
+                        <p className={styles.reviewQuote}>{review.text}</p>
+                        <footer className={styles.reviewAuthor}>
+                          - {review.author_name}, {review.country}
+                        </footer>
+                      </blockquote>
+                    </li>
+                  ))}
+                </ul>
+              </section>
+            )}
           </div>
 
-          <section
-            id="panel-about"
-            role="tabpanel"
-            aria-labelledby="tab-about"
-            className={`${styles.contentSection}${
-              activeTab === 'about' ? ` ${styles.contentSectionActive}` : ''
-            }`}
-          >
-            <SectionHeading id="about-title">
-              {productPage.aboutTitle}
-            </SectionHeading>
-            <p className={styles.aboutText}>{homestead.description}</p>
-          </section>
+          <div className={styles.contentMobile}>
+            <div
+              className={styles.contentTabs}
+              role="tablist"
+              aria-label="Homestead details"
+            >
+              <button
+                type="button"
+                role="tab"
+                id="tab-about"
+                aria-selected={activeTab === 'about'}
+                aria-controls="panel-about"
+                className={`${styles.contentTab}${
+                  activeTab === 'about' ? ` ${styles.contentTabActive}` : ''
+                }`}
+                onClick={() => setActiveTab('about')}
+              >
+                {productPage.tabs.about}
+              </button>
+              <button
+                type="button"
+                role="tab"
+                id="tab-amenities"
+                aria-selected={activeTab === 'amenities'}
+                aria-controls="panel-amenities"
+                className={`${styles.contentTab}${
+                  activeTab === 'amenities' ? ` ${styles.contentTabActive}` : ''
+                }`}
+                onClick={() => setActiveTab('amenities')}
+              >
+                {productPage.tabs.amenities}
+              </button>
+              <button
+                type="button"
+                role="tab"
+                id="tab-reviews"
+                aria-selected={activeTab === 'reviews'}
+                aria-controls="panel-reviews"
+                className={`${styles.contentTab}${
+                  activeTab === 'reviews' ? ` ${styles.contentTabActive}` : ''
+                }`}
+                onClick={() => setActiveTab('reviews')}
+              >
+                {productPage.tabs.reviews}
+              </button>
+            </div>
 
-          <section
-            id="panel-amenities"
-            role="tabpanel"
-            aria-labelledby="tab-amenities"
-            className={`${styles.contentSection}${
-              activeTab === 'amenities' ? ` ${styles.contentSectionActive}` : ''
-            }`}
-          >
-            <SectionHeading id="amenities-title">
-              {productPage.amenitiesTitle}
-            </SectionHeading>
-            <ul className={styles.amenities}>
-              {homestead.amenities.map((amenity) => (
-                <li key={amenity.id} className={styles.amenity}>
-                  <LogoIcon
-                    className={styles.amenityOrnamentIcon}
-                    fill="#b79c73"
-                    size={10}
-                    aria-hidden
-                  />
-                  {amenity.name}
-                </li>
-              ))}
-            </ul>
-          </section>
+            <section
+              id="panel-about"
+              role="tabpanel"
+              aria-labelledby="tab-about"
+              className={`${styles.contentSection}${
+                activeTab === 'about' ? ` ${styles.contentSectionActive}` : ''
+              }`}
+            >
+              <SectionHeading id="about-title-mobile">
+                {productPage.aboutTitle}
+              </SectionHeading>
+              <p className={styles.aboutText}>{homestead.description}</p>
+            </section>
 
-          <section
-            id="panel-reviews"
-            role="tabpanel"
-            aria-labelledby="tab-reviews"
-            className={`${styles.contentSection}${
-              activeTab === 'reviews' ? ` ${styles.contentSectionActive}` : ''
-            }`}
-          >
-            <SectionHeading id="reviews-title">
-              {productPage.reviewsTitle}
-            </SectionHeading>
-            <ul className={styles.reviews}>
-              {homestead.reviews.map((review) => (
-                <li key={review.id}>
-                  <blockquote className={styles.review}>
-                    <p className={styles.reviewTheme}>
-                      <ReviewThemeIcon reviewId={review.id} />
-                      {formatReviewCategory(review.category)}
-                    </p>
-                    <p className={styles.reviewQuote}>{review.text}</p>
-                    <footer className={styles.reviewAuthor}>
-                      - {review.author_name}, {review.country}
-                    </footer>
-                  </blockquote>
-                </li>
-              ))}
-            </ul>
-          </section>
+            <section
+              id="panel-amenities"
+              role="tabpanel"
+              aria-labelledby="tab-amenities"
+              className={`${styles.contentSection}${
+                activeTab === 'amenities'
+                  ? ` ${styles.contentSectionActive}`
+                  : ''
+              }`}
+            >
+              <SectionHeading id="amenities-title-mobile">
+                {productPage.amenitiesTitle}
+              </SectionHeading>
+              <ul className={styles.amenities}>
+                {homestead.amenities.map((amenity) => (
+                  <li key={amenity.id} className={styles.amenity}>
+                    <LogoIcon
+                      className={styles.amenityOrnamentIcon}
+                      fill="#b79c73"
+                      size={10}
+                      aria-hidden
+                    />
+                    {amenity.name}
+                  </li>
+                ))}
+              </ul>
+            </section>
+
+            <section
+              id="panel-reviews"
+              role="tabpanel"
+              aria-labelledby="tab-reviews"
+              className={`${styles.contentSection}${
+                activeTab === 'reviews' ? ` ${styles.contentSectionActive}` : ''
+              }`}
+            >
+              <SectionHeading id="reviews-title-mobile">
+                {productPage.reviewsTitle}
+              </SectionHeading>
+              <ul className={styles.reviews}>
+                {homestead.reviews.map((review) => (
+                  <li key={review.id}>
+                    <blockquote className={styles.review}>
+                      <p className={styles.reviewTheme}>
+                        <ReviewThemeIcon reviewId={review.id} />
+                        {formatReviewCategory(review.category)}
+                      </p>
+                      <p className={styles.reviewQuote}>{review.text}</p>
+                      <footer className={styles.reviewAuthor}>
+                        - {review.author_name}, {review.country}
+                      </footer>
+                    </blockquote>
+                  </li>
+                ))}
+              </ul>
+            </section>
+          </div>
         </div>
       </div>
 

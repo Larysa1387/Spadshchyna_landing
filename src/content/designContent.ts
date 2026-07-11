@@ -152,21 +152,19 @@ export const checkout = {
   trustItems: [
     {
       title: 'Secure payments',
-      description: 'Your data is protected with industry-standard encryption.',
+      description: 'Your data is protected',
     },
     {
       title: 'Verified homesteads',
-      description:
-        'All our homesteads are personally verified for your safety and comfort.',
+      description: 'Personally verified for your safety',
     },
     {
       title: 'Supporting heritage',
-      description:
-        'Every booking helps restore and preserve Ukrainian heritage.',
+      description: 'Every booking helps preserve',
     },
     {
       title: 'Loved by guests',
-      description: "Real reviews from real guests who've stayed with us.",
+      description: 'Real reviews from real guests',
     },
   ],
   donation: {

@@ -33,6 +33,7 @@ import styles from './CheckoutPage.module.scss';
 
 const DEFAULT_DONATION_PCT = 5;
 const DONATION_MARKERS = checkout.donation.sliderMarkers;
+const DONATION_MARKERS_MOBILE = [0, 5, 25, 75, 100] as const;
 const IMPACT_ICON = publicAsset('assets/checkout/impact-icon.png');
 
 function formatHostFirstName(name: string) {
@@ -198,6 +199,7 @@ function DonationSlider({
             key={`tick-${marker}`}
             className={styles.sliderTick}
             style={{ left: `${marker}%` }}
+            data-value={marker}
             aria-hidden
           />
         ))}
@@ -226,6 +228,7 @@ function DonationSlider({
                 : styles.sliderMarker
             }
             style={{ left: `${marker}%` }}
+            data-value={marker}
           >
             {marker}%
           </span>
@@ -528,8 +531,30 @@ export function CheckoutPage() {
   const [isPaying, setIsPaying] = useState(false);
   const [payError, setPayError] = useState<string | null>(null);
   const [pendingPay, setPendingPay] = useState(false);
+  const [isMobileViewport, setIsMobileViewport] = useState(
+    () =>
+      typeof window !== 'undefined' &&
+      window.matchMedia('(max-width: 767px)').matches,
+  );
 
   const { isAuthenticated, isInitializing, openLoginModal } = useAuth();
+
+  useEffect(() => {
+    const mediaQuery = window.matchMedia('(max-width: 767px)');
+    const updateViewport = () => setIsMobileViewport(mediaQuery.matches);
+
+    updateViewport();
+    mediaQuery.addEventListener('change', updateViewport);
+
+    return () => {
+      mediaQuery.removeEventListener('change', updateViewport);
+    };
+  }, []);
+
+  const donationSliderMarkers = useMemo(
+    () => (isMobileViewport ? DONATION_MARKERS_MOBILE : DONATION_MARKERS),
+    [isMobileViewport],
+  );
 
   useEffect(() => {
     if (!homesteadIdParam || Number.isNaN(homesteadId)) {
@@ -831,7 +856,7 @@ export function CheckoutPage() {
               <DonationSlider
                 value={donationPct}
                 onChange={setDonationPct}
-                markers={DONATION_MARKERS}
+                markers={donationSliderMarkers}
                 label={checkout.donation.subtitle}
                 disabled={isViewMode}
               />
@@ -882,7 +907,11 @@ export function CheckoutPage() {
                   const Icon = trustIcons[index] ?? LockIcon;
                   return (
                     <li key={item.title} className={styles.trustItem}>
-                      <Icon className={styles.trustIcon} size={40} />
+                      <Icon
+                        className={styles.trustIcon}
+                        size={40}
+                        aria-hidden
+                      />
                       <strong>{item.title}</strong>
                       <p>{item.description}</p>
                     </li>

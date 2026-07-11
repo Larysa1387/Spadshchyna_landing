@@ -674,6 +674,10 @@
   font-weight: 400;
   line-height: 1.6;
   color: $color-text-secondary;
+
+  @include mobile-only {
+    margin: 63px 0 0;
+  }
 }
 
 .pastEmptyImageWrap {
@@ -964,18 +968,20 @@
 }
 
 .impactIntro {
-  padding: 1.25rem 2.2rem;
-
-  @include mobile-only {
-    padding: 0.55rem 0.8rem;
-  }
-
   h2 {
     margin: 0 0 1.2rem;
     font-family: $font-family-heading;
     font-size: 1.75rem;
     font-weight: 700;
     color: $color-text-primary;
+  }
+
+  @include mobile-only {
+    padding: 0.55rem 0.8rem;
+  }
+
+  @include tablet-up {
+    padding: 1.25rem 2.2rem;
   }
 }
 
@@ -1003,7 +1009,6 @@
 }
 
 .impactNote {
-  margin: 1.05rem 0 1.25rem;
   font-family: $font-family-body;
   font-size: 0.875rem;
   line-height: 1.5;
@@ -1012,12 +1017,18 @@
   @include mobile-only {
     margin: 0.05rem 0 0.05rem;
   }
+
+  @include tablet-up {
+    margin: 1.05rem 0 1.25rem;
+  }
 }
 
 .impactMedia {
-  position: relative;
-  min-height: 14rem;
-  height: 100%;
+  @include mobile-only {
+    position: relative;
+    min-height: 14rem;
+    height: 100%;
+  }
 }
 
 .impactImage {
@@ -1026,26 +1037,15 @@
   min-height: 14rem;
   height: 100%;
   object-fit: cover;
+  align-self: stretch;
 }
 
 .impactThanks {
-  position: absolute;
-  right: $space-4;
-  bottom: $space-4;
-  left: $space-4;
-  z-index: 1;
   display: flex;
   gap: $space-3;
   padding: $space-4;
   border-radius: $radius-lg;
-  background: rgba(#efe6d8, 0.92);
-
-  @include mobile-only {
-    right: -0.25rem;
-    bottom: -0.25rem;
-    left: -0.25rem;
-    opacity: 0.9;
-  }
+  background: #efe6d8;
 
   p {
     margin: 0;
@@ -1053,6 +1053,28 @@
     font-size: 0.8125rem;
     line-height: 1.5;
     color: $color-text-secondary;
+  }
+}
+
+.impactThanksDesktop {
+  @include mobile-only {
+    display: none;
+  }
+}
+
+.impactThanksMobile {
+  @include tablet-up {
+    display: none;
+  }
+
+  @include mobile-only {
+    position: absolute;
+    right: -0.25rem;
+    bottom: -0.25rem;
+    left: -0.25rem;
+    z-index: 1;
+    background: rgba(#efe6d8, 0.92);
+    opacity: 0.9;
   }
 }
 

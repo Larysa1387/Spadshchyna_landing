@@ -5,6 +5,10 @@
 .page {
   padding-block: 38px;
   font-family: $font-family-body;
+
+  @include mobile-only {
+    padding-block: $space-4;
+  }
 }
 
 .pageStatusCenter {
@@ -74,6 +78,12 @@
   gap: $space-2;
   font-family: $font-family-body;
   font-weight: 400;
+
+  @include mobile-only {
+    &:first-child {
+      display: none;
+    }
+  }
 
   span[aria-current='page'] {
     font-weight: 700;
@@ -153,6 +163,10 @@
   font-weight: 700;
   line-height: 1.2;
   color: $color-text-primary;
+
+  @include mobile-only {
+    font-size: 1.075rem;
+  }
 }
 
 .sectionHeadingLine {
@@ -172,6 +186,10 @@
   gap: $space-3;
   margin: 0;
 
+  @include mobile-only {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
   @include tablet-up {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
@@ -186,6 +204,10 @@
 }
 
 .bookingFieldBoxWide {
+  @include mobile-only {
+    grid-column: 1 / -1;
+  }
+
   @include tablet-up {
     grid-column: 1 / -1;
   }
@@ -208,6 +230,10 @@
   font-size: 1rem;
   font-weight: 600;
   color: $color-text-primary;
+
+  @include mobile-only {
+    font-size: 0.8rem;
+  }
 }
 
 .propertyDetailIcon {
@@ -234,6 +260,10 @@
   border: 1px solid #cec5bc;
   border-radius: $radius-lg;
   background: transparent;
+
+  @include mobile-only {
+    padding: $space-4;
+  }
 }
 
 .donationSubtitleRow {
@@ -241,6 +271,10 @@
   align-items: center;
   gap: $space-2;
   margin-bottom: $space-5;
+
+  @include mobile-only {
+    margin-bottom: $space-4;
+  }
 }
 
 .donationSubtitle {
@@ -249,10 +283,19 @@
   font-size: 1.0625rem;
   font-weight: 600;
   color: $color-text-primary;
+
+  @include mobile-only {
+    font-size: 0.9375rem;
+    line-height: 1.45;
+  }
 }
 
 .sliderWrap {
   margin-bottom: $space-5;
+
+  @include mobile-only {
+    margin-bottom: $space-4;
+  }
 }
 
 .sliderWrapDisabled {
@@ -306,6 +349,13 @@
   transform: translate(-50%, -50%);
   pointer-events: none;
   z-index: 1;
+
+  @include mobile-only {
+    &[data-value='0'] {
+      left: 0 !important;
+      transform: translate(0, -50%);
+    }
+  }
 }
 
 .sliderThumb {
@@ -339,12 +389,37 @@
   font-family: $font-family-body;
   font-size: 0.75rem;
   color: $color-text-muted;
+
+  @include mobile-only {
+    font-size: 0.625rem;
+  }
 }
 
 .sliderMarker {
   position: absolute;
   transform: translateX(-50%);
   white-space: nowrap;
+
+  @include mobile-only {
+    &[data-value='0'] {
+      display: none;
+    }
+
+    &[data-value='5'] {
+      left: 5% !important;
+      transform: translateX(-50%);
+    }
+
+    &[data-value='25'] {
+      left: 25% !important;
+      transform: translateX(-50%);
+    }
+
+    &[data-value='100'] {
+      left: 100% !important;
+      transform: translateX(-100%);
+    }
+  }
 }
 
 .sliderMarkerActive {
@@ -361,6 +436,11 @@
   border: 1px solid #ece2cf;
   border-radius: 0.5rem;
   background: #f3f0ea;
+
+  @include mobile-only {
+    align-items: flex-start;
+    padding: $space-3 $space-4;
+  }
 }
 
 .impactIcon {
@@ -368,6 +448,10 @@
   width: 4.5rem;
   height: auto;
   display: block;
+
+  @include mobile-only {
+    width: 2.5rem;
+  }
 }
 
 .impactHeading {
@@ -376,6 +460,10 @@
   font-size: 1rem;
   font-weight: 700;
   color: $color-text-primary;
+
+  @include mobile-only {
+    font-size: 0.9375rem;
+  }
 }
 
 .impactText {
@@ -384,6 +472,11 @@
   font-size: 0.8425rem;
   line-height: 1.55;
   color: #635136;
+
+  @include mobile-only {
+    font-size: 0.8125rem;
+    line-height: 1.5;
+  }
 
   strong {
     font-weight: 700;
@@ -419,6 +512,10 @@
   display: flex;
   flex-direction: column;
   gap: $space-5;
+
+  @include mobile-only {
+    gap: $space-4;
+  }
 }
 
 .trustHeading {
@@ -435,6 +532,17 @@
     color: $color-text-primary;
     white-space: nowrap;
   }
+
+  @include mobile-only {
+    gap: $space-2;
+
+    h2 {
+      font-size: 1.075rem;
+      white-space: normal;
+      text-align: center;
+      line-height: 1.2;
+    }
+  }
 }
 
 .trustHeadingLine {
@@ -442,12 +550,22 @@
   max-width: 13rem;
   height: 2px;
   background: #b79c73;
+
+  @include mobile-only {
+    max-width: 1.75rem;
+  }
 }
 
 .trustPanel {
   border: 1px solid #ece2cf;
   border-radius: 0.75rem;
   background: #f3f0ea;
+
+  @include mobile-only {
+    border: 1px solid #ece2cf;
+    border-radius: 0.75rem;
+    background: #fefdfe;
+  }
 }
 
 .trustGrid {
@@ -458,33 +576,38 @@
   margin: 0;
   padding: 0;
 
+  @include mobile-only {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+
   @include tablet-up {
     grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
 
-  &::before,
-  &::after {
-    content: '';
-    position: absolute;
-    z-index: 1;
-    background: #b79c73;
-    pointer-events: none;
-  }
+    &::before {
+      content: '';
+      position: absolute;
+      z-index: 1;
+      top: 50%;
+      right: 12rem;
+      left: 12rem;
+      height: 2px;
+      background: #b79c73;
+      transform: translateY(-50%);
+      pointer-events: none;
+    }
 
-  &::before {
-    top: 50%;
-    right: 12rem;
-    left: 12rem;
-    height: 2px;
-    transform: translateY(-50%);
-  }
-
-  &::after {
-    top: 4rem;
-    bottom: 4rem;
-    left: 50%;
-    width: 2px;
-    transform: translateX(-50%);
+    &::after {
+      content: '';
+      position: absolute;
+      z-index: 1;
+      top: 4rem;
+      bottom: 4rem;
+      left: 50%;
+      width: 2px;
+      background: #b79c73;
+      transform: translateX(-50%);
+      pointer-events: none;
+    }
   }
 }
 
@@ -511,12 +634,39 @@
     line-height: 1.55;
     color: $color-text-secondary;
   }
+
+  @include mobile-only {
+    padding: $space-3 $space-1;
+    gap: $space-1;
+    border-right: 1px solid #ece2cf;
+
+    &:last-child {
+      border-right: none;
+    }
+
+    strong {
+      font-size: 0.6875rem;
+      line-height: 1.25;
+    }
+
+    p {
+      max-width: none;
+      font-size: 0.625rem;
+      line-height: 1.35;
+      color: $color-text-muted;
+    }
+  }
 }
 
 .trustIcon {
   width: 2.5rem;
   height: 2.5rem;
   color: $color-brand-accent;
+
+  @include mobile-only {
+    width: 1.75rem;
+    height: 1.75rem;
+  }
 }
 
 .sidebar {
@@ -536,6 +686,10 @@
   border: 1px solid #ece2cf;
   border-radius: 0.75rem;
   background: #f3f0ea;
+
+  @include mobile-only {
+    padding: 0.65rem;
+  }
 }
 
 .summaryTop {
@@ -569,6 +723,10 @@
   font-weight: 700;
   line-height: 1.15;
   color: #3a291b;
+
+  @include mobile-only {
+    font-size: 1.35rem;
+  }
 }
 
 .summaryLocation {
@@ -585,6 +743,11 @@
   align-items: flex-start;
   gap: $space-3;
   margin-bottom: $space-4;
+
+  @include mobile-only {
+    gap: 0.75rem;
+    margin-bottom: 0.3rem;
+  }
 }
 
 .summaryMetaIcon {
@@ -711,6 +874,11 @@
   font-size: 1.375rem;
   font-weight: 700;
   color: $color-text-primary;
+
+  @include mobile-only {
+    gap: 1rem;
+    font-size: 1.075rem;
+  }
 }
 
 .vatNote {
@@ -722,6 +890,11 @@
   font-size: 0.95rem;
   font-weight: 500;
   color: #7c6544;
+
+  @include mobile-only {
+    margin: 0;
+    font-size: 0.85rem;
+  }
 }
 
 .payBtn {
@@ -751,6 +924,10 @@
   display: flex;
   align-items: center;
   gap: $space-4;
+
+  @include mobile-only {
+    background: transparent;
+  }
 
   h3 {
     margin: 0 0 $space-1;

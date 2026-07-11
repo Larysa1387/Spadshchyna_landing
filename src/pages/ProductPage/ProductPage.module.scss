@@ -98,13 +98,32 @@ $gallery-sync-height-with-arrow: calc(
 .content {
   display: flex;
   flex-direction: column;
-  gap: 0;
   min-width: 0;
 
   @include desktop-up {
     grid-column: 1;
     grid-row: 2;
     max-width: calc(9.375rem + #{$gallery-column-gap} + 35.8125rem);
+  }
+}
+
+.contentDesktop {
+  display: none;
+  flex-direction: column;
+  gap: 2.1rem;
+
+  @include tablet-up {
+    display: flex;
+  }
+}
+
+.contentMobile {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+
+  @include tablet-up {
+    display: none;
   }
 
   .sectionHeading {
@@ -1509,20 +1528,14 @@ $section-content-offset: calc(0.875rem + 1.55rem);
 }
 
 .mobileHighlights {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: $space-6 $space-8;
-  width: 100%;
+  display: none;
+  list-style: none;
   margin: 0;
   padding: 0;
-  list-style: none;
 }
 
 .galleryBadges {
-  display: flex;
-
-  @include desktop-up {
+  @include mobile-only {
     display: none;
   }
 }

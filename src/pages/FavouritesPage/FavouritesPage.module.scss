@@ -4,6 +4,10 @@
 
 .page {
   padding-block: 3rem;
+
+  @include mobile-only {
+    padding-block: $space-4;
+  }
 }
 
 .container {
@@ -61,6 +65,10 @@
   margin: 1.4rem 0 0;
   padding: 0;
   list-style: none;
+
+  @include mobile-only {
+    margin-top: 0;
+  }
 
   @include tablet-up {
     grid-template-columns: repeat(2, minmax(0, 1fr));

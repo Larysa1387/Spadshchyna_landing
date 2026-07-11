@@ -704,11 +704,21 @@ export function UserPage() {
               <p className={styles.impactNote}>
                 {userPage.impact.donationNote}
               </p>
+              <div
+                className={`${styles.impactThanks} ${styles.impactThanksDesktop}`}
+              >
+                <span className={styles.impactThanksIcon} aria-hidden>
+                  <HeartIcon filled size={14} />
+                </span>
+                <p>{userPage.impact.thankYou}</p>
+              </div>
             </div>
 
             <div className={styles.impactMedia}>
               <img className={styles.impactImage} src={IMPACT_IMAGE} alt="" />
-              <div className={styles.impactThanks}>
+              <div
+                className={`${styles.impactThanks} ${styles.impactThanksMobile}`}
+              >
                 <span className={styles.impactThanksIcon} aria-hidden>
                   <HeartIcon filled size={14} />
                 </span>
