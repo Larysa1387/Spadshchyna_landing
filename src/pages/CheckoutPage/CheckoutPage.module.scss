@@ -201,6 +201,10 @@
   border: 1px solid #cec5bc;
   border-radius: $radius-md;
   background: transparent;
+
+  @include mobile-only {
+    padding: 0.2rem 0.6rem;
+  }
 }
 
 .bookingFieldBoxWide {
@@ -232,7 +236,7 @@
   color: $color-text-primary;
 
   @include mobile-only {
-    font-size: 0.8rem;
+    font-size: 0.9rem;
   }
 }
 
@@ -944,6 +948,10 @@
     line-height: 1.55;
     font-weight: 500;
     color: #8d7d71;
+
+    @include mobile-only {
+      margin: 0;
+    }
   }
 
   a {

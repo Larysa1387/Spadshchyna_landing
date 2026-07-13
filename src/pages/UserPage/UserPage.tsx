@@ -26,9 +26,7 @@ const HERO_IMAGE = publicAsset('assets/hero/hero_background.jpeg');
 const IMPACT_IMAGE = publicAsset(
   'assets/homestead/onishchyna-honchars-house.jpeg',
 );
-const PAST_EMPTY_IMAGE = publicAsset(
-  'assets/homestead/onishchyna-honchars-house.jpeg',
-);
+const PAST_EMPTY_IMAGE = publicAsset('assets/dashboard/past-empty.jpeg');
 
 function ImpactItemIcon({ type }: { type: 'home' | 'tools' | 'leaf' }) {
   const iconProps = {
@@ -193,6 +191,16 @@ const FAVOURITES_ROW_SLOTS_MOBILE = 2;
 const FAVOURITES_LIMIT_DESKTOP = 4;
 const FAVOURITES_LIMIT_MOBILE = 1;
 
+type SidebarSection = 'dashboard' | 'upcoming-stay' | 'favourites' | 'impact';
+
+function getSidebarSectionFromHash(): SidebarSection {
+  const hash = window.location.hash.replace(/^#/, '');
+  if (hash === 'upcoming-stay' || hash === 'favourites' || hash === 'impact') {
+    return hash;
+  }
+  return 'dashboard';
+}
+
 function AddFavouriteCardItem() {
   return (
     <li>
@@ -226,6 +234,10 @@ export function UserPage() {
       typeof window !== 'undefined' &&
       window.matchMedia('(max-width: 767px)').matches,
   );
+  const [activeSidebarSection, setActiveSidebarSection] =
+    useState<SidebarSection>(() =>
+      typeof window !== 'undefined' ? getSidebarSectionFromHash() : 'dashboard',
+    );
 
   useEffect(() => {
     const mediaQuery = window.matchMedia('(max-width: 767px)');
@@ -238,6 +250,24 @@ export function UserPage() {
       mediaQuery.removeEventListener('change', updateViewport);
     };
   }, []);
+
+  useEffect(() => {
+    const syncSidebarSection = () => {
+      setActiveSidebarSection(getSidebarSectionFromHash());
+    };
+
+    syncSidebarSection();
+    window.addEventListener('hashchange', syncSidebarSection);
+
+    return () => {
+      window.removeEventListener('hashchange', syncSidebarSection);
+    };
+  }, []);
+
+  const sidebarLinkClass = (section: SidebarSection) =>
+    activeSidebarSection === section
+      ? `${styles.sidebarLink} ${styles.sidebarLinkActive}`
+      : styles.sidebarLink;
 
   useEffect(() => {
     if (isInitializing || !isAuthenticated) {
@@ -373,25 +403,39 @@ export function UserPage() {
         <nav className={styles.sidebarNav}>
           <NavLink
             to={paths.dashboard}
-            className={({ isActive }) =>
-              isActive
-                ? `${styles.sidebarLink} ${styles.sidebarLinkActive}`
-                : styles.sidebarLink
-            }
+            className={() => sidebarLinkClass('dashboard')}
             end
+            onClick={() => {
+              setActiveSidebarSection('dashboard');
+              if (window.location.hash) {
+                window.history.replaceState(null, '', paths.dashboard);
+              }
+            }}
           >
             <SidebarIcon type="home" />
             {userPage.nav.dashboard}
           </NavLink>
-          <a href="#upcoming-stay" className={styles.sidebarLink}>
+          <a
+            href="#upcoming-stay"
+            className={sidebarLinkClass('upcoming-stay')}
+            onClick={() => setActiveSidebarSection('upcoming-stay')}
+          >
             <SidebarIcon type="calendar" />
             {userPage.nav.bookings}
           </a>
-          <a href="#favourites" className={styles.sidebarLink}>
+          <a
+            href="#favourites"
+            className={sidebarLinkClass('favourites')}
+            onClick={() => setActiveSidebarSection('favourites')}
+          >
             <SidebarIcon type="heart" />
             {userPage.nav.favourites}
           </a>
-          <a href="#impact" className={styles.sidebarLink}>
+          <a
+            href="#impact"
+            className={sidebarLinkClass('impact')}
+            onClick={() => setActiveSidebarSection('impact')}
+          >
             <SidebarIcon type="impact" />
             {userPage.nav.impact}
           </a>

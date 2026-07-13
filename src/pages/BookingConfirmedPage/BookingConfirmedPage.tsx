@@ -28,6 +28,27 @@ function pickLatestBooking(
   )[0];
 }
 
+function isCompletedBooking(booking: BookingListItem): boolean {
+  const status = booking.status.trim().toLowerCase();
+  if (
+    status === 'completed' ||
+    status === 'complete' ||
+    status === 'past' ||
+    status === 'finished'
+  ) {
+    return true;
+  }
+
+  const checkOut = new Date(`${booking.check_out}T00:00:00`);
+  if (Number.isNaN(checkOut.getTime())) {
+    return false;
+  }
+
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+  return checkOut < today;
+}
+
 export function BookingConfirmedPage() {
   const [searchParams] = useSearchParams();
   const bookingIdParam = parseBookingId(searchParams);
@@ -97,6 +118,11 @@ export function BookingConfirmedPage() {
   const displayBookingId = booking?.id ?? bookingIdParam;
   const showLoading = isLoading && shouldLoadBooking;
   const showSummary = booking !== null;
+  const isCompleted = booking ? isCompletedBooking(booking) : false;
+  const title = isCompleted ? confirmation.completedTitle : confirmation.title;
+  const message = isCompleted
+    ? confirmation.completedMessage
+    : confirmation.message;
 
   return (
     <section className={styles.page} aria-labelledby="confirmation-title">
@@ -108,10 +134,10 @@ export function BookingConfirmedPage() {
           aria-hidden
         />
         <h1 id="confirmation-title" className={styles.title}>
-          {confirmation.title}
+          {title}
         </h1>
         <p className={styles.message} role="status">
-          {confirmation.message}
+          {message}
         </p>
 
         {displayBookingId && (

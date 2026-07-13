@@ -180,7 +180,7 @@ export const checkout = {
     privacyLabel: 'Privacy Policy',
   },
   support: {
-    cancellationTitle: 'Free cancelation',
+    cancellationTitle: 'Free cancellation',
     cancellation: 'Cancel for free up to 7 days before check-in.',
     helpTitle: 'Need help?',
     help: "Contact our support team — we're here for you.",
@@ -190,8 +190,11 @@ export const checkout = {
     title: 'Booking Confirmed!',
     message:
       "Your payment was successful. We've sent a confirmation to your email. The host will be notified about your upcoming stay.",
+    completedTitle: 'Thank you for staying!',
+    completedMessage:
+      "We hope you were totally satisfied with your stay. Thank you for helping preserve Ukraine's heritage — we look forward to welcoming you again.",
     viewFavourites: 'View favourites',
-    backToHomesteads: 'Back to homesteads',
+    backToHomesteads: 'Back to Homesteads',
     bookingReference: 'Booking reference',
     loading: 'Loading booking details…',
     summaryTitle: 'Your booking',
