@@ -187,8 +187,10 @@ function SectionTitle({ children }: { children: string }) {
 }
 
 const FAVOURITES_ROW_SLOTS_DESKTOP = 5;
+const FAVOURITES_ROW_SLOTS_TABLET = 4;
 const FAVOURITES_ROW_SLOTS_MOBILE = 2;
 const FAVOURITES_LIMIT_DESKTOP = 4;
+const FAVOURITES_LIMIT_TABLET = 3;
 const FAVOURITES_LIMIT_MOBILE = 1;
 
 type SidebarSection = 'dashboard' | 'upcoming-stay' | 'favourites' | 'impact';
@@ -234,20 +236,33 @@ export function UserPage() {
       typeof window !== 'undefined' &&
       window.matchMedia('(max-width: 767px)').matches,
   );
+  const [isTabletViewport, setIsTabletViewport] = useState(
+    () =>
+      typeof window !== 'undefined' &&
+      window.matchMedia('(min-width: 768px) and (max-width: 1023px)').matches,
+  );
   const [activeSidebarSection, setActiveSidebarSection] =
     useState<SidebarSection>(() =>
       typeof window !== 'undefined' ? getSidebarSectionFromHash() : 'dashboard',
     );
 
   useEffect(() => {
-    const mediaQuery = window.matchMedia('(max-width: 767px)');
-    const updateViewport = () => setIsMobileViewport(mediaQuery.matches);
+    const mobileQuery = window.matchMedia('(max-width: 767px)');
+    const tabletQuery = window.matchMedia(
+      '(min-width: 768px) and (max-width: 1023px)',
+    );
+    const updateViewport = () => {
+      setIsMobileViewport(mobileQuery.matches);
+      setIsTabletViewport(tabletQuery.matches);
+    };
 
     updateViewport();
-    mediaQuery.addEventListener('change', updateViewport);
+    mobileQuery.addEventListener('change', updateViewport);
+    tabletQuery.addEventListener('change', updateViewport);
 
     return () => {
-      mediaQuery.removeEventListener('change', updateViewport);
+      mobileQuery.removeEventListener('change', updateViewport);
+      tabletQuery.removeEventListener('change', updateViewport);
     };
   }, []);
 
@@ -339,15 +354,21 @@ export function UserPage() {
       favourites
         .slice(
           0,
-          isMobileViewport ? FAVOURITES_LIMIT_MOBILE : FAVOURITES_LIMIT_DESKTOP,
+          isMobileViewport
+            ? FAVOURITES_LIMIT_MOBILE
+            : isTabletViewport
+              ? FAVOURITES_LIMIT_TABLET
+              : FAVOURITES_LIMIT_DESKTOP,
         )
         .map(mapApiHomesteadToCard),
-    [favourites, isMobileViewport],
+    [favourites, isMobileViewport, isTabletViewport],
   );
 
   const favouritesRowSlots = isMobileViewport
     ? FAVOURITES_ROW_SLOTS_MOBILE
-    : FAVOURITES_ROW_SLOTS_DESKTOP;
+    : isTabletViewport
+      ? FAVOURITES_ROW_SLOTS_TABLET
+      : FAVOURITES_ROW_SLOTS_DESKTOP;
 
   const upcomingHomesteadId = useMemo(() => {
     if (!upcomingStay) {
@@ -628,7 +649,11 @@ export function UserPage() {
                 </div>
               </article>
             ) : (
-              <ul className={styles.pastList}>
+              <ul
+                className={`${styles.pastList}${
+                  pastJourneys.length > 1 ? ` ${styles.pastListGrid}` : ''
+                }`}
+              >
                 {pastJourneys.map((journey) => (
                   <li key={journey.booking_id}>
                     <Link
