@@ -75,6 +75,35 @@
   }
 }
 
+@include tablet-only {
+  .section {
+    margin-top: 1.5rem;
+  }
+
+  .heading {
+    gap: 0.75rem;
+    margin-bottom: 0.875rem;
+  }
+
+  .headingIcon {
+    width: 0.625rem;
+    height: 0.625rem;
+  }
+
+  .title {
+    font-size: 1.1rem;
+  }
+
+  .headingLine {
+    height: 1px;
+  }
+
+  .grid {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 0.75rem;
+  }
+}
+
 @include desktop-up {
   .grid {
     grid-template-columns: repeat(4, minmax(0, 1fr));

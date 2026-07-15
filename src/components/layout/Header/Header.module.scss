@@ -37,6 +37,10 @@
   @include mobile-only {
     padding-block: $space-4;
   }
+
+  @include tablet-only {
+    padding-block: 0.5rem;
+  }
 }
 
 .logo {

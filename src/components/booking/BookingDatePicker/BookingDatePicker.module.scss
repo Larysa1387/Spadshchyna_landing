@@ -12,6 +12,10 @@ $picker-radius: 6px;
   position: relative;
   background: $picker-bg;
   border-radius: $picker-radius;
+
+  @include tablet-only {
+    min-width: 0;
+  }
 }
 
 .trigger {
@@ -35,6 +39,16 @@ $picker-radius: 6px;
     flex-shrink: 0;
     color: #7b6443;
   }
+
+  @include tablet-only {
+    gap: 0.2rem;
+    padding: 0.3rem 0.5rem;
+
+    svg {
+      width: 0.75rem;
+      height: 0.75rem;
+    }
+  }
 }
 
 .triggerLabel {
@@ -43,6 +57,11 @@ $picker-radius: 6px;
   font-weight: 600;
   letter-spacing: 0.08em;
   color: $picker-accent;
+
+  @include tablet-only {
+    font-size: 0.55rem;
+    letter-spacing: 0.04em;
+  }
 }
 
 .triggerValue {
@@ -54,6 +73,11 @@ $picker-radius: 6px;
   font-size: 0.875rem;
   font-weight: 500;
   color: $picker-text;
+
+  @include tablet-only {
+    gap: 0.5rem;
+    font-size: 0.575rem;
+  }
 }
 
 .triggerPlaceholder {
@@ -71,6 +95,11 @@ $picker-radius: 6px;
   border-radius: $picker-radius;
   background: $picker-bg;
   box-shadow: 0 8px 24px rgba(58, 41, 27, 0.12);
+
+  @include tablet-only {
+    width: min(15rem, calc(100vw - 2rem));
+    padding: 0.625rem;
+  }
 }
 
 .popupAbove {
@@ -78,6 +107,11 @@ $picker-radius: 6px;
     top: auto;
     bottom: calc(100% + $space-2);
   }
+}
+
+.popupEnd {
+  right: 0;
+  left: auto;
 }
 
 .header {

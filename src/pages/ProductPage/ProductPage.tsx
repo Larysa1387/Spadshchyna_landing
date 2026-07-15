@@ -26,6 +26,7 @@ import { useHomesteadRecommendations } from '@/features/homesteads/useHomesteadR
 import { paths } from '@/app/paths';
 import { checkAvailability } from '@/api/homesteads';
 import { getApiErrorMessage } from '@/api/client';
+import type { HomesteadDetail } from '@/api/types';
 import { addDays, todayIso } from '@/lib/format';
 import { compareIsoDates } from '@/lib/calendar';
 import { BookingDatePicker } from '@/components/booking/BookingDatePicker/BookingDatePicker';
@@ -336,6 +337,143 @@ function PropertyDetailIcon({
   );
 }
 
+function PropertyDetailsList({
+  homestead,
+  tabletOrder = false,
+}: {
+  homestead: HomesteadDetail;
+  tabletOrder?: boolean;
+}) {
+  const details = [
+    {
+      key: 'location',
+      icon: (
+        <LocationMetaIcon className={styles.propertyDetailIcon} size={18} />
+      ),
+      label: productPage.propertyDetails.location,
+      value: `${homestead.region}, Ukraine`,
+    },
+    {
+      key: 'house',
+      icon: <PropertyDetailIcon type="house" />,
+      label: productPage.propertyDetails.houseType,
+      value: productPage.propertyDetails.houseTypeValue,
+    },
+    {
+      key: 'capacity',
+      icon: <PropertyDetailIcon type="capacity" />,
+      label: productPage.propertyDetails.capacity,
+      value: productPage.propertyDetails.capacityValue(
+        homestead.pricing.max_guests,
+      ),
+    },
+    {
+      key: 'rooms',
+      icon: <PropertyDetailIcon type="bed" />,
+      label: productPage.propertyDetails.rooms,
+      value: productPage.propertyDetails.roomsValue(
+        homestead.bedrooms,
+        homestead.beds,
+        homestead.bathrooms,
+      ),
+    },
+    {
+      key: 'cancellation',
+      icon: <PropertyDetailIcon type="shield" />,
+      label: productPage.propertyDetails.cancellation,
+      value: productPage.propertyDetails.cancellationValue,
+    },
+  ];
+  const orderedDetails = tabletOrder
+    ? [details[0], details[1], details[4], details[3], details[2]]
+    : details;
+
+  return (
+    <ul className={styles.propertyDetails} aria-label="Property details">
+      {orderedDetails.map((detail) => (
+        <li key={detail.key} className={styles.propertyDetailItem}>
+          {detail.icon}
+          <div className={styles.propertyDetailContent}>
+            <p className={styles.propertyDetailLabel}>{detail.label}</p>
+            <p className={styles.propertyDetailValue}>{detail.value}</p>
+          </div>
+        </li>
+      ))}
+    </ul>
+  );
+}
+
+function HostCard({
+  homestead,
+  headingId,
+  className = '',
+}: {
+  homestead: HomesteadDetail;
+  headingId: string;
+  className?: string;
+}) {
+  const hostFirstName = formatHostFirstName(homestead.host.name);
+
+  return (
+    <section
+      className={`${styles.hostCard} ${className}`.trim()}
+      aria-labelledby={headingId}
+    >
+      <div className={styles.hostHeader}>
+        {homestead.host.photo_url ? (
+          <img
+            className={styles.hostAvatar}
+            src={homestead.host.photo_url}
+            alt=""
+          />
+        ) : (
+          <div className={styles.hostAvatarPlaceholder} aria-hidden />
+        )}
+        <div className={styles.hostIntro}>
+          <h3 id={headingId} className={styles.hostName}>
+            {productPage.host.hostedBy(hostFirstName)}
+          </h3>
+          <p className={styles.hostRole}>{productPage.host.role}</p>
+        </div>
+      </div>
+
+      <ul className={styles.hostDetails}>
+        <li className={styles.hostDetailItem}>
+          <HostDetailIcon type="bell" />
+          <span>
+            {productPage.host.responseTime.prefix}{' '}
+            <span className={styles.hostDetailHighlight}>
+              {productPage.host.responseTime.highlight}
+            </span>
+          </span>
+        </li>
+        {homestead.host.languages.length > 0 && (
+          <li className={styles.hostDetailItem}>
+            <HostDetailIcon type="globe" />
+            <span className={styles.hostLanguages}>
+              {productPage.host.languagesLabel}{' '}
+              <strong>
+                {formatHostLanguages(homestead.host.languages).join(', ')}
+              </strong>
+            </span>
+          </li>
+        )}
+        <li className={styles.hostDetailItem}>
+          <HostDetailIcon type="message" />
+          <a
+            className={styles.hostContactLink}
+            href={`mailto:${productPage.host.contactEmail(hostFirstName)}`}
+          >
+            {productPage.host.contactHost(
+              productPage.host.contactEmail(hostFirstName),
+            )}
+          </a>
+        </li>
+      </ul>
+    </section>
+  );
+}
+
 export function ProductPage() {
   const { homesteadId } = useParams<{ homesteadId: string }>();
   const navigate = useNavigate();
@@ -356,8 +494,11 @@ export function ProductPage() {
   const [activeTab, setActiveTab] = useState<'about' | 'amenities' | 'reviews'>(
     'about',
   );
+  const [showAllTabletReviews, setShowAllTabletReviews] = useState(false);
 
   useEffect(() => {
+    setShowAllTabletReviews(false);
+
     const prefersReducedMotion = window.matchMedia(
       '(prefers-reduced-motion: reduce)',
     ).matches;
@@ -880,6 +1021,7 @@ export function ProductPage() {
                       min={checkIn ? addDays(checkIn, 1) : todayIso()}
                       placeholder={productPage.booking.addDate}
                       disabled={!checkIn}
+                      popupAlign="end"
                       onChange={handleCheckOutChange}
                     />
                   </div>
@@ -1003,139 +1145,14 @@ export function ProductPage() {
             )}
           </aside>
 
-          <aside className={styles.specSidebar}>
-            <ul
-              className={styles.propertyDetails}
-              aria-label="Property details"
-            >
-              <li className={styles.propertyDetailItem}>
-                <LocationMetaIcon
-                  className={styles.propertyDetailIcon}
-                  size={18}
-                />
-                <div className={styles.propertyDetailContent}>
-                  <p className={styles.propertyDetailLabel}>
-                    {productPage.propertyDetails.location}
-                  </p>
-                  <p className={styles.propertyDetailValue}>
-                    {homestead.region}, Ukraine
-                  </p>
-                </div>
-              </li>
-              <li className={styles.propertyDetailItem}>
-                <PropertyDetailIcon type="house" />
-                <div className={styles.propertyDetailContent}>
-                  <p className={styles.propertyDetailLabel}>
-                    {productPage.propertyDetails.houseType}
-                  </p>
-                  <p className={styles.propertyDetailValue}>
-                    {productPage.propertyDetails.houseTypeValue}
-                  </p>
-                </div>
-              </li>
-              <li className={styles.propertyDetailItem}>
-                <PropertyDetailIcon type="capacity" />
-                <div className={styles.propertyDetailContent}>
-                  <p className={styles.propertyDetailLabel}>
-                    {productPage.propertyDetails.capacity}
-                  </p>
-                  <p className={styles.propertyDetailValue}>
-                    {productPage.propertyDetails.capacityValue(
-                      homestead.pricing.max_guests,
-                    )}
-                  </p>
-                </div>
-              </li>
-              <li className={styles.propertyDetailItem}>
-                <PropertyDetailIcon type="bed" />
-                <div className={styles.propertyDetailContent}>
-                  <p className={styles.propertyDetailLabel}>
-                    {productPage.propertyDetails.rooms}
-                  </p>
-                  <p className={styles.propertyDetailValue}>
-                    {productPage.propertyDetails.roomsValue(
-                      homestead.bedrooms,
-                      homestead.beds,
-                      homestead.bathrooms,
-                    )}
-                  </p>
-                </div>
-              </li>
-              <li className={styles.propertyDetailItem}>
-                <PropertyDetailIcon type="shield" />
-                <div className={styles.propertyDetailContent}>
-                  <p className={styles.propertyDetailLabel}>
-                    {productPage.propertyDetails.cancellation}
-                  </p>
-                  <p className={styles.propertyDetailValue}>
-                    {productPage.propertyDetails.cancellationValue}
-                  </p>
-                </div>
-              </li>
-            </ul>
-
-            <section
-              className={styles.hostCard}
-              aria-labelledby="host-card-title"
-            >
-              <div className={styles.hostHeader}>
-                {homestead.host.photo_url ? (
-                  <img
-                    className={styles.hostAvatar}
-                    src={homestead.host.photo_url}
-                    alt=""
-                  />
-                ) : (
-                  <div className={styles.hostAvatarPlaceholder} aria-hidden />
-                )}
-                <div className={styles.hostIntro}>
-                  <h3 id="host-card-title" className={styles.hostName}>
-                    {productPage.host.hostedBy(
-                      formatHostFirstName(homestead.host.name),
-                    )}
-                  </h3>
-                  <p className={styles.hostRole}>{productPage.host.role}</p>
-                </div>
-              </div>
-
-              <ul className={styles.hostDetails}>
-                <li className={styles.hostDetailItem}>
-                  <HostDetailIcon type="bell" />
-                  <span>
-                    {productPage.host.responseTime.prefix}{' '}
-                    <span className={styles.hostDetailHighlight}>
-                      {productPage.host.responseTime.highlight}
-                    </span>
-                  </span>
-                </li>
-                {homestead.host.languages.length > 0 && (
-                  <li className={styles.hostDetailItem}>
-                    <HostDetailIcon type="globe" />
-                    <span className={styles.hostLanguages}>
-                      {productPage.host.languagesLabel}{' '}
-                      <strong>
-                        {formatHostLanguages(homestead.host.languages).join(
-                          ', ',
-                        )}
-                      </strong>
-                    </span>
-                  </li>
-                )}
-                <li className={styles.hostDetailItem}>
-                  <HostDetailIcon type="message" />
-                  <a
-                    className={styles.hostContactLink}
-                    href={`mailto:${productPage.host.contactEmail(formatHostFirstName(homestead.host.name))}`}
-                  >
-                    {productPage.host.contactHost(
-                      productPage.host.contactEmail(
-                        formatHostFirstName(homestead.host.name),
-                      ),
-                    )}
-                  </a>
-                </li>
-              </ul>
-            </section>
+          <aside
+            className={`${styles.specSidebar} ${styles.specSidebarDesktop}`}
+          >
+            <PropertyDetailsList homestead={homestead} />
+            <HostCard
+              homestead={homestead}
+              headingId="host-card-title-desktop"
+            />
           </aside>
         </div>
 
@@ -1169,29 +1186,59 @@ export function ProductPage() {
               </section>
             )}
 
-            {homestead.reviews.length > 0 && (
-              <section aria-labelledby="reviews-title">
-                <SectionHeading id="reviews-title">
-                  {productPage.reviewsTitle}
-                </SectionHeading>
-                <ul className={styles.reviews}>
-                  {homestead.reviews.map((review) => (
-                    <li key={review.id}>
-                      <blockquote className={styles.review}>
-                        <p className={styles.reviewTheme}>
-                          <ReviewThemeIcon reviewId={review.id} />
-                          {formatReviewCategory(review.category)}
-                        </p>
-                        <p className={styles.reviewQuote}>{review.text}</p>
-                        <footer className={styles.reviewAuthor}>
-                          - {review.author_name}, {review.country}
-                        </footer>
-                      </blockquote>
-                    </li>
-                  ))}
-                </ul>
-              </section>
-            )}
+            <aside
+              className={`${styles.specSidebar} ${styles.specSidebarTablet}`}
+            >
+              <PropertyDetailsList homestead={homestead} tabletOrder />
+            </aside>
+
+            <div className={styles.reviewsHostRow}>
+              {homestead.reviews.length > 0 && (
+                <section
+                  className={styles.reviewsSection}
+                  aria-labelledby="reviews-title"
+                >
+                  <SectionHeading id="reviews-title">
+                    {productPage.reviewsTitle}
+                  </SectionHeading>
+                  <ul
+                    className={`${styles.reviews}${
+                      showAllTabletReviews ? ` ${styles.reviewsExpanded}` : ''
+                    }`}
+                  >
+                    {homestead.reviews.map((review) => (
+                      <li key={review.id}>
+                        <blockquote className={styles.review}>
+                          <p className={styles.reviewTheme}>
+                            <ReviewThemeIcon reviewId={review.id} />
+                            {formatReviewCategory(review.category)}
+                          </p>
+                          <p className={styles.reviewQuote}>{review.text}</p>
+                          <footer className={styles.reviewAuthor}>
+                            - {review.author_name}, {review.country}
+                          </footer>
+                        </blockquote>
+                      </li>
+                    ))}
+                  </ul>
+                  {homestead.reviews.length > 3 && !showAllTabletReviews && (
+                    <button
+                      type="button"
+                      className={styles.reviewsViewAll}
+                      onClick={() => setShowAllTabletReviews(true)}
+                    >
+                      {productPage.reviewsViewAll}
+                    </button>
+                  )}
+                </section>
+              )}
+
+              <HostCard
+                homestead={homestead}
+                headingId="host-card-title-tablet"
+                className={styles.hostCardTablet}
+              />
+            </div>
           </div>
 
           <div className={styles.contentMobile}>

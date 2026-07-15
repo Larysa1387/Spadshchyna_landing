@@ -172,7 +172,7 @@
 
   @include tablet-only {
     gap: 0.25rem;
-    padding: 1.25rem;
+    padding: 0.75rem;
   }
 }
 
@@ -404,4 +404,75 @@
   align-items: center;
   color: #a1600a;
   line-height: 1;
+}
+
+@include tablet-only {
+  .cardRecommendation {
+    border-radius: 0.75rem;
+  }
+
+  .imageWrapRecommendation {
+    height: auto;
+    aspect-ratio: 1.42;
+  }
+
+  .cardRecommendation .image {
+    border-radius: 0.75rem 0.75rem 0 0;
+  }
+
+  .bodyRecommendation {
+    gap: 0.4rem;
+    padding: 0.55rem 0.65rem 0.7rem;
+  }
+
+  .cardRecommendation .meta {
+    gap: 0.35rem;
+  }
+
+  .cardRecommendation .location {
+    gap: 0.25rem;
+    overflow: hidden;
+    font-size: 0.5rem;
+    line-height: 1.2;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+  }
+
+  .cardRecommendation .metaIcon {
+    width: 0.7rem;
+    height: 0.7rem;
+  }
+
+  .cardRecommendation .rating {
+    gap: 0.15rem;
+    font-size: 0.5rem;
+  }
+
+  .cardRecommendation .rating svg {
+    width: 0.65rem;
+    height: 0.65rem;
+  }
+
+  .titleRecommendation {
+    min-height: calc(0.75rem * 1.25 * 2);
+    font-size: 0.75rem;
+    line-height: 1.25;
+  }
+
+  .priceRecommendation {
+    font-size: 0.8rem;
+  }
+
+  .cardRecommendation .priceSuffix {
+    font-size: 0.45rem;
+  }
+
+  .detailsLinkRecommendation {
+    padding: 0.25rem;
+  }
+
+  .detailsLinkRecommendation svg {
+    width: 1rem;
+    height: 1rem;
+  }
 }

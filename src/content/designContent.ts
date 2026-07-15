@@ -82,6 +82,7 @@ export const productPage = {
   },
   amenitiesTitle: 'Amenities',
   reviewsTitle: 'What guests love',
+  reviewsViewAll: 'View all',
   recommendationsTitle: 'Recommendations For You',
   propertyDetails: {
     location: 'Location',
