@@ -2,6 +2,17 @@
 @use '@/styles/scss/mixins' as *;
 @use '@/styles/scss/typography' as *;
 
+.landingLead {
+  @include tablet-only {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-areas:
+      'hero'
+      'how';
+    overflow: visible;
+  }
+}
+
 .hero {
   position: relative;
   overflow: hidden;
@@ -16,6 +27,13 @@
     padding-top: 5.5rem;
     padding-bottom: 0;
     align-items: stretch;
+  }
+
+  @include tablet-only {
+    grid-area: hero;
+    min-height: 26rem;
+    padding-top: 5rem;
+    padding-bottom: $space-8;
   }
 
   @include desktop-up {
@@ -35,6 +53,11 @@
     @include mobile-only {
       background-size: cover;
       background-position: center 28%;
+    }
+
+    @include tablet-only {
+      background-size: cover;
+      background-position: center 38%;
     }
 
     @include desktop-up {
@@ -89,6 +112,12 @@
     margin-bottom: 0;
     max-width: 15rem;
   }
+
+  @include tablet-only {
+    max-width: 20rem;
+    margin-bottom: $space-5;
+    font-size: clamp(2rem, 3.2vw + 1rem, 2.75rem);
+  }
 }
 
 .heroTitleLine {
@@ -117,12 +146,6 @@
   }
 }
 
-.heroPillarIcon {
-  flex-shrink: 0;
-  width: 1.5rem;
-  height: 1.5rem;
-}
-
 .heroPillarContent {
   display: flex;
   flex-direction: column;
@@ -148,6 +171,10 @@
   @include mobile-only {
     display: none;
   }
+
+  @include tablet-only {
+    margin-bottom: $space-4;
+  }
 }
 
 .heroOrnamentIcon {
@@ -162,6 +189,10 @@
   max-width: 100%;
   height: 2px;
   background-color: #b79c73;
+
+  @include tablet-only {
+    width: 14rem;
+  }
 }
 
 .heroSubtitle {
@@ -179,6 +210,12 @@
 
   @include tablet-up {
     font-size: 1.125rem;
+  }
+
+  @include tablet-only {
+    max-width: 18rem;
+    margin-bottom: $space-5;
+    font-size: 0.9375rem;
   }
 }
 
@@ -241,6 +278,11 @@
   @include mobile-only {
     display: none;
   }
+
+  @include tablet-only {
+    grid-area: how;
+    padding-top: 1.1rem;
+  }
 }
 
 .howItWorksContainer {
@@ -248,6 +290,10 @@
   display: flex;
   flex-direction: column;
   gap: $space-10;
+
+  @include tablet-only {
+    gap: 0.7rem;
+  }
 }
 
 .howHeader {
@@ -286,6 +332,15 @@
   margin: 0;
   padding-bottom: 0.4rem;
   max-width: 32rem;
+
+  @include tablet-only {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: $space-3;
+    font-size: 1.475rem;
+    padding-bottom: 0;
+  }
 }
 
 .howSubtitle {
@@ -295,6 +350,10 @@
   font-size: 0.9375rem;
   line-height: 1.55;
   color: #635136;
+
+  @include tablet-only {
+    font-size: 0.8375rem;
+  }
 
   @include desktop-up {
     font-size: 1rem;
@@ -313,11 +372,31 @@
     grid-template-columns: repeat(3, minmax(0, 1fr));
     align-items: stretch;
   }
+
+  @include tablet-only {
+    gap: 0;
+    padding: 0;
+    background-color: #f5f1e9;
+    border-radius: $radius-lg;
+  }
 }
 
 .pillarItem {
   margin: 0;
   min-width: 0;
+
+  @include tablet-only {
+    display: flex;
+
+    &:not(:first-child) {
+      border-left: 1px solid #e0d7c8;
+      padding-left: 0.3rem;
+    }
+
+    &:not(:last-child) {
+      padding-right: 0.5rem;
+    }
+  }
 }
 
 .pillar {
@@ -329,12 +408,25 @@
   background-color: #f5f1e9;
   border: 1px solid #ece2cf;
   border-radius: $radius-lg;
+
+  @include tablet-only {
+    gap: 0.55rem;
+    padding: 0.3rem 0.25rem;
+    background-color: transparent;
+    border: none;
+    border-radius: 0;
+  }
 }
 
 .pillarIcon {
   flex-shrink: 0;
   width: 2rem;
   height: 2rem;
+
+  @include tablet-only {
+    width: 1.5rem;
+    height: 1.5rem;
+  }
 }
 
 .pillarContent {
@@ -343,12 +435,21 @@
   gap: $space-3;
   min-width: 0;
   flex: 1;
+
+  @include tablet-only {
+    gap: $space-2;
+  }
 }
 
 .pillarTitle {
   @include text-h3;
   margin: 0;
   font-size: 1.125rem;
+
+  @include tablet-only {
+    font-size: 1rem;
+    line-height: 1.25;
+  }
 }
 
 .pillarText {
@@ -356,6 +457,11 @@
   margin: 0;
   font-family: $font-family-montserrat;
   color: $color-text-secondary;
+
+  @include tablet-only {
+    font-size: 0.75rem;
+    line-height: 1.5;
+  }
 
   strong {
     font-weight: 700;
@@ -369,6 +475,19 @@
 
   @include mobile-only {
     padding-top: 1.4rem;
+  }
+
+  @include tablet-only {
+    grid-area: hero;
+    z-index: 2;
+    align-self: end;
+    justify-self: end;
+    width: auto;
+    max-width: min(22rem, calc(100% - 3rem));
+    margin: 0 $content-padding-tablet -0.5rem 0;
+    padding: 0;
+    text-align: right;
+    pointer-events: none;
   }
 }
 
@@ -386,11 +505,19 @@
       display: none;
     }
   }
+
+  @include tablet-only {
+    display: none;
+  }
 }
 
 .quoteDividerBottom {
   max-width: 50rem;
   margin: $space-10 auto 0;
+
+  @include mobile-only {
+    margin: 1.2rem auto 0;
+  }
 }
 
 .quoteDividerLine {
@@ -438,6 +565,22 @@
     line-height: 1.35;
     text-align: center;
   }
+
+  @include tablet-only {
+    width: auto;
+    max-width: 15.6rem;
+    margin: 0;
+    padding: $space-3 $space-4;
+    font-size: 0.95rem;
+    line-height: 1.35;
+    gap: clamp(0.5rem, 2vw, 0.5rem);
+    align-items: stretch;
+    justify-content: flex-end;
+    text-align: right;
+    pointer-events: auto;
+    background: #f5f1e9;
+    border-radius: $radius-sm;
+  }
 }
 
 .quoteContent {
@@ -452,6 +595,12 @@
     align-items: center;
     white-space: normal;
     line-height: 0.95;
+  }
+
+  @include tablet-only {
+    flex-shrink: 1;
+    white-space: normal;
+    text-align: right;
   }
 }
 
@@ -484,6 +633,12 @@
     justify-self: end;
     margin-top: 0.15rem;
   }
+
+  @include tablet-only {
+    width: 0.75rem;
+    align-self: flex-start;
+    margin-top: 0.1rem;
+  }
 }
 
 .quoteMarkClosing {
@@ -495,6 +650,12 @@
     align-self: end;
     justify-self: start;
     margin-bottom: 0.15rem;
+  }
+
+  @include tablet-only {
+    align-self: flex-end;
+    margin-top: 0;
+    margin-bottom: 0.1rem;
   }
 }
 
@@ -510,7 +671,12 @@
   scroll-margin-top: $space-4;
 
   @include mobile-only {
-    padding-top: 2rem;
+    padding-top: 1.3rem;
+  }
+
+  @include tablet-only {
+    padding-block: 1.5rem;
+    scroll-margin-top: 1rem;
   }
 }
 
@@ -524,7 +690,14 @@
   gap: $space-6;
 
   @include mobile-only {
-    gap: $space-4;
+    gap: 0.4rem;
+  }
+
+  @include tablet-only {
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    gap: $space-6;
   }
 
   @include desktop-up {
@@ -541,6 +714,11 @@
   @include mobile-only {
     max-width: none;
   }
+
+  @include tablet-only {
+    flex: 0 0 19rem;
+    max-width: 19rem;
+  }
 }
 
 .archiveTitle {
@@ -549,6 +727,14 @@
 
   @include mobile-only {
     margin-bottom: $space-3;
+  }
+
+  @include tablet-only {
+    display: flex;
+    align-items: center;
+    gap: $space-3;
+    margin: 0 0 -0.3rem;
+    font-size: 1.6rem;
   }
 }
 
@@ -561,12 +747,24 @@
   @include mobile-only {
     display: none;
   }
+
+  @include tablet-only {
+    display: none;
+  }
 }
 
 .archiveOrnamentIcon {
   flex-shrink: 0;
-  width: 0.875rem;
-  height: 0.875rem;
+  width: 1.175rem;
+  height: 1.175rem;
+}
+
+.titleOrnamentIcon {
+  display: none;
+
+  @include tablet-only {
+    display: block;
+  }
 }
 
 .archiveOrnamentLine {
@@ -586,6 +784,10 @@
 
   @include mobile-only {
     display: none;
+  }
+
+  @include tablet-only {
+    font-size: 0.6rem;
   }
 }
 
@@ -614,6 +816,11 @@
 
   @include tablet-up {
     grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  @include tablet-only {
+    gap: 1.5rem;
+    margin: 1.2rem 0 0;
   }
 
   @include desktop-up {

@@ -37,6 +37,11 @@
     $color-brand-gold-hover
   );
 
+  @include tablet-only {
+    aspect-ratio: auto;
+    height: 11.5rem;
+  }
+
   @include desktop-up {
     aspect-ratio: auto;
     height: 225px;
@@ -164,6 +169,11 @@
     padding: $space-4;
     gap: $space-2;
   }
+
+  @include tablet-only {
+    gap: 0.25rem;
+    padding: 1.25rem;
+  }
 }
 
 .meta {
@@ -261,6 +271,10 @@
   min-width: 0;
 
   @include mobile-only {
+    display: none;
+  }
+
+  @include tablet-only {
     display: none;
   }
 }

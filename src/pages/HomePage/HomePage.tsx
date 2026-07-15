@@ -48,157 +48,173 @@ export function HomePage() {
 
   return (
     <>
-      <section className={styles.hero} aria-labelledby="hero-title">
-        <div className={styles.heroContent}>
-          <h1 id="hero-title" className={styles.heroTitle}>
-            {homePage.hero.title.map((line) => (
-              <span key={line} className={styles.heroTitleLine}>
-                {line}
-              </span>
-            ))}
-          </h1>
+      <div className={styles.landingLead}>
+        <section className={styles.hero} aria-labelledby="hero-title">
+          <div className={styles.heroContent}>
+            <h1 id="hero-title" className={styles.heroTitle}>
+              {homePage.hero.title.map((line) => (
+                <span key={line} className={styles.heroTitleLine}>
+                  {line}
+                </span>
+              ))}
+            </h1>
 
-          <article
-            className={styles.heroPillar}
-            aria-labelledby="hero-pillar-title"
-          >
-            <LogoIcon
-              className={styles.heroPillarIcon}
-              fill={PILLAR_ICON_COLORS[0]}
-            />
-            <div className={styles.heroPillarContent}>
-              <h2 id="hero-pillar-title" className={styles.heroPillarTitle}>
-                {homePage.howItWorks.pillars[0].title}
-              </h2>
-              <PillarDescription
-                description={homePage.howItWorks.pillars[0].description}
-                index={0}
+            <article
+              className={styles.heroPillar}
+              aria-labelledby="hero-pillar-title"
+            >
+              <LogoIcon
+                className={styles.archiveOrnamentIcon}
+                fill="rgb(183, 156, 115)"
               />
-            </div>
-          </article>
+              <div className={styles.heroPillarContent}>
+                <h2 id="hero-pillar-title" className={styles.heroPillarTitle}>
+                  {homePage.howItWorks.pillars[0].title}
+                </h2>
+                <PillarDescription
+                  description={homePage.howItWorks.pillars[0].description}
+                  index={0}
+                />
+              </div>
+            </article>
 
-          <div className={styles.heroOrnament} aria-hidden>
+            <div className={styles.heroOrnament} aria-hidden>
+              <LogoIcon
+                className={styles.heroOrnamentIcon}
+                fill="#b79c73"
+                size={18}
+              />
+              <span className={styles.heroOrnamentLine} />
+            </div>
+
+            <p className={styles.heroSubtitle}>{homePage.hero.subtitle}</p>
+
+            <a href="#archive" className={styles.heroCta}>
+              {homePage.hero.cta}
+              <span className={styles.heroCtaArrow} aria-hidden>
+                →
+              </span>
+            </a>
+          </div>
+        </section>
+
+        <section
+          className={styles.howItWorks}
+          aria-labelledby="how-it-works-title"
+        >
+          <div className={styles.howItWorksContainer}>
+            <div className={styles.howHeader}>
+              <div className={styles.sectionLabel} aria-hidden>
+                <span className={styles.sectionLabelLine} />
+                <span className={styles.sectionLabelText}>
+                  {homePage.howItWorks.label}
+                </span>
+                <span className={styles.sectionLabelLine} />
+              </div>
+              <h2 id="how-it-works-title" className={styles.howTitle}>
+                <LogoIcon
+                  className={`${styles.archiveOrnamentIcon} ${styles.titleOrnamentIcon}`}
+                  fill="#b79c73"
+                  size={14}
+                  aria-hidden
+                />
+                {homePage.howItWorks.title}
+                <LogoIcon
+                  className={`${styles.archiveOrnamentIcon} ${styles.titleOrnamentIcon}`}
+                  fill="#b79c73"
+                  size={14}
+                  aria-hidden
+                />
+              </h2>
+              <p className={styles.howSubtitle}>
+                {homePage.howItWorks.subtitle}
+              </p>
+            </div>
+
+            <ul className={styles.pillars}>
+              {homePage.howItWorks.pillars.map((pillar, index) => (
+                <li key={pillar.title} className={styles.pillarItem}>
+                  <article className={styles.pillar}>
+                    <LogoIcon
+                      className={styles.pillarIcon}
+                      fill={PILLAR_ICON_COLORS[index]}
+                    />
+                    <div className={styles.pillarContent}>
+                      <h3 className={styles.pillarTitle}>{pillar.title}</h3>
+                      <PillarDescription
+                        description={pillar.description}
+                        index={index}
+                      />
+                    </div>
+                  </article>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </section>
+
+        <section className={styles.quote} aria-label="Mission quote">
+          <div className={styles.quoteDivider} aria-hidden>
+            <span className={styles.quoteDividerLine} />
             <LogoIcon
-              className={styles.heroOrnamentIcon}
+              className={styles.quoteDividerIcon}
               fill="#b79c73"
               size={18}
             />
-            <span className={styles.heroOrnamentLine} />
+            <span className={styles.quoteDividerLine} />
           </div>
 
-          <p className={styles.heroSubtitle}>{homePage.hero.subtitle}</p>
-
-          <a href="#archive" className={styles.heroCta}>
-            {homePage.hero.cta}
-            <span className={styles.heroCtaArrow} aria-hidden>
-              →
-            </span>
-          </a>
-        </div>
-      </section>
-
-      <section
-        className={styles.howItWorks}
-        aria-labelledby="how-it-works-title"
-      >
-        <div className={styles.howItWorksContainer}>
-          <div className={styles.howHeader}>
-            <div className={styles.sectionLabel} aria-hidden>
-              <span className={styles.sectionLabelLine} />
-              <span className={styles.sectionLabelText}>
-                {homePage.howItWorks.label}
+          <blockquote className={styles.quoteText}>
+            <img
+              className={styles.quoteMark}
+              src={publicAsset('assets/quote/quote-mark.png')}
+              srcSet={publicAssetSrcSet(
+                'assets/quote/quote-mark.png',
+                'assets/quote/quote-mark@2x.png',
+              )}
+              width={20}
+              height={16}
+              alt=""
+              aria-hidden
+            />
+            <span className={styles.quoteContent}>
+              <span className={styles.quoteLine}>{homePage.quote.line1}</span>
+              <span className={styles.quoteLine}>
+                {homePage.quote.line2Prefix}{' '}
+                <em className={styles.quoteEmphasis}>
+                  {homePage.quote.emphasis}
+                </em>{' '}
+                {homePage.quote.after}
               </span>
-              <span className={styles.sectionLabelLine} />
-            </div>
-            <h2 id="how-it-works-title" className={styles.howTitle}>
-              {homePage.howItWorks.title}
-            </h2>
-            <p className={styles.howSubtitle}>{homePage.howItWorks.subtitle}</p>
-          </div>
-
-          <ul className={styles.pillars}>
-            {homePage.howItWorks.pillars.map((pillar, index) => (
-              <li key={pillar.title} className={styles.pillarItem}>
-                <article className={styles.pillar}>
-                  <LogoIcon
-                    className={styles.pillarIcon}
-                    fill={PILLAR_ICON_COLORS[index]}
-                  />
-                  <div className={styles.pillarContent}>
-                    <h3 className={styles.pillarTitle}>{pillar.title}</h3>
-                    <PillarDescription
-                      description={pillar.description}
-                      index={index}
-                    />
-                  </div>
-                </article>
-              </li>
-            ))}
-          </ul>
-        </div>
-      </section>
-
-      <section className={styles.quote} aria-label="Mission quote">
-        <div className={styles.quoteDivider} aria-hidden>
-          <span className={styles.quoteDividerLine} />
-          <LogoIcon
-            className={styles.quoteDividerIcon}
-            fill="#b79c73"
-            size={18}
-          />
-          <span className={styles.quoteDividerLine} />
-        </div>
-
-        <blockquote className={styles.quoteText}>
-          <img
-            className={styles.quoteMark}
-            src={publicAsset('assets/quote/quote-mark.png')}
-            srcSet={publicAssetSrcSet(
-              'assets/quote/quote-mark.png',
-              'assets/quote/quote-mark@2x.png',
-            )}
-            width={20}
-            height={16}
-            alt=""
-            aria-hidden
-          />
-          <span className={styles.quoteContent}>
-            <span className={styles.quoteLine}>{homePage.quote.line1}</span>
-            <span className={styles.quoteLine}>
-              {homePage.quote.line2Prefix}{' '}
-              <em className={styles.quoteEmphasis}>
-                {homePage.quote.emphasis}
-              </em>{' '}
-              {homePage.quote.after}
             </span>
-          </span>
-          <img
-            className={`${styles.quoteMark} ${styles.quoteMarkClosing}`}
-            src={publicAsset('assets/quote/quote-mark.png')}
-            srcSet={publicAssetSrcSet(
-              'assets/quote/quote-mark.png',
-              'assets/quote/quote-mark@2x.png',
-            )}
-            width={20}
-            height={16}
-            alt=""
-            aria-hidden
-          />
-        </blockquote>
+            <img
+              className={`${styles.quoteMark} ${styles.quoteMarkClosing}`}
+              src={publicAsset('assets/quote/quote-mark.png')}
+              srcSet={publicAssetSrcSet(
+                'assets/quote/quote-mark.png',
+                'assets/quote/quote-mark@2x.png',
+              )}
+              width={20}
+              height={16}
+              alt=""
+              aria-hidden
+            />
+          </blockquote>
 
-        <div
-          className={`${styles.quoteDivider} ${styles.quoteDividerBottom}`}
-          aria-hidden
-        >
-          <span className={styles.quoteDividerLine} />
-          <LogoIcon
-            className={styles.quoteDividerIcon}
-            fill="#b79c73"
-            size={10}
-          />
-          <span className={styles.quoteDividerLine} />
-        </div>
-      </section>
+          <div
+            className={`${styles.quoteDivider} ${styles.quoteDividerBottom}`}
+            aria-hidden
+          >
+            <span className={styles.quoteDividerLine} />
+            <LogoIcon
+              className={styles.quoteDividerIcon}
+              fill="#b79c73"
+              size={10}
+            />
+            <span className={styles.quoteDividerLine} />
+          </div>
+        </section>
+      </div>
 
       <section
         id="archive"
@@ -209,6 +225,12 @@ export function HomePage() {
           <div className={styles.archiveHeader}>
             <div className={styles.archiveIntro}>
               <h2 id="archive-title" className={styles.archiveTitle}>
+                <LogoIcon
+                  className={`${styles.archiveOrnamentIcon} ${styles.titleOrnamentIcon}`}
+                  fill="#b79c73"
+                  size={14}
+                  aria-hidden
+                />
                 {homePage.archive.title}
               </h2>
               <div className={styles.archiveOrnament} aria-hidden>

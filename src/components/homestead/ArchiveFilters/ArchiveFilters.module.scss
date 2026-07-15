@@ -16,6 +16,12 @@
     grid-template-columns: repeat(3, minmax(0, 1fr));
     max-width: 46rem;
   }
+
+  @include tablet-only {
+    flex: 1;
+    gap: 0.75rem;
+    max-width: 29rem;
+  }
 }
 
 .field {
@@ -23,6 +29,14 @@
   flex-direction: column;
   gap: $space-2;
   min-width: 0;
+
+  @include tablet-only {
+    align-items: center;
+
+    > .label {
+      display: none;
+    }
+  }
 }
 
 .regionField {
@@ -37,6 +51,13 @@
     grid-template-rows: auto;
     gap: 0;
   }
+
+  @include tablet-only {
+    grid-template-columns: auto minmax(0, 1fr);
+    grid-template-rows: auto;
+    column-gap: 0.5rem;
+    row-gap: 0;
+  }
 }
 
 .regionPinIcon {
@@ -49,6 +70,13 @@
   @include mobile-only {
     display: none;
   }
+
+  @include tablet-only {
+    grid-row: 1;
+    width: 0.875rem;
+    height: 0.875rem;
+    transform: none;
+  }
 }
 
 .priceTagIcon {
@@ -60,6 +88,13 @@
 
   @include mobile-only {
     display: none;
+  }
+
+  @include tablet-only {
+    grid-row: 1;
+    width: 0.875rem;
+    height: 0.875rem;
+    transform: rotate(90deg);
   }
 }
 
@@ -80,12 +115,21 @@
     grid-column: 1;
     grid-row: 1;
   }
+
+  @include tablet-only {
+    grid-column: 2;
+    grid-row: 1;
+  }
 }
 
 .selectWrap {
   position: relative;
   width: 100%;
   min-width: 0;
+
+  @include tablet-only {
+    max-width: 7rem;
+  }
 }
 
 .selectTrigger {
@@ -115,6 +159,13 @@
     font-weight: 600;
     letter-spacing: 0;
     background-position: right 0.375rem center;
+  }
+
+  @include tablet-only {
+    padding: 0.45rem 1.35rem 0.45rem 0.6rem;
+    border-radius: $radius-sm;
+    font-size: 0.625rem;
+    background-position: right 0.5rem center;
   }
 
   &:hover {
