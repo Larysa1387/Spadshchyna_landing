@@ -24,12 +24,10 @@ export {
 } from './homesteads';
 export { createBooking, listBookings } from './bookings';
 export { getDashboard } from './dashboard';
-export { listRegions } from './regions';
 export type {
   ApiHomesteadCard,
   PaginatedHomesteadsResponse,
   ListHomesteadsParams,
-  RegionResponse,
   HomesteadDetail,
   HostResponse,
   PhotoResponse,

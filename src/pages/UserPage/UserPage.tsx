@@ -8,10 +8,12 @@ import {
   BedIcon,
   DetailsArrowIcon,
   HeartIcon,
-  LeafIcon,
+  ImpactItemIcon,
   LocationPinIcon,
   LogoIcon,
   PersonIcon,
+  SidebarIcon,
+  UpcomingMetaIcon,
 } from '@/components/icons';
 import { navigation, userPage } from '@/content/designContent';
 import { useAuth } from '@/features/auth/useAuth';
@@ -27,149 +29,6 @@ const IMPACT_IMAGE = publicAsset(
   'assets/homestead/onishchyna-honchars-house.jpeg',
 );
 const PAST_EMPTY_IMAGE = publicAsset('assets/dashboard/past-empty.jpeg');
-
-function ImpactItemIcon({ type }: { type: 'home' | 'tools' | 'leaf' }) {
-  const iconProps = {
-    width: 18,
-    height: 18,
-    viewBox: '0 0 16 16',
-    'aria-hidden': true as const,
-  };
-
-  const strokeProps = {
-    fill: 'none' as const,
-    stroke: 'currentColor',
-    strokeWidth: 1.1,
-    strokeLinecap: 'round' as const,
-    strokeLinejoin: 'round' as const,
-  };
-
-  if (type === 'leaf') {
-    return <LeafIcon size={18} />;
-  }
-
-  if (type === 'tools') {
-    return (
-      <svg {...iconProps}>
-        <path
-          d="M10.2 2.4a2.4 2.4 0 0 0-3.4 3.4L2.4 10.2a1.2 1.2 0 0 0 1.7 1.7l4.4-4.4a2.4 2.4 0 0 0 3.4-3.4L10.2 5.8 8.6 4.2Z"
-          {...strokeProps}
-        />
-        <path d="M5.5 10.5 4 13.5" {...strokeProps} />
-        <path
-          d="M11.1 8.2 13.6 10.7a1.1 1.1 0 0 1 0 1.55L12.7 13.15a1.1 1.1 0 0 1-1.55 0L8.65 10.65"
-          {...strokeProps}
-        />
-      </svg>
-    );
-  }
-
-  return (
-    <svg {...iconProps}>
-      <path
-        d="M2.75 6.75 8 2.75l5.25 4V12.5a.75.75 0 0 1-.75.75H3.5a.75.75 0 0 1-.75-.75V6.75Z"
-        {...strokeProps}
-      />
-    </svg>
-  );
-}
-
-function SidebarIcon({
-  type,
-}: {
-  type: 'home' | 'calendar' | 'heart' | 'impact';
-}) {
-  const iconProps = {
-    width: 16,
-    height: 16,
-    viewBox: '0 0 16 16',
-    'aria-hidden': true as const,
-  };
-
-  switch (type) {
-    case 'calendar':
-      return (
-        <svg {...iconProps}>
-          <path
-            d="M4.5 2.25v1.25M11.5 2.25v1.25M3.25 5.75h9.5M3.25 4h9.5a1 1 0 0 1 1 1v7.5a1 1 0 0 1-1 1h-9.5a1 1 0 0 1-1-1V5a1 1 0 0 1 1-1Z"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="1.1"
-            strokeLinecap="round"
-          />
-        </svg>
-      );
-    case 'heart':
-      return <HeartIcon className={styles.sidebarLinkIcon} size={16} />;
-    case 'impact':
-      return <LogoIcon size={14} fill="currentColor" aria-hidden />;
-    default:
-      return (
-        <svg {...iconProps}>
-          <path
-            d="M2.75 6.75 8 2.75l5.25 4V12.5a.75.75 0 0 1-.75.75H3.5a.75.75 0 0 1-.75-.75V6.75Z"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="1.1"
-            strokeLinejoin="round"
-          />
-        </svg>
-      );
-  }
-}
-
-function UpcomingMetaIcon({ type }: { type: 'calendar' | 'capacity' }) {
-  if (type === 'capacity') {
-    const strokeProps = {
-      fill: 'none' as const,
-      stroke: 'currentColor',
-      strokeWidth: 0.8,
-      strokeLinecap: 'round' as const,
-      strokeLinejoin: 'round' as const,
-    };
-
-    return (
-      <svg
-        className={`${styles.upcomingMetaIcon} ${styles.upcomingMetaIconCapacity}`}
-        viewBox="0 0 16 16"
-        width={22}
-        height={22}
-        aria-hidden
-      >
-        <circle cx="10.35" cy="5.35" r="1.05" {...strokeProps} />
-        <path
-          d="M8.6 9.85v-.45c0-.95.82-1.72 1.85-1.72s1.85.77 1.85 1.72v.45"
-          {...strokeProps}
-        />
-        <path d="M8.15 10.3h4.3" {...strokeProps} />
-        <circle cx="5.65" cy="5.65" r="1.4" {...strokeProps} />
-        <path
-          d="M2.75 10.75v-.75c0-1.45 1.46-2.625 3.25-2.625s3.25 1.175 3.25 2.625v.75"
-          {...strokeProps}
-        />
-        <path d="M2.75 11.5h6.5" {...strokeProps} />
-      </svg>
-    );
-  }
-
-  return (
-    <svg
-      className={styles.upcomingMetaIcon}
-      width={16}
-      height={16}
-      viewBox="0 0 16 16"
-      aria-hidden
-    >
-      <path
-        d="M4.5 2.25v1.25M11.5 2.25v1.25M3.25 5.75h9.5M3.25 4h9.5a1 1 0 0 1 1 1v7.5a1 1 0 0 1-1 1h-9.5a1 1 0 0 1-1-1V5a1 1 0 0 1 1-1Z"
-        fill="none"
-        stroke="currentColor"
-        strokeWidth="1.1"
-        strokeLinecap="round"
-      />
-    </svg>
-  );
-}
 
 function SectionTitle({ children }: { children: string }) {
   return (
@@ -460,7 +319,7 @@ export function UserPage() {
             className={sidebarLinkClass('favourites')}
             onClick={() => setActiveSidebarSection('favourites')}
           >
-            <SidebarIcon type="heart" />
+            <SidebarIcon type="heart" className={styles.sidebarLinkIcon} />
             {userPage.nav.favourites}
           </a>
           <a
@@ -579,7 +438,10 @@ export function UserPage() {
                   <p className={styles.upcomingRegion}>{upcomingStay.region}</p>
                   <ul className={styles.upcomingMeta}>
                     <li className={styles.upcomingMetaItem}>
-                      <UpcomingMetaIcon type="calendar" />
+                      <UpcomingMetaIcon
+                        type="calendar"
+                        className={styles.upcomingMetaIcon}
+                      />
                       <span>
                         {formatCompactDateRange(
                           upcomingStay.check_in,
@@ -588,7 +450,11 @@ export function UserPage() {
                       </span>
                     </li>
                     <li className={styles.upcomingMetaItem}>
-                      <UpcomingMetaIcon type="capacity" />
+                      <UpcomingMetaIcon
+                        type="capacity"
+                        className={styles.upcomingMetaIcon}
+                        capacityClassName={styles.upcomingMetaIconCapacity}
+                      />
                       <span>{userPage.guests(upcomingStay.guests)}</span>
                     </li>
                   </ul>

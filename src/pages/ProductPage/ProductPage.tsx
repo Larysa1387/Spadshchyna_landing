@@ -9,11 +9,14 @@ import {
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import {
   EveIcon,
+  GalleryThumbsArrowIcon,
   HeartIcon,
+  HostDetailIcon,
   LeafIcon,
   LocationMetaIcon,
   LocationPinIcon,
   PriceTagIcon,
+  PropertyDetailIcon,
   RatingFilledStarIcon,
   RatingStarIcon,
   SpoonIcon,
@@ -30,38 +33,10 @@ import type { HomesteadDetail } from '@/api/types';
 import { addDays, todayIso } from '@/lib/format';
 import { compareIsoDates } from '@/lib/calendar';
 import { BookingDatePicker } from '@/components/booking/BookingDatePicker/BookingDatePicker';
-import { publicAsset } from '@/lib/assets';
 import { RecommendationsGrid } from '@/components/homestead/RecommendationsGrid/RecommendationsGrid';
 import styles from './ProductPage.module.scss';
 
 const PILLAR_ICON_COLORS = ['#ffc101', '#f62a24', '#1c63bc'] as const;
-
-function GalleryThumbsArrowIcon({
-  direction = 'down',
-}: {
-  direction?: 'down' | 'left' | 'right';
-}) {
-  const rotation = direction === 'left' ? 90 : direction === 'right' ? -90 : 0;
-
-  return (
-    <svg
-      width="20"
-      height="20"
-      viewBox="0 0 16 16"
-      aria-hidden
-      style={{ transform: `rotate(${rotation}deg)` }}
-    >
-      <path
-        d="M8 3.25v6.25M5.25 9.5 8 12.25 10.75 9.5"
-        fill="none"
-        stroke="currentColor"
-        strokeWidth="1.15"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
-    </svg>
-  );
-}
 
 function formatReviewCategory(category: string) {
   return category.replace(/_/g, ' ');
@@ -108,102 +83,6 @@ function formatHostLanguages(codes: string[]) {
   );
 }
 
-function HostDetailIcon({ type }: { type: 'bell' | 'globe' | 'message' }) {
-  const iconProps = {
-    className: styles.hostDetailIcon,
-    viewBox: '0 0 16 16',
-    width: 16,
-    height: 16,
-    'aria-hidden': true as const,
-  };
-
-  if (type === 'bell') {
-    return (
-      <img
-        className={styles.hostDetailIcon}
-        src={publicAsset('assets/icons/notification-bell-svgrepo-com.svg')}
-        width={16}
-        height={16}
-        alt=""
-        aria-hidden
-      />
-    );
-  }
-
-  if (type === 'globe') {
-    return (
-      <svg {...iconProps}>
-        <circle
-          cx="8"
-          cy="8"
-          r="5.75"
-          fill="none"
-          stroke="currentColor"
-          strokeWidth="1.1"
-        />
-        <path
-          d="M2.25 8h11.5"
-          fill="none"
-          stroke="currentColor"
-          strokeWidth="1.1"
-          strokeLinecap="round"
-        />
-        <path
-          d="M8 2.25v11.5"
-          fill="none"
-          stroke="currentColor"
-          strokeWidth="1.1"
-          strokeLinecap="round"
-        />
-        <path
-          d="M8 2.25Q5.15 8 8 13.75"
-          fill="none"
-          stroke="currentColor"
-          strokeWidth="1.1"
-          strokeLinecap="round"
-        />
-        <path
-          d="M8 2.25Q10.85 8 8 13.75"
-          fill="none"
-          stroke="currentColor"
-          strokeWidth="1.1"
-          strokeLinecap="round"
-        />
-        <path
-          d="M4.35 4.35Q8 3.05 11.65 4.35"
-          fill="none"
-          stroke="currentColor"
-          strokeWidth="1.1"
-          strokeLinecap="round"
-        />
-        <path
-          d="M4.35 11.65Q8 12.95 11.65 11.65"
-          fill="none"
-          stroke="currentColor"
-          strokeWidth="1.1"
-          strokeLinecap="round"
-        />
-      </svg>
-    );
-  }
-
-  return (
-    <svg {...iconProps}>
-      <path
-        d="M3.25 3.25h9.5a.75.75 0 0 1 .75.75v5.5a.75.75 0 0 1-.75.75H7l-2.25 2.25V9.25H3.25a.75.75 0 0 1-.75-.75V4a.75.75 0 0 1 .75-.75Z"
-        fill="none"
-        stroke="currentColor"
-        strokeWidth="1.1"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
-      <circle cx="6" cy="6.25" r="0.45" fill="currentColor" />
-      <circle cx="8" cy="6.25" r="0.45" fill="currentColor" />
-      <circle cx="10" cy="6.25" r="0.45" fill="currentColor" />
-    </svg>
-  );
-}
-
 function SectionHeading({ id, children }: { id: string; children: ReactNode }) {
   return (
     <div className={styles.sectionHeading}>
@@ -218,122 +97,6 @@ function SectionHeading({ id, children }: { id: string; children: ReactNode }) {
       </h2>
       <span className={styles.sectionOrnamentLine} aria-hidden />
     </div>
-  );
-}
-
-function PropertyDetailIcon({
-  type,
-}: {
-  type: 'house' | 'capacity' | 'bed' | 'shield';
-}) {
-  const iconProps = {
-    className: styles.propertyDetailIcon,
-    viewBox: '0 0 16 16',
-    width: 18,
-    height: 18,
-    'aria-hidden': true as const,
-  };
-
-  const strokeProps = {
-    fill: 'none' as const,
-    stroke: 'currentColor',
-    strokeWidth: 1.1,
-    strokeLinecap: 'round' as const,
-    strokeLinejoin: 'round' as const,
-  };
-
-  if (type === 'capacity') {
-    const capacityStrokeProps = {
-      ...strokeProps,
-      strokeWidth: 0.8,
-    };
-
-    return (
-      <svg
-        {...iconProps}
-        className={`${styles.propertyDetailIcon} ${styles.propertyDetailIconCapacity}`}
-        width={22}
-        height={22}
-      >
-        <circle cx="10.35" cy="5.35" r="1.05" {...capacityStrokeProps} />
-        <path
-          d="M8.6 9.85v-.45c0-.95.82-1.72 1.85-1.72s1.85.77 1.85 1.72v.45"
-          {...capacityStrokeProps}
-        />
-        <path d="M8.15 10.3h4.3" {...capacityStrokeProps} />
-        <circle cx="5.65" cy="5.65" r="1.4" {...capacityStrokeProps} />
-        <path
-          d="M2.75 10.75v-.75c0-1.45 1.46-2.625 3.25-2.625s3.25 1.175 3.25 2.625v.75"
-          {...capacityStrokeProps}
-        />
-        <path d="M2.75 11.5h6.5" {...capacityStrokeProps} />
-      </svg>
-    );
-  }
-
-  if (type === 'bed') {
-    return (
-      <svg {...iconProps}>
-        <path
-          d="M4.1 2.75h7.8q.85 0 .85.85v1.9H3.25V3.6q0-.85.85-.85Z"
-          {...strokeProps}
-        />
-        <rect
-          x="3"
-          y="6.1"
-          width="3.85"
-          height="1.35"
-          rx="0.4"
-          {...strokeProps}
-        />
-        <rect
-          x="9.15"
-          y="6.1"
-          width="3.85"
-          height="1.35"
-          rx="0.4"
-          {...strokeProps}
-        />
-        <rect
-          x="2.85"
-          y="7.85"
-          width="10.3"
-          height="2.7"
-          rx="0.55"
-          {...strokeProps}
-        />
-        <path
-          d="M2.35 10.9h11.3M2.85 10.9v1.2M13.15 10.9v1.2"
-          {...strokeProps}
-        />
-      </svg>
-    );
-  }
-
-  if (type === 'shield') {
-    return (
-      <svg {...iconProps}>
-        <path
-          d="M8 1.75 12.75 3.5V7.5c0 2.45-1.95 4.74-4.75 5.5-2.8-.76-4.75-3.05-4.75-5.5V3.5L8 1.75Z"
-          {...strokeProps}
-        />
-        <path d="M5.45 7.55 7.2 9.3 11.55 4.85" {...strokeProps} />
-      </svg>
-    );
-  }
-
-  const paths: Record<
-    Exclude<typeof type, 'capacity' | 'bed' | 'shield'>,
-    string
-  > = {
-    house:
-      'M2.5 5.75 8 1.75l5.5 4V13a.75.75 0 0 1-.75.75H3.25A.75.75 0 0 1 2.5 13V5.75Zm2 1.25v5.5h3.5v-5.5',
-  };
-
-  return (
-    <svg {...iconProps}>
-      <path d={paths[type]} {...strokeProps} />
-    </svg>
   );
 }
 
@@ -355,13 +118,24 @@ function PropertyDetailsList({
     },
     {
       key: 'house',
-      icon: <PropertyDetailIcon type="house" />,
+      icon: (
+        <PropertyDetailIcon
+          type="house"
+          className={styles.propertyDetailIcon}
+        />
+      ),
       label: productPage.propertyDetails.houseType,
       value: productPage.propertyDetails.houseTypeValue,
     },
     {
       key: 'capacity',
-      icon: <PropertyDetailIcon type="capacity" />,
+      icon: (
+        <PropertyDetailIcon
+          type="capacity"
+          className={styles.propertyDetailIcon}
+          capacityClassName={styles.propertyDetailIconCapacity}
+        />
+      ),
       label: productPage.propertyDetails.capacity,
       value: productPage.propertyDetails.capacityValue(
         homestead.pricing.max_guests,
@@ -369,7 +143,9 @@ function PropertyDetailsList({
     },
     {
       key: 'rooms',
-      icon: <PropertyDetailIcon type="bed" />,
+      icon: (
+        <PropertyDetailIcon type="bed" className={styles.propertyDetailIcon} />
+      ),
       label: productPage.propertyDetails.rooms,
       value: productPage.propertyDetails.roomsValue(
         homestead.bedrooms,
@@ -379,7 +155,12 @@ function PropertyDetailsList({
     },
     {
       key: 'cancellation',
-      icon: <PropertyDetailIcon type="shield" />,
+      icon: (
+        <PropertyDetailIcon
+          type="shield"
+          className={styles.propertyDetailIcon}
+        />
+      ),
       label: productPage.propertyDetails.cancellation,
       value: productPage.propertyDetails.cancellationValue,
     },
@@ -439,7 +220,7 @@ function HostCard({
 
       <ul className={styles.hostDetails}>
         <li className={styles.hostDetailItem}>
-          <HostDetailIcon type="bell" />
+          <HostDetailIcon type="bell" className={styles.hostDetailIcon} />
           <span>
             {productPage.host.responseTime.prefix}{' '}
             <span className={styles.hostDetailHighlight}>
@@ -449,7 +230,7 @@ function HostCard({
         </li>
         {homestead.host.languages.length > 0 && (
           <li className={styles.hostDetailItem}>
-            <HostDetailIcon type="globe" />
+            <HostDetailIcon type="globe" className={styles.hostDetailIcon} />
             <span className={styles.hostLanguages}>
               {productPage.host.languagesLabel}{' '}
               <strong>
@@ -459,7 +240,7 @@ function HostCard({
           </li>
         )}
         <li className={styles.hostDetailItem}>
-          <HostDetailIcon type="message" />
+          <HostDetailIcon type="message" className={styles.hostDetailIcon} />
           <a
             className={styles.hostContactLink}
             href={`mailto:${productPage.host.contactEmail(hostFirstName)}`}

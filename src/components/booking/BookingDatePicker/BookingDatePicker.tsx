@@ -1,4 +1,5 @@
 import { useEffect, useId, useRef, useState } from 'react';
+import { CalendarIcon, ChevronIcon } from '@/components/icons';
 import { formatDisplayDate, todayIso } from '@/lib/format';
 import {
   buildCalendarGrid,
@@ -20,40 +21,6 @@ type BookingDatePickerProps = {
   popupAlign?: 'start' | 'end';
   onChange: (value: string) => void;
 };
-
-function CalendarIcon() {
-  return (
-    <svg width="16" height="16" viewBox="0 0 16 16" aria-hidden>
-      <path
-        d="M4.5 2.25v1.25M11.5 2.25v1.25M3.25 5.75h9.5M3.25 4h9.5a1 1 0 0 1 1 1v7.5a1 1 0 0 1-1 1h-9.5a1 1 0 0 1-1-1V5a1 1 0 0 1 1-1Z"
-        fill="none"
-        stroke="currentColor"
-        strokeWidth="1.1"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
-    </svg>
-  );
-}
-
-function ChevronIcon({ direction }: { direction: 'left' | 'right' }) {
-  return (
-    <svg width="16" height="16" viewBox="0 0 16 16" aria-hidden>
-      <path
-        d={
-          direction === 'left'
-            ? 'M10 3.5 5.5 8 10 12.5'
-            : 'M6 3.5 10.5 8 6 12.5'
-        }
-        fill="none"
-        stroke="currentColor"
-        strokeWidth="1.15"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
-    </svg>
-  );
-}
 
 function getViewMonth(value: string, min: string) {
   const source = value || min || todayIso();
@@ -170,7 +137,7 @@ export function BookingDatePicker({
           <span className={value ? undefined : styles.triggerPlaceholder}>
             {displayValue}
           </span>
-          <CalendarIcon />
+          <CalendarIcon size={16} />
         </span>
       </button>
 

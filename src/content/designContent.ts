@@ -43,7 +43,7 @@ export const auth = {
   forgotPasswordPage: {
     title: 'Reset your password',
     description:
-      'Enter your email and we will send you a 6-digit code to reset your password.',
+      'Enter your email and we will send you a 6-digit code to reset your password. The code is valid for 10 minutes.',
     email: 'Email',
     submit: 'Send reset code',
     success:
@@ -54,14 +54,16 @@ export const auth = {
   resetPasswordPage: {
     title: 'Create a new password',
     description:
-      'Enter the 6-digit code from your email and choose a new password.',
+      'Enter the 6-digit code from your email and choose a new password. Codes expire after 10 minutes.',
     email: 'Email',
     code: 'Reset code',
     codeHint: '6-digit code from your email',
     newPassword: 'New password',
     confirmPassword: 'Confirm new password',
     submit: 'Reset password',
-    success: 'Your password has been reset. You can now sign in.',
+    successTitle: 'Password updated',
+    success:
+      'Your password has been reset. You can now sign in with your new password.',
     signIn: 'Sign in',
     backToRequest: 'Request a new code',
     passwordMismatch: 'Passwords do not match.',

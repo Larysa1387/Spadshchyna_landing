@@ -30,11 +30,6 @@ export type ListHomesteadsParams = {
   offset?: number;
 };
 
-/** API params plus optional client-side rating upper bound (API has no rating_max). */
-export type ArchiveHomesteadsQuery = ListHomesteadsParams & {
-  rating_max?: number | null;
-};
-
 export type MessageResponse = {
   detail: string;
 };
@@ -77,12 +72,6 @@ export type UserResponse = {
 
 export type ApiErrorDetail = {
   detail?: string | { msg: string }[];
-};
-
-export type RegionResponse = {
-  id: number;
-  name: string;
-  slug: string;
 };
 
 export type HostResponse = {

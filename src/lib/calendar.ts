@@ -1,10 +1,10 @@
-export type DateParts = {
+type DateParts = {
   year: number;
   month: number;
   day: number;
 };
 
-export type CalendarDay = {
+type CalendarDay = {
   date: DateParts;
   iso: string;
   inMonth: boolean;
@@ -21,7 +21,7 @@ export function toIsoDateLocal(parts: DateParts): string {
   return `${parts.year}-${month}-${day}`;
 }
 
-export function compareDates(a: DateParts, b: DateParts): number {
+function compareDates(a: DateParts, b: DateParts): number {
   if (a.year !== b.year) {
     return a.year - b.year;
   }

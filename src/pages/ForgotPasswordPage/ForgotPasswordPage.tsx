@@ -1,15 +1,17 @@
 import { useState, type FormEvent } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { forgotPassword } from '@/api/auth';
 import { getApiErrorMessage } from '@/api/client';
 import { paths } from '@/app/paths';
 import { auth as authCopy } from '@/content/designContent';
+import { useAuth } from '@/features/auth/useAuth';
 import styles from './ForgotPasswordPage.module.scss';
 
 const copy = authCopy.forgotPasswordPage;
 
 export function ForgotPasswordPage() {
   const navigate = useNavigate();
+  const { openLoginModal } = useAuth();
   const [email, setEmail] = useState('');
   const [error, setError] = useState<string | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -35,6 +37,11 @@ export function ForgotPasswordPage() {
   const handleContinue = () => {
     const params = new URLSearchParams({ email: email.trim() });
     navigate(`${paths.resetPassword}?${params.toString()}`);
+  };
+
+  const handleBackToSignIn = () => {
+    navigate(paths.home);
+    openLoginModal();
   };
 
   return (
@@ -93,9 +100,13 @@ export function ForgotPasswordPage() {
         )}
 
         <p className={styles.footer}>
-          <Link className={styles.footerLink} to={paths.home}>
+          <button
+            type="button"
+            className={styles.footerLink}
+            onClick={handleBackToSignIn}
+          >
             {copy.backToSignIn}
-          </Link>
+          </button>
         </p>
       </div>
     </section>

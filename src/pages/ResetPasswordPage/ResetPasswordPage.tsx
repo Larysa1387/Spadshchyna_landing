@@ -73,13 +73,11 @@ export function ResetPasswordPage() {
   return (
     <section className={styles.page} aria-labelledby="reset-password-title">
       <div className={styles.card}>
-        <h1 id="reset-password-title" className={styles.title}>
-          {copy.title}
-        </h1>
-        <p className={styles.description}>{copy.description}</p>
-
         {isSuccess ? (
           <>
+            <h1 id="reset-password-title" className={styles.title}>
+              {copy.successTitle}
+            </h1>
             <p className={styles.success} role="status">
               {copy.success}
             </p>
@@ -92,85 +90,96 @@ export function ResetPasswordPage() {
             </button>
           </>
         ) : (
-          <form className={styles.form} onSubmit={handleSubmit} noValidate>
-            <div className={styles.field}>
-              <label className={styles.label} htmlFor="reset-password-email">
-                {copy.email}
-              </label>
-              <input
-                id="reset-password-email"
-                className={styles.input}
-                type="email"
-                name="email"
-                autoComplete="email"
-                required
-                value={email}
-                onChange={(event) => setEmail(event.target.value)}
+          <>
+            <h1 id="reset-password-title" className={styles.title}>
+              {copy.title}
+            </h1>
+            <p className={styles.description}>{copy.description}</p>
+
+            <form className={styles.form} onSubmit={handleSubmit} noValidate>
+              <div className={styles.field}>
+                <label className={styles.label} htmlFor="reset-password-email">
+                  {copy.email}
+                </label>
+                <input
+                  id="reset-password-email"
+                  className={styles.input}
+                  type="email"
+                  name="email"
+                  autoComplete="email"
+                  required
+                  value={email}
+                  onChange={(event) => setEmail(event.target.value)}
+                />
+              </div>
+
+              <div className={styles.field}>
+                <label className={styles.label} htmlFor="reset-password-code">
+                  {copy.code}
+                </label>
+                <input
+                  id="reset-password-code"
+                  className={`${styles.input} ${styles.codeInput}`}
+                  type="text"
+                  name="code"
+                  inputMode="numeric"
+                  autoComplete="one-time-code"
+                  required
+                  pattern="\d{6}"
+                  maxLength={6}
+                  value={code}
+                  onChange={(event) => handleCodeChange(event.target.value)}
+                />
+                <p className={styles.hint}>{copy.codeHint}</p>
+              </div>
+
+              <PasswordField
+                id="reset-password-new"
+                label={copy.newPassword}
+                value={newPassword}
+                minLength={8}
+                maxLength={128}
+                onChange={setNewPassword}
               />
-            </div>
 
-            <div className={styles.field}>
-              <label className={styles.label} htmlFor="reset-password-code">
-                {copy.code}
-              </label>
-              <input
-                id="reset-password-code"
-                className={`${styles.input} ${styles.codeInput}`}
-                type="text"
-                name="code"
-                inputMode="numeric"
-                autoComplete="one-time-code"
-                required
-                pattern="\d{6}"
-                maxLength={6}
-                value={code}
-                onChange={(event) => handleCodeChange(event.target.value)}
+              <PasswordField
+                id="reset-password-confirm"
+                label={copy.confirmPassword}
+                value={confirmPassword}
+                minLength={8}
+                maxLength={128}
+                onChange={setConfirmPassword}
               />
-              <p className={styles.hint}>{copy.codeHint}</p>
+
+              {error && (
+                <p className={styles.error} role="alert">
+                  {error}
+                </p>
+              )}
+
+              <button
+                type="submit"
+                className={styles.submitButton}
+                disabled={isSubmitting}
+              >
+                {copy.submit}
+              </button>
+            </form>
+
+            <div className={styles.footer}>
+              <Link className={styles.footerLink} to={paths.forgotPassword}>
+                {copy.backToRequest}
+              </Link>
+              <button
+                type="button"
+                className={styles.footerLinkButton}
+                onClick={handleSignIn}
+              >
+                {authCopy.forgotPasswordPage.backToSignIn}
+              </button>
             </div>
-
-            <PasswordField
-              id="reset-password-new"
-              label={copy.newPassword}
-              value={newPassword}
-              minLength={8}
-              maxLength={128}
-              onChange={setNewPassword}
-            />
-
-            <PasswordField
-              id="reset-password-confirm"
-              label={copy.confirmPassword}
-              value={confirmPassword}
-              minLength={8}
-              maxLength={128}
-              onChange={setConfirmPassword}
-            />
-
-            {error && (
-              <p className={styles.error} role="alert">
-                {error}
-              </p>
-            )}
-
-            <button
-              type="submit"
-              className={styles.submitButton}
-              disabled={isSubmitting}
-            >
-              {copy.submit}
-            </button>
-          </form>
+          </>
         )}
-
-        <div className={styles.footer}>
-          <Link className={styles.footerLink} to={paths.forgotPassword}>
-            {copy.backToRequest}
-          </Link>
-          <Link className={styles.footerLink} to={paths.home}>
-            {authCopy.forgotPasswordPage.backToSignIn}
-          </Link>
-        </div>
       </div>
     </section>
   );

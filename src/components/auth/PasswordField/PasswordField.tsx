@@ -1,4 +1,5 @@
 import { useId, useState } from 'react';
+import { EyeIcon } from '@/components/icons';
 import { auth as authCopy } from '@/content/designContent';
 import styles from './PasswordField.module.scss';
 
@@ -12,54 +13,6 @@ type PasswordFieldProps = {
   required?: boolean;
   onChange: (value: string) => void;
 };
-
-function EyeIcon({ hidden }: { hidden: boolean }) {
-  if (hidden) {
-    return (
-      <svg width="20" height="20" viewBox="0 0 20 20" aria-hidden>
-        <path
-          d="M2.5 10s2.5-5 7.5-5 7.5 5 7.5 5-2.5 5-7.5 5-7.5-5-7.5-5Z"
-          fill="none"
-          stroke="currentColor"
-          strokeWidth="1.3"
-        />
-        <circle
-          cx="10"
-          cy="10"
-          r="2.25"
-          fill="none"
-          stroke="currentColor"
-          strokeWidth="1.3"
-        />
-        <path
-          d="M4 4l12 12"
-          stroke="currentColor"
-          strokeWidth="1.3"
-          strokeLinecap="round"
-        />
-      </svg>
-    );
-  }
-
-  return (
-    <svg width="20" height="20" viewBox="0 0 20 20" aria-hidden>
-      <path
-        d="M2.5 10s2.5-5 7.5-5 7.5 5 7.5 5-2.5 5-7.5 5-7.5-5-7.5-5Z"
-        fill="none"
-        stroke="currentColor"
-        strokeWidth="1.3"
-      />
-      <circle
-        cx="10"
-        cy="10"
-        r="2.25"
-        fill="none"
-        stroke="currentColor"
-        strokeWidth="1.3"
-      />
-    </svg>
-  );
-}
 
 export function PasswordField({
   id,

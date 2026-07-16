@@ -13,10 +13,17 @@ import { getApiErrorMessage, isUnauthorizedError } from '@/api/client';
 import type { CheckAvailabilityResponse, HomesteadDetail } from '@/api/types';
 import { paths } from '@/app/paths';
 import {
+  CalendarIcon,
+  CapacityIcon,
+  HeadsetIcon,
   HeartIcon,
+  InfoIcon,
   LeafIcon,
+  LockIcon,
   LogoIcon,
+  MessageIcon,
   RatingStarIcon,
+  ShieldIcon,
 } from '@/components/icons';
 import { checkout, navigation, productPage } from '@/content/designContent';
 import { useAuth } from '@/features/auth/useAuth';
@@ -235,272 +242,6 @@ function DonationSlider({
         ))}
       </div>
     </div>
-  );
-}
-
-function LockIcon({
-  className,
-  size = 16,
-  filled = false,
-}: {
-  className?: string;
-  size?: number;
-  filled?: boolean;
-}) {
-  if (filled) {
-    return (
-      <svg
-        className={className}
-        viewBox="0 0 24 24"
-        width={size}
-        height={size}
-        aria-hidden
-      >
-        <path
-          d="M12 2a4.5 4.5 0 0 0-4.5 4.5V9H7a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-9a2 2 0 0 0-2-2h-.5V6.5A4.5 4.5 0 0 0 12 2Zm0 2a2.5 2.5 0 0 1 2.5 2.5V9h-5V6.5A2.5 2.5 0 0 1 12 4Z"
-          fill="currentColor"
-        />
-      </svg>
-    );
-  }
-
-  return (
-    <svg
-      className={className}
-      viewBox="0 0 24 24"
-      width={size}
-      height={size}
-      aria-hidden
-    >
-      <rect
-        x="5"
-        y="11"
-        width="14"
-        height="10"
-        rx="2"
-        fill="none"
-        stroke="currentColor"
-        strokeWidth="1.25"
-      />
-      <path
-        d="M8 11V8a4 4 0 1 1 8 0v3"
-        fill="none"
-        stroke="currentColor"
-        strokeWidth="1.25"
-        strokeLinecap="round"
-      />
-    </svg>
-  );
-}
-
-function CalendarIcon({
-  className,
-  size = 18,
-}: {
-  className?: string;
-  size?: number;
-}) {
-  return (
-    <svg
-      className={className}
-      viewBox="0 0 16 16"
-      width={size}
-      height={size}
-      aria-hidden
-    >
-      <path
-        d="M4.5 2.25v1.25M11.5 2.25v1.25M3.25 5.75h9.5M3.25 4h9.5a1 1 0 0 1 1 1v7.5a1 1 0 0 1-1 1h-9.5a1 1 0 0 1-1-1V5a1 1 0 0 1 1-1Z"
-        fill="none"
-        stroke="currentColor"
-        strokeWidth="1.1"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
-    </svg>
-  );
-}
-
-function CapacityIcon({
-  className,
-  size = 22,
-}: {
-  className?: string;
-  size?: number;
-}) {
-  const strokeProps = {
-    fill: 'none' as const,
-    stroke: 'currentColor',
-    strokeWidth: 0.8,
-    strokeLinecap: 'round' as const,
-    strokeLinejoin: 'round' as const,
-  };
-
-  return (
-    <svg
-      className={className}
-      viewBox="0 0 16 16"
-      width={size}
-      height={size}
-      aria-hidden
-    >
-      <circle cx="10.35" cy="5.35" r="1.05" {...strokeProps} />
-      <path
-        d="M8.6 9.85v-.45c0-.95.82-1.72 1.85-1.72s1.85.77 1.85 1.72v.45"
-        {...strokeProps}
-      />
-      <path d="M8.15 10.3h4.3" {...strokeProps} />
-      <circle cx="5.65" cy="5.65" r="1.4" {...strokeProps} />
-      <path
-        d="M2.75 10.75v-.75c0-1.45 1.46-2.625 3.25-2.625s3.25 1.175 3.25 2.625v.75"
-        {...strokeProps}
-      />
-      <path d="M2.75 11.5h6.5" {...strokeProps} />
-    </svg>
-  );
-}
-
-function ShieldIcon({
-  className,
-  size = 22,
-}: {
-  className?: string;
-  size?: number;
-}) {
-  return (
-    <svg
-      className={className}
-      viewBox="0 0 24 24"
-      width={size}
-      height={size}
-      aria-hidden
-    >
-      <path
-        d="M12 3 5 6v6c0 4.5 3 7.5 7 9 4-1.5 7-4.5 7-9V6l-7-3Z"
-        fill="none"
-        stroke="currentColor"
-        strokeWidth="1.25"
-        strokeLinejoin="round"
-      />
-      <path
-        d="m9.5 12 1.75 1.75L15 10"
-        fill="none"
-        stroke="currentColor"
-        strokeWidth="1.25"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
-    </svg>
-  );
-}
-
-function InfoIcon({
-  className,
-  size = 14,
-}: {
-  className?: string;
-  size?: number;
-}) {
-  return (
-    <svg
-      className={className}
-      viewBox="0 0 24 24"
-      width={size}
-      height={size}
-      aria-hidden
-    >
-      <circle
-        cx="12"
-        cy="12"
-        r="9"
-        fill="none"
-        stroke="currentColor"
-        strokeWidth="1.25"
-      />
-      <path
-        d="M12 10.5V16M12 8v.5"
-        fill="none"
-        stroke="currentColor"
-        strokeWidth="1.5"
-        strokeLinecap="round"
-      />
-    </svg>
-  );
-}
-
-function HeadsetIcon({
-  className,
-  size = 22,
-}: {
-  className?: string;
-  size?: number;
-}) {
-  return (
-    <svg
-      className={className}
-      viewBox="0 0 24 24"
-      width={size}
-      height={size}
-      aria-hidden
-    >
-      <path
-        d="M4 14v-2a8 8 0 0 1 16 0v2"
-        fill="none"
-        stroke="currentColor"
-        strokeWidth="1.25"
-        strokeLinecap="round"
-      />
-      <rect
-        x="3"
-        y="13"
-        width="4"
-        height="6"
-        rx="1.5"
-        fill="none"
-        stroke="currentColor"
-        strokeWidth="1.25"
-      />
-      <rect
-        x="17"
-        y="13"
-        width="4"
-        height="6"
-        rx="1.5"
-        fill="none"
-        stroke="currentColor"
-        strokeWidth="1.25"
-      />
-      <path
-        d="M12 19v2"
-        fill="none"
-        stroke="currentColor"
-        strokeWidth="1.25"
-        strokeLinecap="round"
-      />
-    </svg>
-  );
-}
-
-function HostDetailIcon({ className }: { className?: string }) {
-  return (
-    <svg
-      className={className}
-      viewBox="0 0 16 16"
-      width={16}
-      height={16}
-      aria-hidden
-    >
-      <path
-        d="M3.25 3.25h9.5a.75.75 0 0 1 .75.75v5.5a.75.75 0 0 1-.75.75H7l-2.25 2.25V9.25H3.25a.75.75 0 0 1-.75-.75V4a.75.75 0 0 1 .75-.75Z"
-        fill="none"
-        stroke="currentColor"
-        strokeWidth="1.1"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
-      <circle cx="6" cy="6.25" r="0.45" fill="currentColor" />
-      <circle cx="8" cy="6.25" r="0.45" fill="currentColor" />
-      <circle cx="10" cy="6.25" r="0.45" fill="currentColor" />
-    </svg>
   );
 }
 
@@ -1093,7 +834,7 @@ export function CheckoutPage() {
                 Response {productPage.host.responseTime.highlight}
               </p>
               <a href={`mailto:${hostEmail}`} className={styles.hostContact}>
-                <HostDetailIcon className={styles.hostDetailIcon} />
+                <MessageIcon className={styles.hostDetailIcon} />
                 <span>{productPage.host.contactHost(hostEmail)}</span>
               </a>
             </div>
