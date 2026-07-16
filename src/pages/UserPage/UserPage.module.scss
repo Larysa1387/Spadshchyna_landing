@@ -198,6 +198,10 @@
   @include tablet-up {
     min-height: 20rem;
   }
+
+  @include tablet-only {
+    min-height: 15rem;
+  }
 }
 
 .heroImage {
@@ -213,6 +217,10 @@
     inset: 0;
     width: 100%;
     object-position: center;
+  }
+
+  @include desktop-up {
+    width: 60.8%;
   }
 }
 
@@ -234,6 +242,10 @@
 
   @include tablet-up {
     padding: $space-6;
+  }
+
+  @include tablet-only {
+    padding: 1.5rem 1.5rem 0;
   }
 }
 
@@ -295,6 +307,10 @@
     padding: 0.25rem 0.4rem;
     font-size: 0.775rem;
   }
+
+  @include desktop-up {
+    background: transparent;
+  }
 }
 
 .heroPanel,
@@ -318,6 +334,14 @@
 
   @include tablet-only {
     width: 59%;
+  }
+
+  @media (min-width: $breakpoint-desktop) and (max-width: 1199px) {
+    width: min(62%, 34rem);
+  }
+
+  @media (min-width: 1200px) {
+    width: min(50%, 29rem);
   }
 }
 

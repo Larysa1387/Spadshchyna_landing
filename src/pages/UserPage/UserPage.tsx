@@ -382,16 +382,27 @@ export function UserPage() {
   }, [bookings, upcomingStay]);
 
   const stats = useMemo(() => {
-    const regions = new Set(bookings.map((booking) => booking.homestead_id))
-      .size;
+    const regionKeys = [
+      ...pastJourneys.map((journey) => journey.region),
+      ...(upcomingStay?.region ? [upcomingStay.region] : []),
+    ]
+      .map((region) => region.trim().toLowerCase())
+      .filter(Boolean);
+
+    const homesteadKeys = [
+      ...pastJourneys.map((journey) => journey.homestead_name),
+      ...(upcomingStay ? [upcomingStay.homestead_name] : []),
+    ]
+      .map((name) => name.trim().toLowerCase())
+      .filter(Boolean);
 
     return {
       nights: totalNights,
-      regions: regions || 3,
+      regions: new Set(regionKeys).size,
       donated: totalDonated,
-      restored: regions || 3,
+      restored: new Set(homesteadKeys).size,
     };
-  }, [bookings, totalDonated, totalNights]);
+  }, [pastJourneys, upcomingStay, totalDonated, totalNights]);
 
   const displayName = user
     ? `${user.first_name} ${user.last_name}`.trim()
@@ -491,7 +502,9 @@ export function UserPage() {
                 {userPage.welcome(displayName)}
               </h1>
               <p className={styles.heroWelcomeSummary}>
-                {userPage.exploredSummary(stats.regions, stats.restored)}
+                {stats.regions === 0
+                  ? userPage.exploredSummaryEmpty
+                  : userPage.exploredSummary(stats.regions, stats.restored)}
               </p>
             </div>
 

@@ -256,6 +256,18 @@
   display: block;
 }
 
+.authActions {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+
+  @include mobile-only {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0;
+  }
+}
+
 .loginLink {
   @include button-outline;
   border-color: $color-neutral-brown-500;

@@ -130,28 +130,28 @@ export function Header() {
           >
             {navigation.homesteads}
           </NavLink>
-          {isAuthenticated && (
-            <NavLink
-              to={paths.dashboard}
-              className={({ isActive }) =>
-                isActive
-                  ? `${styles.navIconLink} ${styles.navIconLinkInNav} ${styles.navIconLinkActive}`
-                  : `${styles.navIconLink} ${styles.navIconLinkInNav}`
-              }
-              aria-label={navigation.dashboard}
-              onClick={closeMenu}
-            >
-              <PersonIcon className={styles.navIcon} size={18} />
-            </NavLink>
-          )}
           {isAuthenticated ? (
-            <button
-              type="button"
-              className={styles.logoutLink}
-              onClick={handleLogout}
-            >
-              {navigation.logout}
-            </button>
+            <div className={styles.authActions}>
+              <NavLink
+                to={paths.dashboard}
+                className={({ isActive }) =>
+                  isActive
+                    ? `${styles.navIconLink} ${styles.navIconLinkInNav} ${styles.navIconLinkActive}`
+                    : `${styles.navIconLink} ${styles.navIconLinkInNav}`
+                }
+                aria-label={navigation.dashboard}
+                onClick={closeMenu}
+              >
+                <PersonIcon className={styles.navIcon} size={18} />
+              </NavLink>
+              <button
+                type="button"
+                className={styles.logoutLink}
+                onClick={handleLogout}
+              >
+                {navigation.logout}
+              </button>
+            </div>
           ) : (
             <button
               type="button"

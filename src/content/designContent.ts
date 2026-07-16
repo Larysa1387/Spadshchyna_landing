@@ -303,6 +303,8 @@ export const userPage = {
   welcome: (name: string) => `Welcome back, ${name}!`,
   exploredSummary: (regions: number, restored: number) =>
     `You have already explored ${regions} regions of Ukraine and helped restore ${restored} historic homesteads.`,
+  exploredSummaryEmpty:
+    "Your journey through Ukraine's living heritage starts here. Discover a homestead, explore a new region, and help restore historic homes.",
   stats: {
     nights: 'nights traveled',
     regions: 'regions explored',
