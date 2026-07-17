@@ -8,9 +8,17 @@ import {
 } from 'react';
 import { Link, useSearchParams } from 'react-router-dom';
 import { checkAvailability } from '@/api/homesteads';
-import { createBooking } from '@/api/bookings';
-import { getApiErrorMessage, isUnauthorizedError } from '@/api/client';
-import type { CheckAvailabilityResponse, HomesteadDetail } from '@/api/types';
+import { createBooking, listBookings } from '@/api/bookings';
+import {
+  getApiErrorMessage,
+  isConflictError,
+  isUnauthorizedError,
+} from '@/api/client';
+import type {
+  BookingListItem,
+  CheckAvailabilityResponse,
+  HomesteadDetail,
+} from '@/api/types';
 import { paths } from '@/app/paths';
 import {
   CalendarIcon,
@@ -35,6 +43,19 @@ import {
   formatUah,
   todayIso,
 } from '@/lib/format';
+import {
+  findBookingForStay,
+  findPendingBookingForStay,
+  isPendingBookingStatus,
+} from '@/lib/bookings';
+import {
+  clearPendingCheckout,
+  getPendingCheckoutByBookingId,
+  getPendingCheckoutByParams,
+  isValidCheckoutUrl,
+  redirectToCheckout,
+  savePendingCheckout,
+} from '@/lib/pendingCheckout';
 import { publicAsset } from '@/lib/assets';
 import styles from './CheckoutPage.module.scss';
 
@@ -272,6 +293,7 @@ export function CheckoutPage() {
   const [isPaying, setIsPaying] = useState(false);
   const [payError, setPayError] = useState<string | null>(null);
   const [pendingPay, setPendingPay] = useState(false);
+  const [userBookings, setUserBookings] = useState<BookingListItem[]>([]);
   const [isMobileViewport, setIsMobileViewport] = useState(
     () =>
       typeof window !== 'undefined' &&
@@ -353,6 +375,94 @@ export function CheckoutPage() {
     isHomesteadLoading,
   ]);
 
+  useEffect(() => {
+    if (!isAuthenticated || isInitializing || !homesteadId) {
+      setUserBookings([]);
+      return;
+    }
+
+    let cancelled = false;
+
+    listBookings()
+      .then((bookings) => {
+        if (!cancelled) {
+          setUserBookings(bookings);
+        }
+      })
+      .catch(() => {
+        if (!cancelled) {
+          setUserBookings([]);
+        }
+      });
+
+    return () => {
+      cancelled = true;
+    };
+  }, [checkIn, checkOut, homesteadId, isAuthenticated, isInitializing]);
+
+  useEffect(() => {
+    if (!homesteadId) {
+      return;
+    }
+
+    const matchingBooking = findBookingForStay(
+      userBookings,
+      homesteadId,
+      checkIn,
+      checkOut,
+    );
+
+    if (matchingBooking && !isPendingBookingStatus(matchingBooking.status)) {
+      clearPendingCheckout(homesteadId, checkIn, checkOut, matchingBooking.id);
+    }
+  }, [checkIn, checkOut, homesteadId, userBookings]);
+
+  const pendingBooking = useMemo(
+    () =>
+      homesteadId
+        ? findPendingBookingForStay(
+            userBookings,
+            homesteadId,
+            checkIn,
+            checkOut,
+          )
+        : null,
+    [checkIn, checkOut, homesteadId, userBookings],
+  );
+
+  const resumeCheckoutUrl = useMemo(() => {
+    if (!homesteadId) {
+      return null;
+    }
+
+    const storedByParams = getPendingCheckoutByParams(
+      homesteadId,
+      checkIn,
+      checkOut,
+    );
+
+    if (storedByParams?.checkoutUrl) {
+      return storedByParams.checkoutUrl;
+    }
+
+    if (pendingBooking) {
+      return (
+        getPendingCheckoutByBookingId(pendingBooking.id)?.checkoutUrl ?? null
+      );
+    }
+
+    return null;
+  }, [checkIn, checkOut, homesteadId, pendingBooking]);
+
+  const hasResumeCheckout = !!resumeCheckoutUrl;
+  const showPendingNotice = !!pendingBooking && !isViewMode;
+  const showUnavailableNotice =
+    !!availability && !availability.available && !pendingBooking && !isViewMode;
+  const canPay =
+    !isViewMode &&
+    !isPaying &&
+    (hasResumeCheckout || (!!availability?.available && !pendingBooking));
+
   const donationAmount = useMemo(() => {
     if (!availability) {
       return 0;
@@ -386,13 +496,29 @@ export function CheckoutPage() {
   const hostEmail = productPage.host.contactEmail(hostFirstName);
 
   const handlePay = useCallback(async () => {
-    if (!homestead || !availability?.available) {
+    if (!homestead || !availability) {
+      return;
+    }
+
+    if (!hasResumeCheckout && !availability.available) {
       return;
     }
 
     if (!isAuthenticated) {
       setPendingPay(true);
       openLoginModal();
+      return;
+    }
+
+    if (resumeCheckoutUrl && isValidCheckoutUrl(resumeCheckoutUrl)) {
+      setIsPaying(true);
+      setPayError(null);
+      redirectToCheckout(resumeCheckoutUrl);
+      return;
+    }
+
+    if (pendingBooking) {
+      setPayError(checkout.pendingPaymentNoUrl);
       return;
     }
 
@@ -408,14 +534,61 @@ export function CheckoutPage() {
         donation_pct: donationPct,
       });
 
-      window.location.href = booking.checkout_url;
+      if (!booking.checkout_url || !isValidCheckoutUrl(booking.checkout_url)) {
+        setPayError(checkout.invalidCheckoutUrl);
+        return;
+      }
+
+      savePendingCheckout({
+        bookingId: booking.id,
+        homesteadId: homestead.id,
+        checkIn,
+        checkOut,
+        checkoutUrl: booking.checkout_url,
+      });
+
+      redirectToCheckout(booking.checkout_url);
     } catch (requestError) {
       if (isUnauthorizedError(requestError)) {
         setPendingPay(true);
         openLoginModal();
-      } else {
-        setPayError(getApiErrorMessage(requestError, checkout.payError));
+        return;
       }
+
+      if (isConflictError(requestError)) {
+        try {
+          const bookings = await listBookings();
+          setUserBookings(bookings);
+
+          const conflictPending = findPendingBookingForStay(
+            bookings,
+            homestead.id,
+            checkIn,
+            checkOut,
+          );
+
+          if (conflictPending) {
+            const storedCheckout =
+              getPendingCheckoutByBookingId(conflictPending.id) ??
+              getPendingCheckoutByParams(homestead.id, checkIn, checkOut);
+
+            if (
+              storedCheckout?.checkoutUrl &&
+              isValidCheckoutUrl(storedCheckout.checkoutUrl)
+            ) {
+              redirectToCheckout(storedCheckout.checkoutUrl);
+              return;
+            }
+
+            setPayError(checkout.pendingPaymentConflict);
+            return;
+          }
+        } catch {
+          // Fall through to generic error handling.
+        }
+      }
+
+      setPayError(getApiErrorMessage(requestError, checkout.payError));
     } finally {
       setIsPaying(false);
     }
@@ -425,9 +598,12 @@ export function CheckoutPage() {
     checkOut,
     donationPct,
     guests,
+    hasResumeCheckout,
     homestead,
     isAuthenticated,
     openLoginModal,
+    pendingBooking,
+    resumeCheckoutUrl,
   ]);
 
   useEffect(() => {
@@ -714,7 +890,13 @@ export function CheckoutPage() {
               </div>
             </div>
 
-            {!availability.available && !isViewMode && (
+            {showPendingNotice && (
+              <p className={styles.pendingNotice} role="status">
+                {checkout.pendingPayment}
+              </p>
+            )}
+
+            {showUnavailableNotice && (
               <p className={styles.unavailableNotice} role="alert">
                 {checkout.unavailable}
               </p>
@@ -785,13 +967,17 @@ export function CheckoutPage() {
               type="button"
               className={styles.payBtn}
               onClick={() => void handlePay()}
-              disabled={isViewMode || !availability.available || isPaying}
+              disabled={!canPay}
             >
               <LockIcon className={styles.payBtnIcon} size={18} filled />
               <span>
                 {isPaying
                   ? checkout.loading
-                  : checkout.summaryLabels.payButton(formatUah(displayTotal))}
+                  : hasResumeCheckout
+                    ? checkout.summaryLabels.resumePayButton(
+                        formatUah(displayTotal),
+                      )
+                    : checkout.summaryLabels.payButton(formatUah(displayTotal))}
               </span>
             </button>
           </section>

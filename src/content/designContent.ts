@@ -219,6 +219,7 @@ export const checkout = {
     total: 'Total (UAH)',
     vatNoteLabel: 'Includes VAT',
     payButton: (amount: string) => `Pay ${amount}`,
+    resumePayButton: (amount: string) => `Complete payment ${amount}`,
     cleaningFee: 'Cleaning fee',
     cleaningFeeTooltip:
       'One-time fee for professional cleaning after your checkout.',
@@ -232,6 +233,13 @@ export const checkout = {
   loading: 'Loading checkout…',
   loginPrompt: 'Sign in to complete your booking.',
   unavailable: 'These dates are not available for this homestead.',
+  pendingPayment:
+    'You have an unfinished payment for these dates. Complete it below to confirm your booking.',
+  pendingPaymentNoUrl:
+    'You have an unfinished booking for these dates. Please contact support if you need help completing payment.',
+  pendingPaymentConflict:
+    'These dates are held while your previous payment is pending. Use Complete payment below, or try again shortly.',
+  invalidCheckoutUrl: 'Unable to open the payment page. Please try again.',
   error: 'Unable to load checkout details.',
   payError: 'Unable to start payment. Please try again.',
 } as const;

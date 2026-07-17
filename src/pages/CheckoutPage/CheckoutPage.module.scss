@@ -1032,6 +1032,15 @@
   font-size: 0.875rem;
 }
 
+.pendingNotice {
+  margin: 0 0 $space-4;
+  padding: $space-3 $space-4;
+  border-radius: $radius-md;
+  background: rgba($color-brand-primary, 0.08);
+  color: $color-text-primary;
+  font-size: 0.875rem;
+}
+
 // Tablet secure checkout layout
 @include tablet-only {
   .page {

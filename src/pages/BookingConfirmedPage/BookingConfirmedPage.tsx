@@ -7,6 +7,8 @@ import { paths } from '@/app/paths';
 import { checkout } from '@/content/designContent';
 import { useAuth } from '@/features/auth/useAuth';
 import { formatDateRange, formatUah } from '@/lib/format';
+import { isPendingBookingStatus } from '@/lib/bookings';
+import { clearPendingCheckout } from '@/lib/pendingCheckout';
 import styles from './BookingConfirmedPage.module.scss';
 
 const { confirmation } = checkout;
@@ -114,6 +116,19 @@ export function BookingConfirmedPage() {
       cancelled = true;
     };
   }, [bookingIdNum, shouldLoadBooking, sessionId]);
+
+  useEffect(() => {
+    if (!booking || isPendingBookingStatus(booking.status)) {
+      return;
+    }
+
+    clearPendingCheckout(
+      booking.homestead_id,
+      booking.check_in,
+      booking.check_out,
+      booking.id,
+    );
+  }, [booking]);
 
   const displayBookingId = booking?.id ?? bookingIdParam;
   const showLoading = isLoading && shouldLoadBooking;
