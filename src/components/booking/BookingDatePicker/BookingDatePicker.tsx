@@ -121,7 +121,12 @@ export function BookingDatePicker({
   const days = buildCalendarGrid(viewYear, viewMonth);
 
   return (
-    <div ref={rootRef} className={styles.root}>
+    <div
+      ref={rootRef}
+      className={[styles.root, open && styles.rootOpen]
+        .filter(Boolean)
+        .join(' ')}
+    >
       <button
         type="button"
         className={styles.trigger}

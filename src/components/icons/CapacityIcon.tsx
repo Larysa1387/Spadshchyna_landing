@@ -3,7 +3,7 @@ type CapacityIconProps = {
   size?: number;
 };
 
-export function CapacityIcon({ className, size = 22 }: CapacityIconProps) {
+export function CapacityIcon({ className, size = 18 }: CapacityIconProps) {
   const strokeProps = {
     fill: 'none' as const,
     stroke: 'currentColor',
@@ -15,7 +15,7 @@ export function CapacityIcon({ className, size = 22 }: CapacityIconProps) {
   return (
     <svg
       className={className}
-      viewBox="0 0 16 16"
+      viewBox="2 3.5 12 9"
       width={size}
       height={size}
       aria-hidden

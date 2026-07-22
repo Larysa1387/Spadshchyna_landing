@@ -133,7 +133,6 @@ function PropertyDetailsList({
         <PropertyDetailIcon
           type="capacity"
           className={styles.propertyDetailIcon}
-          capacityClassName={styles.propertyDetailIconCapacity}
         />
       ),
       label: productPage.propertyDetails.capacity,

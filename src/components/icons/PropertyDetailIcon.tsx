@@ -34,7 +34,7 @@ export function PropertyDetailIcon({
         className={
           [className, capacityClassName].filter(Boolean).join(' ') || undefined
         }
-        size={22}
+        size={18}
       />
     );
   }

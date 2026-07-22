@@ -674,13 +674,10 @@ $section-content-offset: calc(0.875rem + 1.55rem);
 
 .propertyDetailIcon {
   flex-shrink: 0;
+  width: 1.125rem;
+  height: 1.125rem;
   margin-top: 0.125rem;
   color: #a1600a;
-}
-
-.propertyDetailIconCapacity {
-  width: 1.375rem;
-  height: 1.375rem;
 }
 
 .propertyDetailContent {
@@ -902,12 +899,23 @@ $section-content-offset: calc(0.875rem + 1.55rem);
   display: flex;
   flex-direction: column;
   gap: $space-3;
+  overflow: visible;
 }
 
 .bookingDates {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: $space-3;
+  overflow: visible;
+
+  > * {
+    position: relative;
+  }
+
+  &:has([aria-expanded='true']) {
+    position: relative;
+    z-index: 2;
+  }
 }
 
 .bookingFieldGuests {
@@ -1532,6 +1540,14 @@ $section-content-offset: calc(0.875rem + 1.55rem);
   flex-direction: column;
   gap: $space-4;
   width: 100%;
+  overflow: visible;
+
+  &:has([aria-expanded='true']) {
+    .bookingCard {
+      position: relative;
+      z-index: 2;
+    }
+  }
 }
 
 .bookingCard {
@@ -1539,6 +1555,7 @@ $section-content-offset: calc(0.875rem + 1.55rem);
   flex-direction: column;
   gap: $space-4;
   width: 100%;
+  overflow: visible;
 }
 
 .bookingActions {
@@ -1791,8 +1808,7 @@ $section-content-offset: calc(0.875rem + 1.55rem);
       }
     }
 
-    .propertyDetailIcon,
-    .propertyDetailIconCapacity {
+    .propertyDetailIcon {
       width: 0.9rem;
       height: 0.9rem;
       margin-top: 0.05rem;
