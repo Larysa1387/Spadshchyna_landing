@@ -8,6 +8,7 @@ import {
 } from 'react';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import {
+  ChevronIcon,
   EveIcon,
   GalleryThumbsArrowIcon,
   HeartIcon,
@@ -707,7 +708,7 @@ export function ProductPage() {
                       onClick={showPreviousPhoto}
                       aria-label="Previous photo"
                     >
-                      <GalleryThumbsArrowIcon direction="left" />
+                      <ChevronIcon direction="left" size={18} />
                     </button>
                   )}
                   {activePhotoIndex < photos.length - 1 && (
@@ -717,7 +718,7 @@ export function ProductPage() {
                       onClick={showNextPhoto}
                       aria-label="Next photo"
                     >
-                      <GalleryThumbsArrowIcon direction="right" />
+                      <ChevronIcon direction="right" size={18} />
                     </button>
                   )}
                 </>

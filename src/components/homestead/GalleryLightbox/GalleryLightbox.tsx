@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useRef } from 'react';
 import { createPortal } from 'react-dom';
-import { CloseIcon, GalleryThumbsArrowIcon } from '@/components/icons';
+import { CloseIcon, ChevronIcon } from '@/components/icons';
 import { productPage } from '@/content/designContent';
 import styles from './GalleryLightbox.module.scss';
 
@@ -149,7 +149,7 @@ export function GalleryLightbox({
             onClick={showPreviousPhoto}
             aria-label={gallery.previousPhoto}
           >
-            <GalleryThumbsArrowIcon direction="left" />
+            <ChevronIcon direction="left" size={18} />
           </button>
         )}
 
@@ -160,7 +160,7 @@ export function GalleryLightbox({
             onClick={showNextPhoto}
             aria-label={gallery.nextPhoto}
           >
-            <GalleryThumbsArrowIcon direction="right" />
+            <ChevronIcon direction="right" size={18} />
           </button>
         )}
 
