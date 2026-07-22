@@ -1,0 +1,143 @@
+@use '@/styles/scss/tokens' as *;
+@use '@/styles/scss/mixins' as *;
+
+.overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: $space-4;
+  background: rgba(16, 12, 8, 0.94);
+
+  @include mobile-only {
+    padding: $space-3;
+  }
+}
+
+.dialog {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: min(100%, 72rem);
+  height: min(100%, 100dvh);
+  outline: none;
+}
+
+.closeButton {
+  position: absolute;
+  top: 0;
+  right: 0;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.75rem;
+  height: 2.75rem;
+  border: none;
+  border-radius: $radius-full;
+  background: rgba(255, 255, 255, 0.12);
+  color: #f5f1e9;
+  cursor: pointer;
+
+  &:hover {
+    background: rgba(255, 255, 255, 0.2);
+  }
+
+  @include mobile-only {
+    top: -0.25rem;
+    right: -0.25rem;
+  }
+}
+
+.imageStage {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  flex: 1;
+  min-height: 0;
+  touch-action: pan-y;
+}
+
+.image {
+  display: block;
+  width: auto;
+  max-width: 100%;
+  height: auto;
+  max-height: calc(100dvh - 6rem);
+  object-fit: contain;
+  user-select: none;
+  -webkit-user-drag: none;
+
+  @include mobile-only {
+    max-height: calc(100dvh - 5rem);
+  }
+}
+
+.navButton {
+  position: absolute;
+  top: 50%;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.75rem;
+  height: 2.75rem;
+  margin: 0;
+  padding: 0;
+  border: none;
+  border-radius: $radius-full;
+  background: rgba(255, 255, 255, 0.18);
+  backdrop-filter: blur(6px);
+  color: #f5f1e9;
+  cursor: pointer;
+  transform: translateY(-50%);
+
+  svg {
+    width: 1.125rem;
+    height: 1.125rem;
+  }
+
+  &:hover {
+    background: rgba(255, 255, 255, 0.28);
+  }
+
+  @include mobile-only {
+    width: 2.5rem;
+    height: 2.5rem;
+  }
+}
+
+.navButtonPrev {
+  left: 0;
+
+  @include mobile-only {
+    left: 0.35rem;
+  }
+}
+
+.navButtonNext {
+  right: 0;
+
+  @include mobile-only {
+    right: 0.35rem;
+  }
+}
+
+.counter {
+  margin: $space-4 0 0;
+  font-family: $font-family-body;
+  font-size: 0.875rem;
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  color: rgba(245, 241, 233, 0.88);
+
+  @include mobile-only {
+    margin-top: $space-3;
+    font-size: 0.8125rem;
+  }
+}

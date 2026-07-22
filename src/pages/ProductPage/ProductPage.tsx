@@ -33,6 +33,7 @@ import type { HomesteadDetail } from '@/api/types';
 import { addDays, todayIso } from '@/lib/format';
 import { compareIsoDates } from '@/lib/calendar';
 import { BookingDatePicker } from '@/components/booking/BookingDatePicker/BookingDatePicker';
+import { GalleryLightbox } from '@/components/homestead/GalleryLightbox/GalleryLightbox';
 import { RecommendationsGrid } from '@/components/homestead/RecommendationsGrid/RecommendationsGrid';
 import styles from './ProductPage.module.scss';
 
@@ -40,6 +41,32 @@ const PILLAR_ICON_COLORS = ['#ffc101', '#f62a24', '#1c63bc'] as const;
 
 function formatReviewCategory(category: string) {
   return category.replace(/_/g, ' ');
+}
+
+function getMobileThumbWindowStart(activeIndex: number, total: number): number {
+  if (total <= 4) {
+    return 0;
+  }
+
+  // Images 1–2: show thumbs 1–4. From image 3 on: slide window to show 2–5, then shift.
+  if (activeIndex < 2) {
+    return 0;
+  }
+
+  return Math.min(activeIndex - 1, total - 4);
+}
+
+function isMobileThumbVisible(
+  index: number,
+  activeIndex: number,
+  total: number,
+): boolean {
+  if (total <= 4) {
+    return true;
+  }
+
+  const start = getMobileThumbWindowStart(activeIndex, total);
+  return index >= start && index < start + 4;
 }
 
 const REVIEW_THEME_ICON_COLOR = '#a1600a';
@@ -275,9 +302,11 @@ export function ProductPage() {
     'about',
   );
   const [showAllTabletReviews, setShowAllTabletReviews] = useState(false);
+  const [isGalleryLightboxOpen, setIsGalleryLightboxOpen] = useState(false);
 
   useEffect(() => {
     setShowAllTabletReviews(false);
+    setIsGalleryLightboxOpen(false);
 
     const prefersReducedMotion = window.matchMedia(
       '(prefers-reduced-motion: reduce)',
@@ -624,7 +653,13 @@ export function ProductPage() {
                       key={photo.id}
                       data-photo-id={photo.id}
                       className={
-                        index >= 4 ? styles.galleryThumbHiddenMobile : undefined
+                        !isMobileThumbVisible(
+                          index,
+                          activePhotoIndex,
+                          photos.length,
+                        )
+                          ? styles.galleryThumbHiddenMobile
+                          : undefined
                       }
                     >
                       <button
@@ -665,24 +700,26 @@ export function ProductPage() {
             >
               {photos.length > 1 && (
                 <>
-                  <button
-                    type="button"
-                    className={`${styles.galleryThumbsArrow} ${styles.galleryMainArrow} ${styles.galleryMainArrowPrev}`}
-                    onClick={showPreviousPhoto}
-                    disabled={activePhotoIndex <= 0}
-                    aria-label="Previous photo"
-                  >
-                    <GalleryThumbsArrowIcon direction="left" />
-                  </button>
-                  <button
-                    type="button"
-                    className={`${styles.galleryThumbsArrow} ${styles.galleryMainArrow} ${styles.galleryMainArrowNext}`}
-                    onClick={showNextPhoto}
-                    disabled={activePhotoIndex >= photos.length - 1}
-                    aria-label="Next photo"
-                  >
-                    <GalleryThumbsArrowIcon direction="right" />
-                  </button>
+                  {activePhotoIndex > 0 && (
+                    <button
+                      type="button"
+                      className={`${styles.galleryThumbsArrow} ${styles.galleryMainArrow} ${styles.galleryMainArrowPrev}`}
+                      onClick={showPreviousPhoto}
+                      aria-label="Previous photo"
+                    >
+                      <GalleryThumbsArrowIcon direction="left" />
+                    </button>
+                  )}
+                  {activePhotoIndex < photos.length - 1 && (
+                    <button
+                      type="button"
+                      className={`${styles.galleryThumbsArrow} ${styles.galleryMainArrow} ${styles.galleryMainArrowNext}`}
+                      onClick={showNextPhoto}
+                      aria-label="Next photo"
+                    >
+                      <GalleryThumbsArrowIcon direction="right" />
+                    </button>
+                  )}
                 </>
               )}
 
@@ -705,11 +742,18 @@ export function ProductPage() {
 
               <div className={styles.galleryMainWrap}>
                 {activePhoto ? (
-                  <img
-                    className={styles.galleryMain}
-                    src={activePhoto.url}
-                    alt={homestead.name}
-                  />
+                  <button
+                    type="button"
+                    className={styles.galleryMainOpenBtn}
+                    onClick={() => setIsGalleryLightboxOpen(true)}
+                    aria-label={productPage.gallery.openPhoto}
+                  >
+                    <img
+                      className={styles.galleryMain}
+                      src={activePhoto.url}
+                      alt={homestead.name}
+                    />
+                  </button>
                 ) : (
                   <div
                     className={styles.galleryPlaceholder}
@@ -719,6 +763,15 @@ export function ProductPage() {
                 )}
               </div>
             </div>
+
+            <GalleryLightbox
+              photos={photos}
+              activeIndex={activePhotoIndex}
+              alt={homestead.name}
+              isOpen={isGalleryLightboxOpen}
+              onClose={() => setIsGalleryLightboxOpen(false)}
+              onSelectIndex={showPhotoAtIndex}
+            />
 
             {homestead.featured_amenities.length > 0 && (
               <ul

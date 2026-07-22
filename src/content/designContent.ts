@@ -138,6 +138,14 @@ export const productPage = {
   },
   priceSuffix: 'UAH / night',
   priceNote: (guests: number) => `Price for ${guests} guests`,
+  gallery: {
+    openPhoto: 'View larger photo',
+    close: 'Close photo viewer',
+    viewerLabel: 'Photo gallery viewer',
+    previousPhoto: 'Previous photo',
+    nextPhoto: 'Next photo',
+    photoCounter: (current: number, total: number) => `${current} / ${total}`,
+  },
   reviewsLabel: 'reviews',
   notFound: {
     title: 'Homestead not found',
