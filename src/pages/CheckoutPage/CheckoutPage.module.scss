@@ -517,14 +517,9 @@
   line-height: 1.55;
   color: $color-text-muted;
 
-  a {
+  span {
     color: #a1600a;
-    text-decoration: underline;
-    text-underline-offset: 2px;
-
-    &:hover {
-      color: $color-brand-accent-hover;
-    }
+    text-decoration: none;
   }
 }
 

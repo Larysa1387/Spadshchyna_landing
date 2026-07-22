@@ -400,6 +400,7 @@ $gallery-sync-height-with-arrow: calc(
   color: #bca479;
   cursor: pointer;
   flex-shrink: 0;
+  opacity: 0.8;
 
   svg {
     width: 1.375rem;
@@ -1242,13 +1243,13 @@ $section-content-offset: calc(0.875rem + 1.55rem);
   .galleryMainArrow {
     display: flex;
     z-index: 3;
-    width: 2.5rem;
-    height: 2.5rem;
+    width: 2rem;
+    height: 2rem;
     border: none;
     border-radius: $radius-full;
     background: rgba(255, 255, 255, 0.18);
-    backdrop-filter: blur(6px);
-    color: #8a8278;
+    backdrop-filter: none;
+    color: #ffffff;
     box-shadow: 0 1px 4px rgba(0, 0, 0, 0.08);
 
     svg {
@@ -1258,7 +1259,7 @@ $section-content-offset: calc(0.875rem + 1.55rem);
 
     &:hover:not(:disabled) {
       background: rgba(255, 255, 255, 0.28);
-      color: #635136;
+      color: #ffffff;
       border-color: transparent;
     }
 

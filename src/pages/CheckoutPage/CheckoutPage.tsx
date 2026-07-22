@@ -794,17 +794,17 @@ export function CheckoutPage() {
                     <strong>{donationPct}%</strong> of your booking (
                     <strong>{formatUah(donationAmount)}</strong>) will be
                     donated to restore historic homesteads across Ukraine.{' '}
-                    <a href="#impact" className={styles.impactLink}>
+                    <Link to={paths.home} className={styles.impactLink}>
                       {checkout.donation.impactLink}
-                    </a>
+                    </Link>
                   </p>
                 </div>
               </aside>
 
               <p className={styles.legal}>
                 {checkout.donation.legalPrefix}{' '}
-                <a href="#terms">{checkout.donation.termsLabel}</a> and{' '}
-                <a href="#privacy">{checkout.donation.privacyLabel}</a>.
+                <span>{checkout.donation.termsLabel}</span> and{' '}
+                <span>{checkout.donation.privacyLabel}</span>.
               </p>
             </div>
           </section>
