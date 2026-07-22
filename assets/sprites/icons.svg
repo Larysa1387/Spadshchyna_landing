@@ -1,0 +1,55 @@
+<svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+  <symbol id="logo-icon" viewBox="0 0 5 5">
+    <rect x="2" width="1" height="1" />
+    <rect x="1" y="1" width="1" height="1" />
+    <rect x="2" y="1" width="1" height="1" />
+    <rect x="3" y="1" width="1" height="1" />
+    <rect y="2" width="1" height="1" />
+    <rect x="1" y="2" width="1" height="1" />
+    <rect x="3" y="2" width="1" height="1" />
+    <rect x="4" y="2" width="1" height="1" />
+    <rect x="1" y="3" width="1" height="1" />
+    <rect x="2" y="3" width="1" height="1" />
+    <rect x="3" y="3" width="1" height="1" />
+    <rect x="2" y="4" width="1" height="1" />
+  </symbol>
+  <symbol id="location-pin" viewBox="0 0 24 24" fill="none">
+    <path
+      d="M12 21s-6-5.14-6-10a6 6 0 1 1 12 0c0 4.86-6 10-6 10Z"
+      stroke="currentColor"
+      stroke-width="1.2"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+    />
+    <circle cx="12" cy="11" r="1.75" stroke="currentColor" stroke-width="1.2" />
+  </symbol>
+  <symbol id="price-tag" viewBox="0 0 24 24" fill="none">
+    <path
+      d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V4a2 2 0 0 1 2-2h8l8.59 8.59a2 2 0 0 1 0 2.82Z"
+      stroke="currentColor"
+      stroke-width="1.5"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+    />
+    <circle cx="7" cy="7" r="1.25" stroke="currentColor" stroke-width="1.5" />
+  </symbol>
+  <symbol id="rating-star" viewBox="0 0 24 24" fill="none">
+    <path
+      d="M12 3.5 14.53 9.03 20.5 9.74 16 14.03 17.18 20 12 16.98 6.82 20 8 14.03 3.5 9.74 9.47 9.03 12 3.5Z"
+      stroke="currentColor"
+      stroke-width="1"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+    />
+  </symbol>
+  <symbol id="details-arrow" viewBox="0 0 30 10" fill="none">
+    <path d="M0 5h19" stroke="currentColor" stroke-width="1" stroke-linecap="round" />
+    <path
+      d="M19 2l5 3-5 3"
+      stroke="currentColor"
+      stroke-width="1"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+    />
+  </symbol>
+</svg>
